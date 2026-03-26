@@ -147,6 +147,38 @@ section:nth-child(even) { background: var(--card-bg); }
 .stat-number { display: block; font-size: 1.8rem; font-weight: 800; color: var(--accent); }
 .stat-label { font-size: .85rem; color: var(--text-secondary); }
 
+/* ===== Education ===== */
+.education-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+  margin-top: 40px;
+}
+.education-card {
+  display: flex; gap: 20px; align-items: flex-start;
+  background: var(--card-bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  transition: transform .2s, box-shadow .2s;
+}
+.education-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.education-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.education-details h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.education-field {
+  color: var(--accent); font-weight: 600; font-size: .95rem; margin-bottom: 4px;
+}
+.education-school {
+  color: var(--text-secondary); font-size: .92rem; margin-bottom: 8px;
+}
+.education-meta {
+  display: inline-block; font-size: .85rem; color: var(--text-secondary);
+  background: rgba(96,165,250,0.08); padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 10px;
+}
+.education-coursework {
+  font-size: .88rem; color: var(--text-secondary); margin-top: 4px;
+}
+.education-awards {
+  font-size: .88rem; color: var(--accent); font-weight: 500; margin-top: 4px;
+}
+
 /* ===== Projects ===== */
 .project-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
