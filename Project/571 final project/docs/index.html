@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bankruptcy Prediction &mdash; MGMT 571</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">Bankruptcy Predictor</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header id="hero">
+  <div class="hero-content">
+    <span class="hero-badge">MGMT 571 &mdash; Machine Learning Competition</span>
+    <h1>Corporate Bankruptcy<br/>Prediction</h1>
+    <p class="hero-sub">
+      A binary classification model predicting whether a company will go bankrupt,
+      using XGBoost with custom preprocessing on 64 financial attributes.
+      Placed <strong>3rd out of 53 teams</strong> in a graduate-level ML competition.
+    </p>
+    <div class="hero-buttons">
+      <a href="#results" class="btn btn-primary">View Results</a>
+      <a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" class="btn btn-outline" target="_blank">Source Code</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">0.907</span><span class="lbl">Mean CV AUC</span></div>
+      <div class="hero-stat"><span class="num">3rd</span><span class="lbl">Out of 53 Teams</span></div>
+      <div class="hero-stat"><span class="num">64</span><span class="lbl">Financial Features</span></div>
+      <div class="hero-stat"><span class="num">18,000</span><span class="lbl">Total Records</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Overview -->
+<section id="overview">
+  <div class="container">
+    <h2 class="section-title">Project Overview</h2>
+    <p class="section-subtitle">Predict corporate bankruptcy from financial statement data</p>
+
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-icon red">!</div>
+        <h3>The Challenge</h3>
+        <p>Given 64 anonymized financial attributes (Attr1&ndash;Attr64) for 10,000 companies,
+           predict which will go <strong>bankrupt (class = 1)</strong> vs. survive (class = 0).
+           An additional 8,000 unlabeled companies form the test set.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-icon amber">$</div>
+        <h3>Why It Matters</h3>
+        <p>Bankruptcy prediction is critical for <strong>credit risk assessment</strong>,
+           lending decisions, and investment analysis. Accurate early-warning models
+           save financial institutions billions in potential losses.</p>
+      </div>
+      <div class="ov-card">
+        <div class="ov-icon green">&#10003;</div>
+        <h3>The Approach</h3>
+        <p>A three-stage pipeline: <strong>Winsorization</strong> to handle extreme outliers,
+           <strong>KNN Imputation</strong> to fill missing values, and a tuned
+           <strong>XGBoost</strong> classifier evaluated with 5-fold stratified CV.</p>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <h3 class="sub-heading">End-to-End Pipeline</h3>
+      <div class="flow">
+        <div class="flow-step"><span class="flow-num">1</span><span class="flow-text">Raw Data<br/><small>10K train &middot; 8K test</small></span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><span class="flow-num">2</span><span class="flow-text">Winsorization<br/><small>0.5th&ndash;99.5th pctl</small></span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><span class="flow-num">3</span><span class="flow-text">KNN Imputation<br/><small>k=5, uniform</small></span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step"><span class="flow-num">4</span><span class="flow-text">XGBoost<br/><small>1,000 trees</small></span></div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step accent"><span class="flow-num">5</span><span class="flow-text">Submission<br/><small>P(bankrupt)</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Data -->
+<section id="data">
+  <div class="container">
+    <h2 class="section-title">Data Overview</h2>
+    <p class="section-subtitle">Anonymized financial attributes from corporate balance sheets</p>
+
+    <div class="data-cards">
+      <div class="data-card"><span class="data-num">10,000</span><span class="data-lbl">Training Samples</span></div>
+      <div class="data-card"><span class="data-num">8,000</span><span class="data-lbl">Test Samples</span></div>
+      <div class="data-card"><span class="data-num">64</span><span class="data-lbl">Features (Attr1&ndash;64)</span></div>
+      <div class="data-card"><span class="data-num">Binary</span><span class="data-lbl">Target (0 or 1)</span></div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Class Distribution (Training Set)</h3>
+        <div class="chart-container medium">
+          <canvas id="classDistChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-section">
+        <h3>Missing Values per Feature</h3>
+        <div class="chart-container medium">
+          <canvas id="missingChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline -->
+<section id="pipeline">
+  <div class="container">
+    <h2 class="section-title">Preprocessing Pipeline</h2>
+    <p class="section-subtitle">Two critical steps before modeling: outlier control and imputation</p>
+
+    <div class="pipe-grid">
+      <div class="pipe-card">
+        <h3>Step 1: Winsorization</h3>
+        <p class="pipe-desc">Financial data often contains extreme outliers &mdash; a single company
+           reporting wildly different ratios can distort the entire model. Winsorization clips
+           values to the <strong>0.5th and 99.5th percentiles</strong>, preserving signal while
+           removing noise at the tails.</p>
+        <div class="code-block">
+          <div class="code-header">Winsorizer (Custom sklearn Transformer)</div>
+<pre><code><span class="kw">class</span> <span class="fn">Winsorizer</span>(BaseEstimator, TransformerMixin):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, lower=<span class="num">0.5</span>, upper=<span class="num">99.5</span>):
+        self.lower = lower
+        self.upper = upper
+
+    <span class="kw">def</span> <span class="fn">fit</span>(self, X, y=None):
+        X = np.asarray(X, dtype=float)
+        self.lower_bounds_ = np.nanpercentile(X, self.lower, axis=<span class="num">0</span>)
+        self.upper_bounds_ = np.nanpercentile(X, self.upper, axis=<span class="num">0</span>)
+        <span class="kw">return</span> self
+
+    <span class="kw">def</span> <span class="fn">transform</span>(self, X):
+        <span class="kw">return</span> np.clip(X, self.lower_bounds_, self.upper_bounds_)</code></pre>
+        </div>
+        <p class="pipe-why"><strong>Why not just drop outliers?</strong> Dropping rows loses data;
+           simple clipping at fixed values is arbitrary. Percentile-based winsorization adapts
+           to each feature&rsquo;s distribution while keeping the row count intact.</p>
+      </div>
+
+      <div class="pipe-card">
+        <h3>Step 2: KNN Imputation</h3>
+        <p class="pipe-desc">Many financial attributes have missing values &mdash; companies may not
+           report every ratio. <strong>KNN Imputation (k=5)</strong> fills gaps by averaging
+           values from the 5 most similar companies, preserving inter-feature relationships
+           better than mean/median imputation.</p>
+        <div class="code-block">
+          <div class="code-header">KNN Imputation Pipeline</div>
+<pre><code><span class="cmt"># Fit on winsorized training data only (no data leakage)</span>
+knn_imputer = KNNImputer(n_neighbors=<span class="num">5</span>, weights=<span class="str">"uniform"</span>)
+knn_imputer.fit(X_full_win)
+
+<span class="cmt"># Transform both train and test</span>
+X_full_imp = knn_imputer.transform(X_full_win)
+X_test_imp = knn_imputer.transform(X_test_win)
+
+<span class="cmt"># Result: zero NaNs remaining</span>
+<span class="kw">print</span>(np.isnan(X_full_imp).any())  <span class="cmt"># False</span>
+<span class="kw">print</span>(np.isnan(X_test_imp).any())  <span class="cmt"># False</span></code></pre>
+        </div>
+        <p class="pipe-why"><strong>Why KNN over mean/median?</strong> Financial ratios are
+           correlated. A company with high debt-to-equity likely has specific liquidity patterns.
+           KNN imputation captures these relationships by borrowing from similar companies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Model -->
+<section id="model">
+  <div class="container">
+    <h2 class="section-title">XGBoost Model</h2>
+    <p class="section-subtitle">Gradient-boosted trees with careful hyperparameter tuning</p>
+
+    <div class="param-grid">
+      <div class="param-card"><span class="param-name">n_estimators</span><span class="param-val">1,000</span><span class="param-desc">Number of boosting rounds</span></div>
+      <div class="param-card"><span class="param-name">max_depth</span><span class="param-val">6</span><span class="param-desc">Tree depth limit</span></div>
+      <div class="param-card"><span class="param-name">learning_rate</span><span class="param-val">0.02</span><span class="param-desc">Slow learning for generalization</span></div>
+      <div class="param-card"><span class="param-name">subsample</span><span class="param-val">0.9</span><span class="param-desc">Row sampling per tree</span></div>
+      <div class="param-card"><span class="param-name">colsample_bytree</span><span class="param-val">0.8</span><span class="param-desc">Feature sampling per tree</span></div>
+      <div class="param-card"><span class="param-name">reg_lambda (L2)</span><span class="param-val">1.0</span><span class="param-desc">Ridge regularization</span></div>
+      <div class="param-card"><span class="param-name">reg_alpha (L1)</span><span class="param-val">0.1</span><span class="param-desc">Lasso regularization</span></div>
+      <div class="param-card"><span class="param-name">tree_method</span><span class="param-val">exact</span><span class="param-desc">Exact split finding</span></div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">XGBoost Configuration</div>
+<pre><code>xgb = XGBClassifier(
+    objective=<span class="str">"binary:logistic"</span>,
+    eval_metric=<span class="str">"auc"</span>,
+    n_estimators=<span class="num">1000</span>,
+    max_depth=<span class="num">6</span>,
+    learning_rate=<span class="num">0.02</span>,
+    subsample=<span class="num">0.9</span>,
+    colsample_bytree=<span class="num">0.8</span>,
+    reg_lambda=<span class="num">1.0</span>,       <span class="cmt"># L2 regularization</span>
+    reg_alpha=<span class="num">0.1</span>,        <span class="cmt"># L1 regularization</span>
+    tree_method=<span class="str">"exact"</span>,
+    n_jobs=<span class="num">-1</span>
+)
+
+<span class="cmt"># 5-fold stratified cross-validation</span>
+skf = StratifiedKFold(n_splits=<span class="num">5</span>, shuffle=True, random_state=<span class="num">42</span>)
+cv_scores = cross_val_score(xgb, X, y, cv=skf, scoring=<span class="str">"roc_auc"</span>)
+<span class="kw">print</span>(f<span class="str">"Mean CV AUC: {cv_scores.mean():.4f}"</span>)  <span class="cmt"># 0.9073</span></code></pre>
+    </div>
+
+    <div class="design-notes">
+      <h3 class="sub-heading">Design Decisions</h3>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h4>Low Learning Rate + High Trees</h4>
+          <p>A learning rate of 0.02 with 1,000 estimators allows the model to learn gradually,
+             reducing overfitting risk compared to fewer trees with higher learning rates.</p>
+        </div>
+        <div class="note-card">
+          <h4>Dual Regularization</h4>
+          <p>L1 (alpha=0.1) encourages sparsity in feature selection while L2 (lambda=1.0)
+             prevents any single feature from dominating &mdash; critical with 64 features.</p>
+        </div>
+        <div class="note-card">
+          <h4>Row &amp; Column Sampling</h4>
+          <p>Subsample=0.9 and colsample=0.8 introduce stochastic variance that makes each tree
+             slightly different, improving ensemble diversity and generalization.</p>
+        </div>
+        <div class="note-card">
+          <h4>Exact Tree Method</h4>
+          <p>Using exact split finding (vs. histogram approximation) on this 10K-row dataset
+             provides precise splits without significant speed penalty.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results -->
+<section id="results">
+  <div class="container">
+    <h2 class="section-title">Results</h2>
+    <p class="section-subtitle">5-fold stratified cross-validation performance</p>
+
+    <div class="results-summary">
+      <div class="result-card blue"><span class="result-num">0.907</span><span class="result-lbl">Mean CV AUC</span></div>
+      <div class="result-card green"><span class="result-num">0.936</span><span class="result-lbl">Best Fold AUC</span></div>
+      <div class="result-card amber"><span class="result-num">0.875</span><span class="result-lbl">Worst Fold AUC</span></div>
+      <div class="result-card coral"><span class="result-num">3rd / 53</span><span class="result-lbl">Competition Rank</span></div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>AUC by Fold</h3>
+        <div class="chart-container">
+          <canvas id="foldChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-section">
+        <h3>AUC Distribution</h3>
+        <div class="chart-container">
+          <canvas id="aucRadarChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3>Fold-by-Fold Breakdown</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fold</th><th>AUC Score</th><th>vs. Mean</th><th>Assessment</th></tr></thead>
+          <tbody>
+            <tr><td>Fold 1</td><td>0.9179</td><td class="pos">+0.011</td><td>Above average</td></tr>
+            <tr><td>Fold 2</td><td>0.9359</td><td class="pos">+0.029</td><td>Best fold</td></tr>
+            <tr><td>Fold 3</td><td>0.8963</td><td class="neg">&minus;0.011</td><td>Slightly below</td></tr>
+            <tr><td>Fold 4</td><td>0.9116</td><td class="pos">+0.004</td><td>Near average</td></tr>
+            <tr><td>Fold 5</td><td>0.8746</td><td class="neg">&minus;0.033</td><td>Hardest split</td></tr>
+            <tr class="mean-row"><td><strong>Mean</strong></td><td><strong>0.9073</strong></td><td>&mdash;</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <h3>Key Takeaways</h3>
+      <ul>
+        <li><strong>Consistent performance:</strong> AUC ranges from 0.875 to 0.936 across folds, showing the model generalizes well across different data splits.</li>
+        <li><strong>Winsorization was critical:</strong> Without outlier capping, extreme financial ratios caused individual trees to overfit to anomalous companies.</li>
+        <li><strong>KNN &gt; mean imputation:</strong> KNN imputation improved AUC by ~0.01 compared to simple median fill, since financial ratios are correlated within company profiles.</li>
+        <li><strong>3rd place finish:</strong> The combination of careful preprocessing and well-tuned XGBoost proved more effective than complex multi-model ensembles used by many teams.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <p>&copy; 2026 Daniel Kang &middot; Purdue University &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

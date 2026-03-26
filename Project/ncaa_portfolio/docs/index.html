@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCAA Tournament Prediction &mdash; Final Four Analytics Challenge 2026</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">NCAA Predictor</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#insights">Insights</a></li>
+      <li><a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header id="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Final Four Analytics Challenge 2026</span>
+    <h1>NCAA Tournament<br/>Prediction</h1>
+    <p class="hero-sub">
+      A two-stage machine learning pipeline that predicts which teams make the
+      NCAA tournament and their seeding &mdash; using an 8-model stacked ensemble
+      with 50 engineered features from historical team performance data.
+    </p>
+    <div class="hero-buttons">
+      <a href="#results" class="btn btn-primary">View Results</a>
+      <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" class="btn btn-outline" target="_blank">Source Code</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">0.966</span><span class="label">Selection AUC</span></div>
+      <div class="hero-stat"><span class="num">50</span><span class="label">Engineered Features</span></div>
+      <div class="hero-stat"><span class="num">8</span><span class="label">Base Models</span></div>
+      <div class="hero-stat"><span class="num">451</span><span class="label">Teams Predicted</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Overview -->
+<section id="overview">
+  <div class="container">
+    <h2 class="section-title">Project Overview</h2>
+    <p class="section-subtitle">Two prediction tasks solved with a unified ML pipeline</p>
+
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="card-icon blue">1</div>
+        <h3>Selection Model</h3>
+        <p>Binary classification: will a team be <strong>selected</strong> for the NCAA tournament?
+           Uses team stats, NET rankings, strength of schedule, and quadrant records to predict
+           tournament inclusion with an AUC of <strong>0.966</strong>.</p>
+        <span class="card-tag">Classification &middot; AUC = 0.966</span>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon orange">2</div>
+        <h3>Seed Model</h3>
+        <p>Regression: for selected teams, predict their <strong>overall seed</strong> (1&ndash;68).
+           Minimizes mean absolute error on seed placement using the same feature set with
+           regression-tuned ensemble learners.</p>
+        <span class="card-tag">Regression &middot; MAE Optimized</span>
+      </div>
+      <div class="overview-card">
+        <div class="card-icon green">3</div>
+        <h3>Stacked Ensemble</h3>
+        <p>Both tasks use an <strong>8-model stacked ensemble</strong> with a meta-learner.
+           Base models generate out-of-fold predictions that feed into LogisticRegression (selection)
+           and Ridge (seed) meta-learners for final output.</p>
+        <span class="card-tag">Meta-Learning &middot; 10-Fold CV</span>
+      </div>
+    </div>
+
+    <div class="pipeline-section">
+      <h3 class="sub-heading">End-to-End Pipeline</h3>
+      <div class="pipeline">
+        <div class="pipe-step"><span class="pipe-num">1</span><span class="pipe-text">Raw Data<br/><small>2,701 teams &times; 15 cols</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step"><span class="pipe-num">2</span><span class="pipe-text">W-L Parsing<br/><small>8 record columns</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step"><span class="pipe-num">3</span><span class="pipe-text">Feature Engineering<br/><small>30 &rarr; 50 features</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step"><span class="pipe-num">4</span><span class="pipe-text">Imputation<br/><small>SimpleImputer (median)</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step"><span class="pipe-num">5</span><span class="pipe-text">8-Model Ensemble<br/><small>10-fold stacked CV</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step"><span class="pipe-num">6</span><span class="pipe-text">Meta-Learner<br/><small>LogReg + Ridge</small></span></div>
+        <div class="pipe-arrow">&rarr;</div>
+        <div class="pipe-step accent"><span class="pipe-num">7</span><span class="pipe-text">Submission<br/><small>451 predictions</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Data -->
+<section id="data">
+  <div class="container">
+    <h2 class="section-title">Data Overview</h2>
+    <p class="section-subtitle">Historical NCAA team performance data from multiple seasons</p>
+
+    <div class="data-cards">
+      <div class="data-card">
+        <span class="data-num">2,701</span>
+        <span class="data-label">Training Records</span>
+        <span class="data-sub">Teams across multiple seasons</span>
+      </div>
+      <div class="data-card">
+        <span class="data-num">451</span>
+        <span class="data-label">Test Records</span>
+        <span class="data-sub">Teams to predict for 2026</span>
+      </div>
+      <div class="data-card">
+        <span class="data-num">15</span>
+        <span class="data-label">Raw Columns</span>
+        <span class="data-sub">Expanded to 50 features</span>
+      </div>
+    </div>
+
+    <h3 class="sub-heading">Key Raw Features</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>NET Rank</td><td>Numeric</td><td>NCAA Evaluation Tool ranking (1 = best)</td></tr>
+          <tr><td>PrevNET</td><td>Numeric</td><td>Previous season NET rank (momentum signal)</td></tr>
+          <tr><td>AvgOppNETRank</td><td>Numeric</td><td>Average NET rank of opponents faced</td></tr>
+          <tr><td>NETSOS</td><td>Numeric</td><td>NET Strength of Schedule</td></tr>
+          <tr><td>NETNonConfSOS</td><td>Numeric</td><td>Non-conference strength of schedule</td></tr>
+          <tr><td>WL</td><td>String</td><td>Overall win-loss record (e.g. "23-7")</td></tr>
+          <tr><td>Conf.Record</td><td>String</td><td>Conference win-loss record</td></tr>
+          <tr><td>RoadWL</td><td>String</td><td>Road game win-loss record</td></tr>
+          <tr><td>Quadrant 1&ndash;4</td><td>String</td><td>Win-loss by opponent quality tier</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-section">
+      <h3>Training Set: Tournament Selection Distribution</h3>
+      <div class="chart-container medium">
+        <canvas id="selectionDistChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Feature Engineering</h2>
+    <p class="section-subtitle">From 15 raw columns to 50 predictive features</p>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <h3>Base Features (30)</h3>
+        <p>Win-loss strings parsed into <strong>wins, losses, and win percentage</strong> for all
+           8 record columns (WL, Conference, Non-Conference, Road, Quadrant 1&ndash;4). Combined
+           with 6 NET-based numeric features.</p>
+        <div class="feat-tags">
+          <span>WL_W</span><span>WL_WinPct</span><span>Quadrant1_WinPct</span>
+          <span>NET Rank</span><span>NETSOS</span><span>RoadWL_WinPct</span>
+        </div>
+      </div>
+      <div class="feat-card">
+        <h3>Deep Features (20)</h3>
+        <p>Derived signals capturing <strong>momentum, conference strength, quality of wins,
+           and composite metrics</strong> that aren&rsquo;t directly available in the raw data.</p>
+        <div class="feat-tags">
+          <span>conf_tier</span><span>is_power6</span><span>net_momentum</span>
+          <span>quality_wins</span><span>bad_losses</span><span>q1_q2_combined_pct</span>
+          <span>sos_composite</span><span>net_pct_change</span><span>sos_norm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">Feature Engineering Pipeline</div>
+<pre><code><span class="kw">def</span> <span class="fn">engineer_features</span>(df):
+    d = df.copy()
+    <span class="cmt"># Parse W-L strings into numeric wins, losses, win%</span>
+    <span class="kw">for</span> col <span class="kw">in</span> wl_cols:
+        wins, losses = zip(*d[col].apply(parse_wl))
+        d[f<span class="str">"{col}_W"</span>]      = wins
+        d[f<span class="str">"{col}_L"</span>]      = losses
+        d[f<span class="str">"{col}_WinPct"</span>] = wins / (wins + losses)
+
+    <span class="cmt"># Conference tier encoding</span>
+    d[<span class="str">"conf_tier"</span>]   = d[<span class="str">"Conference"</span>].map(conf_rankings)
+    d[<span class="str">"is_power6"</span>]   = (d[<span class="str">"conf_tier"</span>] <= <span class="num">6</span>).astype(<span class="num">int</span>)
+
+    <span class="cmt"># NET momentum: improvement from previous year</span>
+    d[<span class="str">"net_momentum"</span>]  = d[<span class="str">"PrevNET"</span>] - d[<span class="str">"NET Rank"</span>]
+    d[<span class="str">"net_improved"</span>]  = (d[<span class="str">"net_momentum"</span>] > <span class="num">0</span>).astype(<span class="num">int</span>)
+
+    <span class="cmt"># Quality metrics</span>
+    d[<span class="str">"quality_wins"</span>]  = d[<span class="str">"Quadrant1_W"</span>] + d[<span class="str">"Quadrant2_W"</span>]
+    d[<span class="str">"bad_losses"</span>]    = d[<span class="str">"Quadrant3_L"</span>] + d[<span class="str">"Quadrant4_L"</span>]
+    <span class="kw">return</span> d</code></pre>
+    </div>
+
+    <div class="chart-section">
+      <h3>Top 15 Features by Importance (Selection Model)</h3>
+      <div class="chart-container wide">
+        <canvas id="featureImpChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Models -->
+<section id="models">
+  <div class="container">
+    <h2 class="section-title">Model Architecture</h2>
+    <p class="section-subtitle">8-model stacked ensemble with meta-learner</p>
+
+    <div class="model-grid">
+      <div class="model-card"><h4>HistGradientBoosting</h4><p>Handles missing values natively, fast training. Primary base learner for both tasks.</p><span class="model-tag">Classifier + Regressor</span></div>
+      <div class="model-card"><h4>GradientBoosting</h4><p>Traditional gradient boosting with tree-based splits. Strong on structured tabular data.</p><span class="model-tag">Classifier + Regressor</span></div>
+      <div class="model-card"><h4>ExtraTrees</h4><p>Extremely randomized trees. Adds diversity to the ensemble via random split selection.</p><span class="model-tag">Classifier + Regressor</span></div>
+      <div class="model-card"><h4>RandomForest</h4><p>Bagged decision trees. Reduces variance and provides robust probability calibration.</p><span class="model-tag">Classifier + Regressor</span></div>
+    </div>
+
+    <div class="stack-diagram">
+      <h3 class="sub-heading">Stacking Architecture</h3>
+      <div class="stack-visual">
+        <div class="stack-layer">
+          <div class="stack-label">Base Layer (8 models)</div>
+          <div class="stack-items">
+            <span>HGB-Clf</span><span>GB-Clf</span><span>ET-Clf</span><span>RF-Clf</span>
+            <span>HGB-Reg</span><span>GB-Reg</span><span>ET-Reg</span><span>RF-Reg</span>
+          </div>
+        </div>
+        <div class="stack-arrow">&darr; Out-of-fold predictions (10-fold CV) &darr;</div>
+        <div class="stack-layer meta">
+          <div class="stack-label">Meta-Learner Layer</div>
+          <div class="stack-items">
+            <span>LogisticRegression (Selection)</span>
+            <span>Ridge Regression (Seed)</span>
+          </div>
+        </div>
+        <div class="stack-arrow">&darr; Final predictions &darr;</div>
+        <div class="stack-layer output">
+          <div class="stack-label">Output</div>
+          <div class="stack-items">
+            <span>Selected? (0/1)</span>
+            <span>Seed (1&ndash;68)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">Stacking Cross-Validation</div>
+<pre><code><span class="cmt"># 10-fold stacked ensemble: base models generate OOF predictions</span>
+<span class="cmt"># that become features for the meta-learner</span>
+
+<span class="kw">for</span> fold, (train_idx, val_idx) <span class="kw">in</span> enumerate(skf.split(X, y_sel)):
+    X_tr, X_val = X[train_idx], X[val_idx]
+
+    <span class="kw">for</span> name, model <span class="kw">in</span> base_classifiers.items():
+        clf = clone(model).fit(X_tr, y_sel[train_idx])
+        oof_sel[name][val_idx] = clf.predict_proba(X_val)[:, <span class="num">1</span>]
+
+    <span class="kw">for</span> name, model <span class="kw">in</span> base_regressors.items():
+        reg = clone(model).fit(X_tr[sel_mask], y_seed[train_idx][sel_mask])
+        oof_seed[name][val_idx] = reg.predict(X_val)
+
+<span class="cmt"># Meta-learner fits on stacked OOF predictions</span>
+meta_X = np.column_stack([oof_sel[n] <span class="kw">for</span> n <span class="kw">in</span> base_classifiers])
+meta_clf = LogisticRegression().fit(meta_X, y_sel)</code></pre>
+    </div>
+
+    <div class="threshold-section">
+      <h3 class="sub-heading">PR-Curve Threshold Calibration</h3>
+      <p class="desc">Instead of the default 0.5 cutoff, the optimal threshold was selected by maximizing
+         F1 score on the Precision-Recall curve. The calibrated threshold of <strong>0.6531</strong> selected
+         <strong>70 teams</strong> (vs. 76 with default), improving precision while maintaining recall.</p>
+      <div class="chart-container medium">
+        <canvas id="thresholdChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results -->
+<section id="results">
+  <div class="container">
+    <h2 class="section-title">Results</h2>
+    <p class="section-subtitle">Model performance and submission comparison</p>
+
+    <div class="results-summary">
+      <div class="result-card blue"><span class="result-num">0.966</span><span class="result-label">Selection AUC</span><span class="result-sub">Stacked ensemble</span></div>
+      <div class="result-card orange"><span class="result-num">0.653</span><span class="result-label">Optimal Threshold</span><span class="result-sub">PR-curve calibrated</span></div>
+      <div class="result-card green"><span class="result-num">70</span><span class="result-label">Teams Selected</span><span class="result-sub">Out of 451 candidates</span></div>
+      <div class="result-card coral"><span class="result-num">68</span><span class="result-label">Actual Bids</span><span class="result-sub">NCAA tournament slots</span></div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Predicted Seed Distribution</h3>
+        <div class="chart-container">
+          <canvas id="seedDistChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-section">
+        <h3>Old vs. Improved Submission</h3>
+        <div class="chart-container">
+          <canvas id="comparisonChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3>Selection Probability Distribution</h3>
+      <div class="chart-container wide">
+        <canvas id="probDistChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Insights -->
+<section id="insights">
+  <div class="container">
+    <h2 class="section-title">Key Insights</h2>
+    <p class="section-subtitle">What the model reveals about tournament selection</p>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <h3>NET Rank is King</h3>
+        <p>NET Rank is by far the most important feature for both selection and seeding.
+           Teams ranked in the top 45 by NET are almost guaranteed a tournament bid. The committee
+           heavily weights this metric above all others.</p>
+      </div>
+      <div class="insight-card">
+        <h3>Quadrant 1 Wins Matter</h3>
+        <p>Quadrant 1 win percentage is the second most impactful feature. Beating highly-ranked
+           opponents on the road or neutral courts provides the strongest signal of tournament
+           worthiness beyond NET rank alone.</p>
+      </div>
+      <div class="insight-card">
+        <h3>Momentum Signals</h3>
+        <p>NET momentum (improvement from previous season) and conference record win percentage
+           add predictive power beyond static rankings. Teams trending upward are more likely to
+           earn at-large bids.</p>
+      </div>
+      <div class="insight-card">
+        <h3>Threshold Matters</h3>
+        <p>Moving from the default 0.5 threshold to a PR-curve optimized 0.653 reduced the number
+           of predicted selections from 76 to 70 &mdash; closer to the actual 68 tournament bids &mdash;
+           while improving precision significantly.</p>
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <h3>Technical Takeaways</h3>
+      <ul>
+        <li><strong>Stacking &gt; Single models:</strong> The 8-model ensemble with meta-learner consistently outperformed any individual model in cross-validation.</li>
+        <li><strong>Deep feature engineering paid off:</strong> Adding 20 derived features (momentum, quality wins, conference tiers) lifted AUC from ~0.94 to 0.966.</li>
+        <li><strong>PR-curve calibration:</strong> Optimizing the threshold on precision-recall (not ROC) produced more realistic team counts matching the actual 68-team bracket.</li>
+        <li><strong>W-L parsing was essential:</strong> Converting 8 string-format W-L columns into 24 numeric features (wins, losses, win%) was the single biggest feature engineering win.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <p>&copy; 2026 Daniel Kang &middot; Purdue University &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
