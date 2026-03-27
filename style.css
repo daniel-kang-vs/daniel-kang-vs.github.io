@@ -212,6 +212,19 @@ section:nth-child(even) { background: var(--card-bg); }
 .project-body { padding: 24px; }
 .project-body h3 { font-size: 1.15rem; margin-bottom: 10px; }
 .project-body p { color: var(--text-secondary); font-size: .92rem; margin-bottom: 14px; }
+.project-body .project-problem { color: var(--text-primary); font-size: .92rem; margin-bottom: 10px; }
+.project-body .project-result { color: var(--text-primary); font-size: .92rem; margin-bottom: 8px; }
+.project-body .project-impact { color: var(--accent); font-size: .9rem; font-weight: 500; margin-bottom: 16px; }
+.project-approach {
+  list-style: none; padding: 0; margin: 0 0 14px;
+}
+.project-approach li {
+  position: relative; padding-left: 18px;
+  color: var(--text-secondary); font-size: .9rem; margin-bottom: 6px; line-height: 1.5;
+}
+.project-approach li::before {
+  content: '\2022'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
 
 .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .project-tags span {
@@ -219,6 +232,27 @@ section:nth-child(even) { background: var(--card-bg); }
   padding: 4px 12px; border-radius: 20px; font-size: .8rem; font-weight: 500;
 }
 .project-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ===== Approach ===== */
+.approach-steps {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;
+  counter-reset: step;
+}
+.approach-step {
+  background: var(--card-bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px 20px; text-align: center;
+  position: relative;
+  transition: transform .2s, box-shadow .2s;
+}
+.approach-step:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.step-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent); color: var(--blue-900);
+  font-weight: 800; font-size: 1.1rem; margin-bottom: 14px;
+}
+.approach-step h3 { font-size: .98rem; margin-bottom: 10px; }
+.approach-step p { color: var(--text-secondary); font-size: .88rem; line-height: 1.55; }
 
 /* ===== Skills ===== */
 .skills-grid {
@@ -290,5 +324,6 @@ footer {
   .about-stats { flex-direction: row; flex-wrap: wrap; }
   .stat { flex: 1; min-width: 120px; }
   .project-card.featured { grid-column: auto; }
+  .approach-steps { grid-template-columns: 1fr; }
   #hero h1 { font-size: 2.4rem; }
 }
