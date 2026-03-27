@@ -140,9 +140,63 @@
 
     <div class="project-grid">
 
-      <!-- Project 1: Data Mine KPI Dashboard -->
+      <!-- FLAGSHIP: BabyShip Packaging & Pricing Optimization -->
       <div class="project-card featured">
-        <div class="project-badge">Featured</div>
+        <div class="project-badge">Case Study</div>
+        <div class="project-img">
+          <img src="project-ip-optimization.png" alt="BabyShip Shipping Optimization" loading="lazy" />
+        </div>
+        <div class="project-body">
+          <h3>BabyShip: DIM-Weight Pricing &amp; Box Standardization</h3>
+          <p class="project-problem"><strong>Problem:</strong>
+            A baby-gear e-commerce company shipped 17 stroller models in 17 different box sizes. Carriers charge by
+            <em>dimensional weight</em> &mdash; (L &times; W &times; H) / 250 &mdash; whenever it exceeds actual weight.
+            Oversized boxes were inflating DIM charges on nearly every shipment, and the cost was either absorbed as
+            margin loss or passed to customers through higher shipping fees, hurting checkout conversion.
+            At the same time, stocking 17 box SKUs created warehouse picking complexity and storage overhead.
+          </p>
+
+          <h4 class="project-section-label">Approach</h4>
+          <ul class="project-approach">
+            <li><strong>Data collection:</strong> Gathered dimensions and weights for all 17 strollers and assembled a catalog of 45 commercially available box sizes from carriers and packaging suppliers</li>
+            <li><strong>DIM-weight modeling:</strong> Computed DIM weight for every stroller-box pair using the standard carrier formula (L&times;W&times;H / 250); the billable weight is max(DIM, actual), so any wasted box volume directly becomes added cost</li>
+            <li><strong>Fit matrix:</strong> Built a binary feasibility matrix &mdash; a stroller fits a box only if all three dimensions clear with 0.5&Prime; padding &mdash; eliminating impossible assignments before optimization</li>
+            <li><strong>Integer optimization (Gurobi):</strong> Formulated an ILP that selects &le;7 box types and assigns each stroller to exactly one box, minimizing total billable shipping weight across the product line</li>
+            <li><strong>Sensitivity analysis:</strong> Compared the 7-box solution against a perfect per-product baseline to quantify exactly where the cost penalty comes from and which products drive it</li>
+          </ul>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li>Reduced the box catalog from 17 SKUs to 7, a <strong>59% reduction</strong> in packaging complexity</li>
+            <li>Total billable shipping weight rose by only <strong>6.5%</strong> (104.7 lb across 17 products) versus the theoretical minimum</li>
+            <li>One workhorse box (S-16765, 36&times;24&times;18) covers <strong>5 of 17 products</strong> with near-optimal DIM efficiency</li>
+            <li>Identified two outlier products (Vista V2, Fox 5) that require a 40&times;40&times;40 box &mdash; these alone account for <strong>30% of total DIM cost</strong>, flagging them for potential packaging redesign or a shipping surcharge</li>
+            <li>Solver found the proven-optimal solution in <strong>0.02 seconds</strong> with a 0.00% optimality gap</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            The core tradeoff is non-linear: a 6.5% cost increase buys a 59% reduction in box SKUs. That ratio
+            gives operations a clear, quantified decision point rather than an open-ended debate about simplification.
+            The two outlier products are responsible for an outsized share of DIM cost and should be evaluated
+            separately &mdash; whether through redesigned packaging, a flat shipping surcharge, or a free-shipping
+            threshold set above their DIM break-even point. This analysis turns a vague &ldquo;shipping is too expensive&rdquo;
+            complaint into specific, actionable levers: which boxes to stock, which products to reprice, and exactly how
+            much each decision costs.
+          </p>
+          <div class="project-tags">
+            <span>Pricing Optimization</span><span>DIM-Weight Modeling</span><span>Integer Programming</span>
+            <span>Gurobi</span><span>Python</span><span>Operations Research</span>
+          </div>
+          <div class="project-links">
+            <a href="https://daniel-kang-vs.github.io/stroller-box-optimization/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
+            <a href="https://github.com/daniel-kang-vs/stroller-box-optimization" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: Data Mine KPI Dashboard -->
+      <div class="project-card">
         <div class="project-img">
           <img src="project-dashboard.png" alt="Corporate KPI Dashboard" loading="lazy" />
         </div>
@@ -167,7 +221,7 @@
         </div>
       </div>
 
-      <!-- Project 2: Retention & Experimentation -->
+      <!-- Project 3: Retention & Experimentation -->
       <div class="project-card">
         <div class="project-img placeholder-img">
           <div class="placeholder-icon">
@@ -216,32 +270,6 @@
           <div class="project-links">
             <a href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
             <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 4: IP Optimization -->
-      <div class="project-card">
-        <div class="project-img">
-          <img src="project-ip-optimization.png" alt="Stroller Box Optimization Dashboard" loading="lazy" />
-        </div>
-        <div class="project-body">
-          <h3>Shipping Cost Optimization for a Stroller Retailer</h3>
-          <p class="project-problem"><strong>Problem:</strong> A stroller e-commerce company shipped each product in its own box size. Managing 17 unique boxes increased warehouse complexity, and oversized packaging inflated dimensional-weight shipping charges.</p>
-          <ul class="project-approach">
-            <li>Cataloged dimensions and weights for 17 top-selling strollers and 45 candidate box sizes</li>
-            <li>Formulated an optimization model that selects the smallest set of boxes covering all products while minimizing total shipping cost</li>
-            <li>Added a constraint capping the catalog at 7 box types to keep warehouse operations simple</li>
-          </ul>
-          <p class="project-result"><strong>Results:</strong> Cut the box catalog from 17 to 7 types. The standardized system adds only 6.5% to shipping cost versus a perfect per-product match.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> The tradeoff between shipping cost and operational simplicity is not linear &mdash; a small cost increase (~6.5%) eliminates more than half the box SKUs. This gives management a clear, quantified decision point instead of an open-ended debate.</p>
-          <div class="project-tags">
-            <span>Integer Programming</span><span>Gurobi</span><span>Python</span>
-            <span>Operations Research</span><span>Chart.js</span>
-          </div>
-          <div class="project-links">
-            <a href="https://daniel-kang-vs.github.io/stroller-box-optimization/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
-            <a href="https://github.com/daniel-kang-vs/stroller-box-optimization" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
           </div>
         </div>
       </div>
