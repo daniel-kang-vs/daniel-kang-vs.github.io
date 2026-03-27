@@ -206,13 +206,26 @@
         <div class="project-body">
           <h3>Reorder Likelihood Dashboard for a Seed Distributor</h3>
           <p class="project-problem"><strong>Problem:</strong> Sales and operations teams relied on gut feel to decide which products to restock. There was no shared view of backlog health or early demand signals, leading to frequent stockouts on high-value SKUs.</p>
+
+          <h4 class="project-section-label">Approach</h4>
           <ul class="project-approach">
-            <li>Consolidated point-of-sale, backlog, and inventory data into a single interactive dashboard</li>
-            <li>Created a reorder-likelihood score by clustering SKU purchase histories to surface repeat-buy patterns</li>
-            <li>Added drill-downs by region, customer tier, and product family so each team could act on their slice</li>
+            <li><strong>Data integration:</strong> Consolidated point-of-sale, backlog, and inventory data into a single interactive Plotly dashboard with executive KPI cards</li>
+            <li><strong>Signal design:</strong> Created a reorder-likelihood score by clustering SKU purchase histories to surface repeat-buy and seasonal patterns</li>
+            <li><strong>Self-serve views:</strong> Built drill-downs by region, customer tier, and product family so sales, ops, and finance could act on the same numbers</li>
           </ul>
-          <p class="project-result"><strong>Results:</strong> Identified the top 20% of at-risk SKUs four weeks earlier than the previous process. Dashboard adopted by three cross-functional teams for weekly replenishment planning.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> Demand signals already existed in historical order data &mdash; the gap was visibility, not data. A well-scoped dashboard replaced a fragmented spreadsheet workflow and gave planners a shared source of truth.</p>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li>Surfaced the <strong>top 20% of at-risk SKUs</strong> roughly <strong>four weeks earlier</strong> than the prior spreadsheet-based process</li>
+            <li>Dashboard adopted by <strong>three cross-functional teams</strong> for weekly replenishment and inventory meetings</li>
+            <li>Replaced fragmented one-off reports with a <strong>single source of truth</strong> for backlog and reorder risk</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            Demand signals already lived in historical order data &mdash; the gap was <strong>visibility and alignment</strong>, not collection.
+            A scoped dashboard turned tribal knowledge into a repeatable planning rhythm and reduced reactive firefighting on high-value SKUs.
+          </p>
           <div class="project-tags">
             <span>Python</span><span>Plotly</span><span>Time Series</span>
             <span>Clustering</span><span>Pandas</span>
@@ -234,13 +247,26 @@
         <div class="project-body">
           <h3>Paid Acquisition &amp; Retention Analysis at Jambo Club</h3>
           <p class="project-problem"><strong>Problem:</strong> The company was scaling ad spend without knowing which channels actually drove incremental sign-ups. At the same time, only 22% of new users were still active after 30 days.</p>
+
+          <h4 class="project-section-label">Approach</h4>
           <ul class="project-approach">
-            <li>Designed geo-split experiments to isolate true ad lift; ran multivariate bid tests to find efficient spend levels</li>
-            <li>Built survival curves that revealed Day 3 and Day 7 as the critical churn windows</li>
-            <li>Worked with product to prioritize re-engagement nudges targeting those specific drop-off points</li>
+            <li><strong>Incrementality testing:</strong> Designed geo-split experiments to isolate true ad lift; ran multivariate bid tests to find efficient spend levels without sacrificing conversion volume</li>
+            <li><strong>Retention diagnostics:</strong> Built survival curves that revealed Day 3 and Day 7 as the critical churn windows</li>
+            <li><strong>Cross-functional execution:</strong> Partnered with product to ship re-engagement nudges timed to those drop-off points</li>
           </ul>
-          <p class="project-result"><strong>Results:</strong> Reduced cost-per-click by 27% with no drop in conversion volume. D30 retention rose from 22% to 53%.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> Most of the churn happened in two narrow windows, not gradually. Targeting those moments with timely nudges was far more effective than broad re-engagement campaigns &mdash; and the experimentation framework made the case for shifting budget to proven channels.</p>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li>Reduced <strong>cost-per-click by 27%</strong> with <strong>no loss</strong> in conversion volume</li>
+            <li>D30 retention increased from <strong>22% to 53%</strong></li>
+            <li>Created a repeatable <strong>experimentation playbook</strong> for future bid and creative tests</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            Churn concentrated in <strong>two narrow windows</strong>, not a slow leak &mdash; so timely, targeted nudges beat broad blast campaigns.
+            Rigorous geo tests gave finance confidence to <strong>reallocate budget</strong> toward channels with provable incremental lift.
+          </p>
           <div class="project-tags">
             <span>A/B Testing</span><span>Survival Analysis</span><span>SQL</span>
             <span>Causal Inference</span><span>Retention</span>
@@ -251,21 +277,34 @@
         </div>
       </div>
 
-      <!-- Project 3: NCAA Tournament Prediction -->
+      <!-- Project 4: NCAA Tournament Prediction -->
       <div class="project-card">
         <div class="project-img">
           <img src="project-ncaa.png" alt="NCAA Tournament Prediction" loading="lazy" />
         </div>
         <div class="project-body">
           <h3>NCAA Tournament Selection &amp; Seed Prediction</h3>
-          <p class="project-problem"><strong>Problem:</strong> Sports media and bracket analysts rely on subjective rankings to predict which 68 teams make the NCAA tournament and how they are seeded. Can a data-driven model do it more accurately using only regular-season performance?</p>
+          <p class="project-problem"><strong>Problem:</strong> Sports media and bracket analysts rely on subjective rankings to predict which 68 teams make the NCAA tournament and how they are seeded. Can a data-driven pipeline match or beat that intuition using only regular-season performance?</p>
+
+          <h4 class="project-section-label">Approach</h4>
           <ul class="project-approach">
-            <li>Engineered 50 features capturing team strength, schedule difficulty, and conference competitiveness</li>
-            <li>Separated the task into two stages: first predict selection (in or out), then predict seed for selected teams</li>
-            <li>Stacked eight models with a meta-learner and tuned the decision threshold using precision-recall curves to minimize missed selections</li>
+            <li><strong>Feature engineering:</strong> Built 50 features for team strength, strength-of-schedule, and conference competitiveness</li>
+            <li><strong>Two-stage design:</strong> Stage 1 classifies tournament selection (in/out); Stage 2 predicts seed for teams predicted &ldquo;in&rdquo;</li>
+            <li><strong>Ensemble + calibration:</strong> Stacked eight base models with a meta-learner; tuned the decision threshold with precision-recall curves to reduce false negatives on bubble teams</li>
           </ul>
-          <p class="project-result"><strong>Results:</strong> Selection AUC of 0.966 &mdash; correctly ranking nearly all tournament-worthy teams. Seed predictions within ~2 spots of actual.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> Strength-of-schedule and late-season momentum were the strongest predictors &mdash; not raw win totals. Splitting selection vs. seeding into separate stages avoided forcing one model to handle two very different tasks and improved accuracy on both.</p>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li>Selection model achieved <strong>AUC 0.966</strong>, ranking tournament-worthy teams with very high fidelity</li>
+            <li>Seed predictions landed within about <strong>two seed lines</strong> of actual for in-bracket teams</li>
+            <li>Demonstrated a full <strong>production-style ML workflow</strong>: features, stacking, and threshold tuning in one pipeline</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            <strong>Schedule quality and late-season momentum</strong> mattered more than raw win totals &mdash; mirroring how selection committees weight &ldquo;who you beat&rdquo; and how you finish.
+            Treating <strong>selection vs. seeding as separate decisions</strong> avoided a single model conflating two different objectives and improved both outputs.
+          </p>
           <div class="project-tags">
             <span>Stacked Ensemble</span><span>scikit-learn</span><span>Python</span>
             <span>Feature Engineering</span><span>PR-Curve Calibration</span>
@@ -277,7 +316,7 @@
         </div>
       </div>
 
-      <!-- Project 5: Semiconductor Utilization -->
+      <!-- Project 5: Applied Materials -->
       <div class="project-card">
         <div class="project-img placeholder-img">
           <div class="placeholder-icon">
@@ -287,13 +326,26 @@
         <div class="project-body">
           <h3>Capacity Planning Forecast for Applied Materials</h3>
           <p class="project-problem"><strong>Problem:</strong> Applied Materials planned equipment capacity using trailing averages. When customer demand shifted &mdash; driven by seasonal cycles and CapEx timing &mdash; utilization forecasts lagged behind, leading to over- or under-provisioning.</p>
+
+          <h4 class="project-section-label">Approach</h4>
           <ul class="project-approach">
-            <li>Decomposed utilization trends to isolate seasonal patterns and correlated them with customer CapEx cycles</li>
-            <li>Replaced the moving-average baseline with an ensemble forecast and benchmarked accuracy on held-out quarters</li>
-            <li>Packaged results into operational dashboards with drill-downs by region and equipment type</li>
+            <li><strong>Signal discovery:</strong> Decomposed utilization series to isolate seasonality and linked swings to customer CapEx cycles</li>
+            <li><strong>Forecasting:</strong> Replaced the moving-average baseline with a <strong>Random Forest + XGBoost</strong> ensemble and scored accuracy on held-out quarters</li>
+            <li><strong>Delivery:</strong> Packaged forecasts into operational dashboards with drill-downs by region and equipment type for planning leads</li>
           </ul>
-          <p class="project-result"><strong>Results:</strong> Improved utilization prediction accuracy by 13% over the incumbent method.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> Customer CapEx timing was the strongest leading indicator of utilization shifts &mdash; more predictive than the equipment's own recent trend. Incorporating this external signal let the operations team plan ahead of demand rather than react to it.</p>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li><strong>13% improvement</strong> in utilization prediction accuracy vs. the incumbent baseline</li>
+            <li>Surfaced <strong>which drivers</strong> (macro vs. seasonal vs. account-level) explained the largest forecast errors</li>
+            <li>Outputs structured for <strong>quarterly capacity conversations</strong> rather than ad-hoc spreadsheet updates</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            Customer <strong>CapEx timing</strong> was a stronger leading indicator of utilization than the equipment&rsquo;s own trailing trend alone.
+            Feeding that signal into forecasts shifted planning from <strong>reactive backfill</strong> to <strong>forward-looking allocation</strong>.
+          </p>
           <div class="project-tags">
             <span>Random Forest</span><span>XGBoost</span><span>Python</span>
             <span>Forecasting</span><span>Dashboards</span>
@@ -304,7 +356,7 @@
         </div>
       </div>
 
-      <!-- Project 6: Bankruptcy Prediction -->
+      <!-- Project 6: Bankruptcy -->
       <div class="project-card">
         <div class="project-badge competition-badge">3rd / 53 Teams</div>
         <div class="project-img">
@@ -313,13 +365,26 @@
         <div class="project-body">
           <h3>Bankruptcy Risk Scoring from Financial Statements</h3>
           <p class="project-problem"><strong>Problem:</strong> Lenders and investors need to flag companies at risk of bankruptcy before it happens. The challenge: financial data is messy &mdash; 64 ratios with over 40% missing values &mdash; and bankrupt firms represent less than 5% of observations.</p>
+
+          <h4 class="project-section-label">Approach</h4>
           <ul class="project-approach">
-            <li>Cleaned extreme values and imputed missing data using nearest-neighbor methods to preserve variable relationships</li>
-            <li>Trained a gradient-boosted model with class-weight adjustments to handle the rare-event imbalance</li>
-            <li>Optimized for ranking accuracy (AUC) rather than a hard yes/no cutoff, giving users a continuous risk score</li>
+            <li><strong>Data quality:</strong> Winsorized extreme outliers and applied <strong>KNN imputation</strong> to preserve relationships between ratios</li>
+            <li><strong>Modeling:</strong> Trained <strong>XGBoost</strong> with class-weight tuning for severe label imbalance</li>
+            <li><strong>Evaluation:</strong> Used stratified cross-validation and optimized for <strong>AUC</strong> (ranking quality) rather than a single hard cutoff</li>
           </ul>
-          <p class="project-result"><strong>Results:</strong> Mean AUC of 0.907, placing 3rd out of 53 teams in a graduate-level predictive analytics competition.</p>
-          <p class="project-impact"><strong>Business Insight:</strong> A continuous risk score is more useful than a binary label &mdash; it lets underwriters set their own threshold based on risk appetite. Careful imputation mattered more than model complexity; preserving feature relationships lifted AUC more than hyperparameter tuning did.</p>
+
+          <h4 class="project-section-label">Results</h4>
+          <ul class="project-approach">
+            <li><strong>Mean AUC 0.907</strong> across folds in a graduate predictive analytics competition</li>
+            <li>Placed <strong>3rd out of 53 teams</strong></li>
+            <li>Delivered a <strong>continuous risk score</strong> suitable for credit review workflows instead of a single yes/no flag</li>
+          </ul>
+
+          <h4 class="project-section-label">Business Insight</h4>
+          <p class="project-impact">
+            A <strong>score</strong> beats a blunt label: risk teams can set thresholds to match <strong>portfolio policy</strong> and expected loss appetite.
+            Thoughtful imputation and feature integrity moved the needle more than chasing marginal gains from model complexity alone.
+          </p>
           <div class="project-tags">
             <span>XGBoost</span><span>Imbalanced Classification</span><span>Python</span>
             <span>KNN Imputation</span><span>Cross-Validation</span>

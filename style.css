@@ -233,6 +233,8 @@ section:nth-child(even) { background: var(--card-bg); }
 .project-approach li::before {
   content: '\2022'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
 }
+.project-approach li strong { color: var(--text-primary); font-weight: 700; }
+.project-card:not(.featured) .project-body > .project-section-label:first-of-type { margin-top: 14px; }
 
 .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .project-tags span {
