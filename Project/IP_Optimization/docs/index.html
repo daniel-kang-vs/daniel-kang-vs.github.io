@@ -15,6 +15,7 @@
   <div class="nav-inner">
     <a href="#hero" class="nav-brand">IP Optimization</a>
     <ul class="nav-links" id="navLinks">
+      <li><a href="#overview">Overview</a></li>
       <li><a href="#problem">Problem</a></li>
       <li><a href="#data">Data</a></li>
       <li><a href="#model">Model</a></li>
@@ -31,9 +32,9 @@
     <span class="hero-badge">Capstone Project with a startup</span>
     <h1>Stroller Packaging<br/>Optimization</h1>
     <p class="hero-sub">
-      Using Integer Linear Programming to find the optimal set of shipping boxes
-      for 17 popular US strollers &mdash; minimizing total shipping cost while
-      limiting box variety to just 7 types.
+      <strong class="hero-lead">DIM-weight pricing, packaging, and checkout economics.</strong>
+      Integer linear programming selects the best <strong>7 box types</strong> for <strong>17 top-selling strollers</strong>,
+      balancing <strong>shipping cost</strong>, <strong>operational simplicity</strong>, and the <strong>pricing &amp; conversion</strong> tradeoffs that come with bulky baby gear.
     </p>
     <div class="hero-buttons">
       <a href="#results" class="btn btn-primary">View Results</a>
@@ -60,18 +61,76 @@
   </div>
 </header>
 
+<!-- Executive overview: merged narrative -->
+<section id="overview">
+  <div class="container">
+    <h2 class="section-title">Case Overview</h2>
+    <p class="section-subtitle section-subtitle-bright">Problem, approach, results, and business impact in one place</p>
+
+    <div class="narrative-grid">
+      <article class="narrative-card narrative-problem">
+        <h3 class="narrative-label">Problem</h3>
+        <p class="narrative-text">
+          Shipping <strong>bulky baby gear</strong> involves tradeoffs between <strong>cost</strong>, <strong>pricing</strong>, and <strong>customer experience</strong>.
+          Inefficient packaging and rigid pricing structures can raise landed shipping cost and push <strong>total checkout cost past thresholds</strong> where <strong>conversion drops sharply</strong>
+          &mdash; for many e-commerce categories, orders above roughly <strong>$100 all-in</strong> see materially lower completion rates.
+        </p>
+        <p class="narrative-text narrative-muted">
+          <strong>Technical layer:</strong> Carriers bill on <strong>dimensional weight</strong> when it exceeds actual weight (here: L&times;W&times;H / 250). Warehouses also need a <strong>limited box catalog</strong>, not one SKU per product.
+        </p>
+      </article>
+
+      <article class="narrative-card narrative-approach">
+        <h3 class="narrative-label">Approach</h3>
+        <ul class="narrative-list">
+          <li><strong>Modeled shipping cost</strong> using <strong>dimensional-weight pricing</strong>: billable weight = max(actual weight, DIM weight).</li>
+          <li>Built an <strong>integer programming framework</strong> (Gurobi) to choose box assignments under <strong>fit rules</strong>, a <strong>43-option catalog</strong>, and a cap of <strong>7 active box types</strong>.</li>
+          <li><strong>Pricing sensitivity:</strong> framed how shipping-weight penalties flow into <strong>published shipping fees</strong> and <strong>free-shipping thresholds</strong>; extension work uses <strong>Python</strong> (and in production, <strong>PostgreSQL</strong>-backed order/shipping extracts) to stress-test thresholds against real usage.</li>
+          <li>Compared the <strong>optimized 7-box system</strong> to a <strong>&ldquo;perfect fit&rdquo; baseline</strong> (best possible box per product) to quantify inefficiency from standardization.</li>
+        </ul>
+      </article>
+
+      <article class="narrative-card narrative-results">
+        <h3 class="narrative-label">Results</h3>
+        <ul class="narrative-list">
+          <li>Flagged <strong>pricing regions</strong> where high DIM-driven shipping pushes <strong>all-in cost above ~$100</strong>, a band that typically <strong>hurts conversion</strong> unless offset by subsidies or product mix.</li>
+          <li><strong>Quantified inefficiency</strong> from limited box sizes: only <strong>6.5% total billable-weight penalty</strong> (104.7 lb across 17 SKUs) vs. perfect fit, while cutting box variety from <strong>17 &rarr; 7</strong> (59% fewer packaging SKUs).</li>
+          <li><strong>Two outlier products</strong> (Vista V2, Fox 5) drive ~<strong>30% of total shipping weight</strong> via a 40&times;40&times;40 box &mdash; clear candidates for <strong>packaging redesign</strong>, <strong>surcharges</strong>, or <strong>threshold tuning</strong>.</li>
+          <li>Delivered a <strong>repeatable framework</strong> to evaluate <strong>operational simplicity vs. cost</strong> whenever leadership changes box policy or carrier DIM divisors.</li>
+        </ul>
+      </article>
+
+      <article class="narrative-card narrative-impact">
+        <h3 class="narrative-label">Business impact</h3>
+        <ul class="narrative-list">
+          <li><strong>Actionable recommendations</strong> for <strong>pricing strategy</strong> (shipping fees, free-shipping bar) and <strong>packaging decisions</strong> (which boxes to stock, which SKUs to redesign).</li>
+          <li>Surfaced ways to <strong>reduce landed cost</strong> while <strong>preserving customer experience</strong> &mdash; e.g. concentrating fixes on the two heaviest DIM outliers instead of blanket cuts.</li>
+          <li>Showed how <strong>operational constraints</strong> (max box types, carrier DIM rules) <strong>directly shape revenue outcomes</strong> through conversion and margin, not only through freight invoices.</li>
+        </ul>
+      </article>
+    </div>
+
+    <blockquote class="key-insight">
+      <p class="key-insight-label">Key insight</p>
+      <p class="key-insight-text">
+        Optimizing pricing and packaging is <strong>not just a modeling exercise</strong>. It requires balancing <strong>carrier cost structures</strong>, <strong>customer behavior</strong> at checkout, and <strong>operational constraints</strong> so decisions stay credible in finance, ops, and product.
+      </p>
+    </blockquote>
+  </div>
+</section>
+
 <!-- Problem -->
 <section id="problem">
   <div class="container">
-    <h2 class="section-title">The Problem</h2>
-    <p class="section-subtitle">Why does box selection matter for shipping?</p>
+    <h2 class="section-title">Why Box Selection Drives Cost</h2>
+    <p class="section-subtitle section-subtitle-bright">Dimensional weight, standardization, and the cost&ndash;complexity tradeoff</p>
     <div class="problem-grid">
       <div class="problem-card">
         <div class="problem-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
         </div>
         <h3>Dimensional Weight</h3>
-        <p>Carriers charge by <strong>dimensional weight</strong> (L&times;W&times;H / 250) when it exceeds actual weight. Oversized boxes inflate shipping costs even for light products.</p>
+        <p>Carriers charge the <strong>greater of actual weight and DIM weight</strong> (L&times;W&times;H / 250). Oversized boxes inflate <strong>billable weight</strong> even when the product is light &mdash; the core lever for <strong>shipping cost and pricing</strong>.</p>
       </div>
       <div class="problem-card">
         <div class="problem-icon">
@@ -85,7 +144,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><path d="M16 8l-8 8"/><path d="M8 8l8 8"/></svg>
         </div>
         <h3>The Trade-off</h3>
-        <p>Fewer box types = simpler operations, but potentially higher shipping cost. The model finds the <strong>sweet spot</strong> that minimizes cost with at most 7 box types.</p>
+        <p>Fewer box types mean <strong>simpler picking and inventory</strong>, but often <strong>higher DIM penalty</strong>. The optimization finds the <strong>best 7-box portfolio</strong> that minimizes total billable weight subject to fit and operational limits.</p>
       </div>
     </div>
   </div>
@@ -300,12 +359,12 @@
     </div>
 
     <div class="takeaway">
-      <h3>Key Takeaways</h3>
+      <h3>Technical takeaways</h3>
       <ul>
-        <li><strong>S-16765 (36&times;24&times;18)</strong> is the workhorse box, covering 5 of 17 products efficiently.</li>
-        <li><strong>Vista V2 and Fox 5</strong> are the costliest to ship &mdash; their bulky dimensions force the largest box (40&times;40&times;40), driving 30% of total shipping weight.</li>
-        <li>The 7-box system adds only <strong>6.5% extra shipping weight</strong> compared to a theoretically perfect per-product match, a very acceptable trade-off for warehouse simplicity.</li>
-        <li>Most of the penalty comes from just 2 products (Vista V2, Fox 5) needing oversized boxes; the other 15 products are packed near-optimally.</li>
+        <li><strong>S-16765 (36&times;24&times;18)</strong> is the workhorse box, covering <strong>5 of 17</strong> products efficiently.</li>
+        <li><strong>Vista V2 and Fox 5</strong> are the costliest to ship &mdash; they force <strong>Box 8 (40&times;40&times;40)</strong> and drive ~<strong>30% of total billable weight</strong>; prioritize these for packaging or pricing levers.</li>
+        <li>The <strong>7-box system</strong> adds only <strong>6.5% extra billable weight</strong> vs. a perfect per-SKU box &mdash; a strong <strong>ops simplicity</strong> trade for finance.</li>
+        <li>Most standardization penalty sits on <strong>two SKUs</strong>; the other fifteen pack near the theoretical minimum under the shared catalog.</li>
       </ul>
     </div>
   </div>
