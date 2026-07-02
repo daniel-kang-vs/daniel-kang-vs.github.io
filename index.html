@@ -3,586 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daniel Kang &mdash; Data Analyst Portfolio</title>
-  <link rel="stylesheet" href="style.css?v=3" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>Daniel Kang — Data Analyst</title>
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- ───────── Navbar ───────── -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="#hero" class="nav-brand">DK</a>
+    <a href="#hero" class="nav-brand">Daniel Kang</a>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Home</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#approach">Approach</a></li>
-      <li><a href="#skills">Skills</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ───────── Hero ───────── -->
 <header id="hero">
-  <div class="hero-content">
-    <div class="hero-greeting">Hi, I'm</div>
+  <div class="hero-inner">
     <h1>Daniel Kang</h1>
-    <p class="hero-role">Data Analyst | Product Analytics, Pricing Optimization, and Machine Learning</p>
-    <p class="hero-sub">
-      I analyze product and operational data to drive pricing decisions, improve conversion,
-      and optimize efficiency. I have built optimization models for shipping costs, end-to-end
-      ML pipelines, and analytics frameworks that translate directly into business impact.
+    <p class="hero-role">Data Analyst</p>
+    <p class="hero-tagline">
+      Collect, analyze, and present data — from pricing optimization and experimentation
+      to machine learning pipelines that drive business decisions.
     </p>
-    <p class="hero-sub hero-sub-secondary">
-      My focus is on solving high-leverage problems where data informs strategy and drives measurable outcomes.
-    </p>
-    <div class="hero-buttons">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
-      <a href="resume.pdf?v=20260513" class="btn btn-outline" target="_blank">Resume</a>
-    </div>
-    <div class="hero-social">
-      <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a href="mailto:kang531@purdue.edu" aria-label="Email">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
-      </a>
-    </div>
+    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+    <a href="resume.pdf?v=20260702" class="btn btn-secondary" target="_blank" rel="noopener">Resume</a>
   </div>
-  <div class="hero-fade"></div>
 </header>
 
-<!-- ───────── About ───────── -->
+<section id="services" class="services">
+  <div class="container services-grid">
+    <article class="service-card">
+      <h3>Analyze</h3>
+      <p>
+        Funnel and cohort analysis, geo-split experiments, and survival modeling.
+        I turn messy behavioral data into clear signals on acquisition, retention, and ROI.
+      </p>
+    </article>
+    <article class="service-card">
+      <h3>Build</h3>
+      <p>
+        End-to-end analytics pipelines in Python and SQL, optimization models,
+        and forecasting systems — from ETL through deployment-ready dashboards.
+      </p>
+    </article>
+    <article class="service-card">
+      <h3>Visualize</h3>
+      <p>
+        Interactive dashboards in Power BI, Plotly, and Tableau that stakeholders
+        actually use — designed for decisions, not decoration.
+      </p>
+    </article>
+  </div>
+</section>
+
 <section id="about">
+  <div class="container about-layout">
+    <div class="about-text">
+      <h2 class="section-heading">About me</h2>
+      <p>
+        I&rsquo;m a graduate student at <strong>Purdue University</strong> (MS Business Analytics, Aug 2026)
+        and a data analyst who cares about one question: <em>what should we do next?</em>
+      </p>
+      <p>
+        At <strong>Jambo Club</strong> I cut CPC 27% through incrementality testing and doubled retention
+        with survival analysis. At <strong>Mayacrew</strong> I lifted conversion 15% and automated B2B reporting.
+        At <strong>The Data Mine</strong> I built reorder-risk dashboards for a corporate partner.
+        I work across the full analytics lifecycle — from framing the question to delivering recommendations
+        people act on.
+      </p>
+      <p class="about-availability">Available for internships and full-time roles starting 2026.</p>
+    </div>
+    <figure class="about-photo-wrap">
+      <img src="image_portfolio.jpeg" alt="Daniel Kang" class="about-photo" width="480" height="600" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<section id="portfolio">
   <div class="container">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-card">
-      <div class="about-card-grid">
-        <div class="about-copy">
-          <p class="about-kicker">Profile</p>
-          <p>
-            I&rsquo;m a graduate student at <strong>Purdue University</strong> (MS in Business Analytics, Aug 2026)
-            who cares about one thing: <strong>what should we do next?</strong>
-          </p>
-          <p>
-            At <strong>Jambo Club</strong> I designed geo-split experiments that cut CPC by 27% and built
-            survival models that doubled retention. At <strong>Mayacrew</strong> I ran cohort analyses
-            that lifted conversion 15% and automated B2B dashboards that saved 40% of reporting time.
-            At <strong>Purdue Data Mine</strong> I built KPI dashboards and forecasting models for
-            corporate partners.
-          </p>
-          <p>
-            I work across the full analytics lifecycle &mdash; structuring messy questions, pulling and
-            cleaning data, building models, and delivering recommendations that stakeholders act on.
-          </p>
+    <h2 class="section-heading">Portfolio</h2>
+    <p class="section-lead">A sample of my work</p>
+
+    <div class="portfolio-grid">
+
+      <a href="https://daniel-kang-vs.github.io/stroller-box-optimization/" class="portfolio-item" target="_blank" rel="noopener">
+        <img src="project-ip-optimization.png" alt="BabyShip packaging optimization" loading="lazy" />
+        <div class="portfolio-label">BabyShip</div>
+        <div class="portfolio-overlay">
+          <p>Integer programming model that reduced packaging SKUs by 59% while keeping shipping cost increase to 6.5%.</p>
+          <span class="portfolio-cta">View project &rarr;</span>
         </div>
-        <figure class="about-photo-wrap">
-          <img src="image_portfolio.jpeg" alt="Daniel Kang" class="about-photo" width="560" height="700" loading="lazy" />
-        </figure>
-      </div>
-      <div class="about-stats about-stats-row">
-        <div class="stat">
-          <span class="stat-number">7+</span>
-          <span class="stat-label">Projects Completed</span>
+      </a>
+
+      <a href="https://daniel-kang-vs.github.io/seed-demand-forecasting/" class="portfolio-item" target="_blank" rel="noopener">
+        <img src="project-dashboard.png" alt="Seed distributor reorder dashboard" loading="lazy" />
+        <div class="portfolio-label">The Data Mine</div>
+        <div class="portfolio-overlay">
+          <p>Interactive Plotly dashboard with reorder-likelihood scoring — adopted by three cross-functional teams for weekly planning.</p>
+          <span class="portfolio-cta">View project &rarr;</span>
         </div>
-        <div class="stat">
-          <span class="stat-number">3.85</span>
-          <span class="stat-label">Undergraduate GPA</span>
+      </a>
+
+      <a href="#experience" class="portfolio-item portfolio-item--placeholder">
+        <div class="portfolio-placeholder" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
-        <div class="stat">
-          <span class="stat-number">2026</span>
-          <span class="stat-label">MS Graduation</span>
+        <div class="portfolio-label">Jambo Club</div>
+        <div class="portfolio-overlay">
+          <p>Geo-split experiments and retention analysis that cut CPC 27% and raised 30-day retention from 22% to 53%.</p>
+          <span class="portfolio-cta">See experience &rarr;</span>
         </div>
-      </div>
+      </a>
+
+      <a href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" class="portfolio-item" target="_blank" rel="noopener">
+        <img src="project-ncaa.png" alt="NCAA tournament prediction" loading="lazy" />
+        <div class="portfolio-label">Personal Project</div>
+        <div class="portfolio-overlay">
+          <p>Stacked ensemble ML pipeline predicting NCAA tournament selection (AUC 0.966) and seed placement within two lines.</p>
+          <span class="portfolio-cta">View project &rarr;</span>
+        </div>
+      </a>
+
+      <a href="#experience" class="portfolio-item portfolio-item--placeholder portfolio-item--alt">
+        <div class="portfolio-placeholder" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 4-8"/></svg>
+        </div>
+        <div class="portfolio-label">Applied Materials</div>
+        <div class="portfolio-overlay">
+          <p>Ensemble forecasting model linking utilization to CapEx cycles — 13% accuracy gain over the baseline for capacity planning.</p>
+          <span class="portfolio-cta">See experience &rarr;</span>
+        </div>
+      </a>
+
+      <a href="https://daniel-kang-vs.github.io/bankruptcy-prediction/" class="portfolio-item" target="_blank" rel="noopener">
+        <img src="project-bankruptcy.png" alt="Bankruptcy risk scoring" loading="lazy" />
+        <div class="portfolio-label">Purdue Competition</div>
+        <div class="portfolio-overlay">
+          <p>XGBoost risk scorer on messy financial ratios — 3rd of 53 teams, mean AUC 0.907 in a graduate analytics competition.</p>
+          <span class="portfolio-cta">View project &rarr;</span>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
 
-<!-- ───────── Experience ───────── -->
 <section id="experience">
   <div class="container">
-    <h2 class="section-title">Experience</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">Aug 2025 &ndash; Dec 2025</span>
-          <h3>Graduate Data Science Researcher &mdash; The Data Mine, Purdue University</h3>
-          <p>
-            Built an interactive Plotly dashboard centralizing corporate KPIs, backlog metrics,
-            and a reorder likelihood signal flagging high-risk and high-opportunity products.
-            Identified repeatable inventory and demand patterns at the SKU level using time-series
-            analysis and clustering, improving sales predictability and guiding replenishment strategy.
-          </p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">May 2025 &ndash; Aug 2025</span>
-          <h3>Business Analyst &mdash; Jambo Club, Seoul</h3>
-          <p>
-            Owned marketing performance and retention analytics across paid acquisition and in-product funnels.
-            Designed geo-split experiments and multivariate bid tests, applying regression-based lift analysis
-            to reduce CPC by 27% while maintaining conversion volume. Built retention curves and survival analyses
-            that identified critical churn moments, guiding features that increased retention from 22% to 53%.
-          </p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">May 2024 &ndash; Aug 2024</span>
-          <h3>Data Analyst &mdash; Mayacrew, Seoul</h3>
-          <p>
-            Assessed acquisition effectiveness and segment economics through funnel and cohort analyses,
-            delivering strategic recommendations that increased digital conversion rates by 15%.
-            Built Tableau and Excel dashboards for B2B engagement KPIs, reducing manual reporting time
-            by 40% and shifting budget toward the highest-ROI B2B segments.
-          </p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">Jan 2024 &ndash; May 2024</span>
-          <h3>Analytics Researcher &mdash; Applied Materials Inc., Purdue University</h3>
-          <p>
-            Identified seasonal and macro-driven demand patterns in semiconductor equipment utilization,
-            linking utilization shifts to customer CapEx behavior. Developed an ensemble forecasting model
-            combining Random Forest and XGBoost, improving utilization prediction accuracy by 13%.
-          </p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <span class="timeline-date">Jul 2019 &ndash; Feb 2022</span>
-          <h3>Deputy Team Leader &amp; Instructor &mdash; Pom Education, Seoul</h3>
-          <p>
-            Contributed to more than 500% growth in student enrollment over two years through
-            academic consultations and trial classes. Led and mentored a team of instructors,
-            coordinating lesson planning, sharing best practices, and monitoring instructional quality.
-          </p>
-        </div>
-      </div>
+    <h2 class="section-heading">Experience</h2>
+    <div class="experience-list">
+      <article class="experience-item">
+        <span class="experience-date">Aug 2025 – Dec 2025</span>
+        <h3>Graduate Data Science Researcher — The Data Mine, Purdue</h3>
+        <p>Built reorder-risk dashboards and SKU clustering for a corporate seed distributor partner.</p>
+      </article>
+      <article class="experience-item">
+        <span class="experience-date">Jan 2025 – Aug 2025</span>
+        <h3>Data Analyst — Jambo Club</h3>
+        <p>Geo-split experiments, retention modeling, and automated KPI pipelines across 100K+ user events.</p>
+      </article>
+      <article class="experience-item">
+        <span class="experience-date">May 2024 – Aug 2024</span>
+        <h3>Data Analyst — Mayacrew</h3>
+        <p>Segmentation models and B2B dashboards that improved engagement 20% and cut reporting time 40%.</p>
+      </article>
+      <article class="experience-item">
+        <span class="experience-date">Jan 2024 – May 2024</span>
+        <h3>Analytics Researcher — Applied Materials, Purdue</h3>
+        <p>Utilization forecasting with RF + XGBoost ensemble, improving prediction accuracy by 13%.</p>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ───────── Education ───────── -->
 <section id="education">
   <div class="container">
-    <h2 class="section-title">Education</h2>
-    <div class="education-grid">
-      <div class="education-card">
-        <div class="education-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <div class="education-details">
-          <h3>Master of Science</h3>
-          <p class="education-field">Business Analytics &amp; Information Management</p>
-          <p class="education-school">Purdue University, Daniels School of Business</p>
-          <span class="education-meta">West Lafayette, IN &middot; Expected August 2026</span>
-          <p class="education-coursework">Relevant Coursework: Business Analytics, Financial Analytics, Spreadsheet Optimization, Data Mining</p>
-        </div>
+    <h2 class="section-heading">Education</h2>
+    <div class="education-row">
+      <div class="education-item">
+        <h3>MS Business Analytics &amp; Information Management</h3>
+        <p>Purdue University · Expected Aug 2026</p>
       </div>
-      <div class="education-card">
-        <div class="education-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <div class="education-details">
-          <h3>Bachelor of Science</h3>
-          <p class="education-field">Business Analytics &amp; Information Management</p>
-          <p class="education-school">Purdue University, Daniels School of Business</p>
-          <span class="education-meta">West Lafayette, IN &middot; December 2024 &middot; GPA: 3.85/4.0</span>
-          <p class="education-awards">Dean&rsquo;s List: Fall 2022, Spring 2023, Fall 2023, Spring 2024 &middot; Graduated with Distinction</p>
-        </div>
+      <div class="education-item">
+        <h3>BS Business Analytics &amp; Information Management</h3>
+        <p>Purdue University · Dec 2024 · GPA 3.85</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ───────── Projects ───────── -->
-<section id="projects">
-  <div class="container">
-    <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Each project follows Problem &rarr; Approach &rarr; Results &rarr; Business Insight</p>
-
-    <div class="project-grid">
-
-      <!-- FLAGSHIP: BabyShip Packaging & Pricing Optimization -->
-      <div class="project-card featured">
-        <div class="project-badge">Case Study</div>
-        <div class="project-img">
-          <img src="project-ip-optimization.png" alt="BabyShip Shipping Optimization" loading="lazy" />
-        </div>
-        <div class="project-body">
-          <h3>BabyShip: DIM-Weight Pricing &amp; Box Standardization</h3>
-          <p class="project-problem"><strong>Problem:</strong>
-            A baby-gear e-commerce company shipped 17 stroller models in 17 different box sizes. Carriers charge by
-            <em>dimensional weight</em> &mdash; (L &times; W &times; H) / 250 &mdash; whenever it exceeds actual weight.
-            Oversized boxes were inflating DIM charges on nearly every shipment, and the cost was either absorbed as
-            margin loss or passed to customers through higher shipping fees, hurting checkout conversion.
-            At the same time, stocking 17 box SKUs created warehouse picking complexity and storage overhead.
-          </p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Data collection:</strong> Gathered dimensions and weights for all 17 strollers and assembled a catalog of 45 commercially available box sizes from carriers and packaging suppliers</li>
-            <li><strong>DIM-weight modeling:</strong> Computed DIM weight for every stroller-box pair using the standard carrier formula (L&times;W&times;H / 250); the billable weight is max(DIM, actual), so any wasted box volume directly becomes added cost</li>
-            <li><strong>Fit matrix:</strong> Built a binary feasibility matrix &mdash; a stroller fits a box only if all three dimensions clear with 0.5&Prime; padding &mdash; eliminating impossible assignments before optimization</li>
-            <li><strong>Integer optimization (Gurobi):</strong> Formulated an ILP that selects &le;7 box types and assigns each stroller to exactly one box, minimizing total billable shipping weight across the product line</li>
-            <li><strong>Sensitivity analysis:</strong> Compared the 7-box solution against a perfect per-product baseline to quantify exactly where the cost penalty comes from and which products drive it</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li>Reduced the box catalog from 17 SKUs to 7, a <strong>59% reduction</strong> in packaging complexity</li>
-            <li>Total billable shipping weight rose by only <strong>6.5%</strong> (104.7 lb across 17 products) versus the theoretical minimum</li>
-            <li>One workhorse box (S-16765, 36&times;24&times;18) covers <strong>5 of 17 products</strong> with near-optimal DIM efficiency</li>
-            <li>Identified two outlier products (Vista V2, Fox 5) that require a 40&times;40&times;40 box &mdash; these alone account for <strong>30% of total DIM cost</strong>, flagging them for potential packaging redesign or a shipping surcharge</li>
-            <li>Solver found the proven-optimal solution in <strong>0.02 seconds</strong> with a 0.00% optimality gap</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            The core tradeoff is non-linear: a 6.5% cost increase buys a 59% reduction in box SKUs. That ratio
-            gives operations a clear, quantified decision point rather than an open-ended debate about simplification.
-            The two outlier products are responsible for an outsized share of DIM cost and should be evaluated
-            separately &mdash; whether through redesigned packaging, a flat shipping surcharge, or a free-shipping
-            threshold set above their DIM break-even point. This analysis turns a vague &ldquo;shipping is too expensive&rdquo;
-            complaint into specific, actionable levers: which boxes to stock, which products to reprice, and exactly how
-            much each decision costs.
-          </p>
-          <div class="project-tags">
-            <span>Pricing Optimization</span><span>DIM-Weight Modeling</span><span>Integer Programming</span>
-            <span>Gurobi</span><span>Python</span><span>Operations Research</span>
-          </div>
-          <div class="project-links">
-            <a href="https://daniel-kang-vs.github.io/stroller-box-optimization/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
-            <a href="https://github.com/daniel-kang-vs/stroller-box-optimization" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 2: Data Mine KPI Dashboard -->
-      <div class="project-card">
-        <div class="project-img">
-          <img src="project-dashboard.png" alt="Corporate KPI Dashboard" loading="lazy" />
-        </div>
-        <div class="project-body">
-          <h3>Reorder Likelihood Dashboard for a Seed Distributor</h3>
-          <p class="project-problem"><strong>Problem:</strong> Sales and operations teams relied on gut feel to decide which products to restock. There was no shared view of backlog health or early demand signals, leading to frequent stockouts on high-value SKUs.</p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Data integration:</strong> Consolidated point-of-sale, backlog, and inventory data into a single interactive Plotly dashboard with executive KPI cards</li>
-            <li><strong>Signal design:</strong> Created a reorder-likelihood score by clustering SKU purchase histories to surface repeat-buy and seasonal patterns</li>
-            <li><strong>Self-serve views:</strong> Built drill-downs by region, customer tier, and product family so sales, ops, and finance could act on the same numbers</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li>Surfaced the <strong>top 20% of at-risk SKUs</strong> roughly <strong>four weeks earlier</strong> than the prior spreadsheet-based process</li>
-            <li>Dashboard adopted by <strong>three cross-functional teams</strong> for weekly replenishment and inventory meetings</li>
-            <li>Replaced fragmented one-off reports with a <strong>single source of truth</strong> for backlog and reorder risk</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            Demand signals already lived in historical order data &mdash; the gap was <strong>visibility and alignment</strong>, not collection.
-            A scoped dashboard turned tribal knowledge into a repeatable planning rhythm and reduced reactive firefighting on high-value SKUs.
-          </p>
-          <div class="project-tags">
-            <span>Python</span><span>Plotly</span><span>Time Series</span>
-            <span>Clustering</span><span>Pandas</span>
-          </div>
-          <div class="project-links">
-            <a href="https://daniel-kang-vs.github.io/seed-demand-forecasting/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
-            <a href="https://github.com/daniel-kang-vs/seed-demand-forecasting" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 3: Retention & Experimentation -->
-      <div class="project-card">
-        <div class="project-img placeholder-img">
-          <div class="placeholder-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Paid Acquisition &amp; Retention Analysis at Jambo Club</h3>
-          <p class="project-problem"><strong>Problem:</strong> The company was scaling ad spend without knowing which channels actually drove incremental sign-ups. At the same time, only 22% of new users were still active after 30 days.</p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Incrementality testing:</strong> Designed geo-split experiments to isolate true ad lift; ran multivariate bid tests to find efficient spend levels without sacrificing conversion volume</li>
-            <li><strong>Retention diagnostics:</strong> Built survival curves that revealed Day 3 and Day 7 as the critical churn windows</li>
-            <li><strong>Cross-functional execution:</strong> Partnered with product to ship re-engagement nudges timed to those drop-off points</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li>Reduced <strong>cost-per-click by 27%</strong> with <strong>no loss</strong> in conversion volume</li>
-            <li>D30 retention increased from <strong>22% to 53%</strong></li>
-            <li>Created a repeatable <strong>experimentation playbook</strong> for future bid and creative tests</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            Churn concentrated in <strong>two narrow windows</strong>, not a slow leak &mdash; so timely, targeted nudges beat broad blast campaigns.
-            Rigorous geo tests gave finance confidence to <strong>reallocate budget</strong> toward channels with provable incremental lift.
-          </p>
-          <div class="project-tags">
-            <span>A/B Testing</span><span>Survival Analysis</span><span>SQL</span>
-            <span>Causal Inference</span><span>Retention</span>
-          </div>
-          <div class="project-links">
-            <a href="#experience" class="btn btn-sm btn-outline">View Experience</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 4: NCAA Tournament Prediction -->
-      <div class="project-card">
-        <div class="project-img">
-          <img src="project-ncaa.png" alt="NCAA Tournament Prediction" loading="lazy" />
-        </div>
-        <div class="project-body">
-          <h3>NCAA Tournament Selection &amp; Seed Prediction</h3>
-          <p class="project-problem"><strong>Problem:</strong> Sports media and bracket analysts rely on subjective rankings to predict which 68 teams make the NCAA tournament and how they are seeded. Can a data-driven pipeline match or beat that intuition using only regular-season performance?</p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Feature engineering:</strong> Built 50 features for team strength, strength-of-schedule, and conference competitiveness</li>
-            <li><strong>Two-stage design:</strong> Stage 1 classifies tournament selection (in/out); Stage 2 predicts seed for teams predicted &ldquo;in&rdquo;</li>
-            <li><strong>Ensemble + calibration:</strong> Stacked eight base models with a meta-learner; tuned the decision threshold with precision-recall curves to reduce false negatives on bubble teams</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li>Selection model achieved <strong>AUC 0.966</strong>, ranking tournament-worthy teams with very high fidelity</li>
-            <li>Seed predictions landed within about <strong>two seed lines</strong> of actual for in-bracket teams</li>
-            <li>Demonstrated a full <strong>production-style ML workflow</strong>: features, stacking, and threshold tuning in one pipeline</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            <strong>Schedule quality and late-season momentum</strong> mattered more than raw win totals &mdash; mirroring how selection committees weight &ldquo;who you beat&rdquo; and how you finish.
-            Treating <strong>selection vs. seeding as separate decisions</strong> avoided a single model conflating two different objectives and improved both outputs.
-          </p>
-          <div class="project-tags">
-            <span>Stacked Ensemble</span><span>scikit-learn</span><span>Python</span>
-            <span>Feature Engineering</span><span>PR-Curve Calibration</span>
-          </div>
-          <div class="project-links">
-            <a href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
-            <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 5: Applied Materials -->
-      <div class="project-card">
-        <div class="project-img placeholder-img">
-          <div class="placeholder-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 4-8"/></svg>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Capacity Planning Forecast for Applied Materials</h3>
-          <p class="project-problem"><strong>Problem:</strong> Applied Materials planned equipment capacity using trailing averages. When customer demand shifted &mdash; driven by seasonal cycles and CapEx timing &mdash; utilization forecasts lagged behind, leading to over- or under-provisioning.</p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Signal discovery:</strong> Decomposed utilization series to isolate seasonality and linked swings to customer CapEx cycles</li>
-            <li><strong>Forecasting:</strong> Replaced the moving-average baseline with a <strong>Random Forest + XGBoost</strong> ensemble and scored accuracy on held-out quarters</li>
-            <li><strong>Delivery:</strong> Packaged forecasts into operational dashboards with drill-downs by region and equipment type for planning leads</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li><strong>13% improvement</strong> in utilization prediction accuracy vs. the incumbent baseline</li>
-            <li>Surfaced <strong>which drivers</strong> (macro vs. seasonal vs. account-level) explained the largest forecast errors</li>
-            <li>Outputs structured for <strong>quarterly capacity conversations</strong> rather than ad-hoc spreadsheet updates</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            Customer <strong>CapEx timing</strong> was a stronger leading indicator of utilization than the equipment&rsquo;s own trailing trend alone.
-            Feeding that signal into forecasts shifted planning from <strong>reactive backfill</strong> to <strong>forward-looking allocation</strong>.
-          </p>
-          <div class="project-tags">
-            <span>Random Forest</span><span>XGBoost</span><span>Python</span>
-            <span>Forecasting</span><span>Dashboards</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/daniel-kang-vs" class="btn btn-sm btn-outline" target="_blank">GitHub</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Project 6: Bankruptcy -->
-      <div class="project-card">
-        <div class="project-badge competition-badge">3rd / 53 Teams</div>
-        <div class="project-img">
-          <img src="project-bankruptcy.png" alt="Bankruptcy Prediction Dashboard" loading="lazy" />
-        </div>
-        <div class="project-body">
-          <h3>Bankruptcy Risk Scoring from Financial Statements</h3>
-          <p class="project-problem"><strong>Problem:</strong> Lenders and investors need to flag companies at risk of bankruptcy before it happens. The challenge: financial data is messy &mdash; 64 ratios with over 40% missing values &mdash; and bankrupt firms represent less than 5% of observations.</p>
-
-          <h4 class="project-section-label">Approach</h4>
-          <ul class="project-approach">
-            <li><strong>Data quality:</strong> Winsorized extreme outliers and applied <strong>KNN imputation</strong> to preserve relationships between ratios</li>
-            <li><strong>Modeling:</strong> Trained <strong>XGBoost</strong> with class-weight tuning for severe label imbalance</li>
-            <li><strong>Evaluation:</strong> Used stratified cross-validation and optimized for <strong>AUC</strong> (ranking quality) rather than a single hard cutoff</li>
-          </ul>
-
-          <h4 class="project-section-label">Results</h4>
-          <ul class="project-approach">
-            <li><strong>Mean AUC 0.907</strong> across folds in a graduate predictive analytics competition</li>
-            <li>Placed <strong>3rd out of 53 teams</strong></li>
-            <li>Delivered a <strong>continuous risk score</strong> suitable for credit review workflows instead of a single yes/no flag</li>
-          </ul>
-
-          <h4 class="project-section-label">Business Insight</h4>
-          <p class="project-impact">
-            A <strong>score</strong> beats a blunt label: risk teams can set thresholds to match <strong>portfolio policy</strong> and expected loss appetite.
-            Thoughtful imputation and feature integrity moved the needle more than chasing marginal gains from model complexity alone.
-          </p>
-          <div class="project-tags">
-            <span>XGBoost</span><span>Imbalanced Classification</span><span>Python</span>
-            <span>KNN Imputation</span><span>Cross-Validation</span>
-          </div>
-          <div class="project-links">
-            <a href="https://daniel-kang-vs.github.io/bankruptcy-prediction/" class="btn btn-sm btn-primary" target="_blank">Live Demo</a>
-            <a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" class="btn btn-sm btn-outline" target="_blank">Source Code</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ───────── Approach ───────── -->
-<section id="approach">
-  <div class="container">
-    <h2 class="section-title">How I Approach Problems</h2>
-    <div class="approach-steps">
-      <div class="approach-step">
-        <div class="step-number">1</div>
-        <h3>Start with the business context</h3>
-        <p>I focus on understanding the real-world problem before jumping into data. Domain knowledge is critical for asking the right questions and avoiding misleading conclusions.</p>
-      </div>
-      <div class="approach-step">
-        <div class="step-number">2</div>
-        <h3>Translate problems into measurable metrics</h3>
-        <p>I define clear success metrics that align with business goals, whether it&rsquo;s revenue, conversion, cost, or efficiency.</p>
-      </div>
-      <div class="approach-step">
-        <div class="step-number">3</div>
-        <h3>Use data and models as tools, not answers</h3>
-        <p>I apply statistical methods and machine learning to analyze patterns, but I treat models as tools to support decisions, not replace them.</p>
-      </div>
-      <div class="approach-step">
-        <div class="step-number">4</div>
-        <h3>Validate with context and judgment</h3>
-        <p>In an era where AI can generate instant outputs, the ability to evaluate results critically and apply domain knowledge is increasingly important. I focus on interpreting results in a way that makes sense for the business.</p>
-      </div>
-      <div class="approach-step">
-        <div class="step-number">5</div>
-        <h3>Deliver actionable decisions</h3>
-        <p>My goal is not just analysis, but clear recommendations that stakeholders can act on to improve outcomes.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────── Skills ───────── -->
-<section id="skills">
-  <div class="container">
-    <h2 class="section-title">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <h3>Analytics &amp; Modeling</h3>
-        <div class="skill-pills">
-          <span>Statistical Modeling</span><span>Regression</span>
-          <span>Classification</span><span>Forecasting</span>
-          <span>Survival Analysis</span><span>Clustering</span>
-          <span>XGBoost</span><span>scikit-learn</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h3>Data &amp; SQL</h3>
-        <div class="skill-pills">
-          <span>SQL</span><span>Python</span><span>Pandas</span>
-          <span>ETL Pipelines</span><span>Data Cleaning</span>
-          <span>Excel</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h3>Visualization</h3>
-        <div class="skill-pills">
-          <span>Tableau</span><span>Power BI</span><span>Plotly</span>
-          <span>Matplotlib</span><span>Chart.js</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h3>Experimentation</h3>
-        <div class="skill-pills">
-          <span>A/B Testing</span><span>Geo-Split Experiments</span>
-          <span>Causal Inference</span><span>Lift Analysis</span>
-          <span>Incrementality Testing</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────── Contact ───────── -->
 <section id="contact">
-  <div class="container">
-    <h2 class="section-title">Get in Touch</h2>
-    <p class="section-subtitle">I'm always open to new opportunities and collaborations</p>
+  <div class="container contact-inner">
+    <h2 class="section-heading">Get in touch</h2>
+    <p class="section-lead">Have a project or role in mind? Let&rsquo;s talk.</p>
     <div class="contact-links">
-      <a href="tel:765-543-4969" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-        <span>765-543-4969</span>
-      </a>
-      <a href="mailto:kang531@purdue.edu" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
-        <span>kang531@purdue.edu</span>
-      </a>
-      <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span>github.com/daniel-kang-vs</span>
-      </a>
-      <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener" class="contact-card">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        <span>LinkedIn</span>
-      </a>
+      <a href="mailto:kang531@purdue.edu" class="contact-link">kang531@purdue.edu</a>
+      <a href="tel:765-543-4969" class="contact-link">765-543-4969</a>
+      <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/daniel-kang-vs" class="contact-link" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </section>
 
-<!-- ───────── Footer ───────── -->
 <footer>
-  <div class="container footer-inner">
-    <p>&copy; 2026 Daniel Kang. All rights reserved.</p>
+  <div class="container">
+    <p>&copy; 2026 Daniel Kang</p>
   </div>
 </footer>
 
@@ -601,7 +233,7 @@
   );
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+    nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 </script>
 </body>
