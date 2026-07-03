@@ -1,0 +1,24 @@
+numpy==2.4.6
+pandas==3.0.3
+pyarrow==24.0.0
+scikit-learn==1.9.0
+scipy==1.17.1
+lightgbm==4.6.0
+cvxpy==1.9.1
+pydantic==2.13.4
+statsmodels==0.14.6
+matplotlib>=3.7
+seaborn>=0.12
+jupyter>=1.0
+ipykernel>=6.0
+
+# Agent layer
+langgraph>=0.2.0
+langchain-core>=0.3.0
+openai>=1.50.0
+duckdb>=1.0.0
+streamlit>=1.39.0
+python-dotenv>=1.0.0
+pypdf>=4.0
+python-docx>=1.1
+openpyxl>=3.1

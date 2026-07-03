@@ -1,0 +1,15 @@
+trip_type,day_of_week,demand
+yellow,1,115718
+yellow,2,131794
+yellow,3,142419
+yellow,4,144467
+yellow,5,139766
+yellow,6,144929
+yellow,7,123794
+fhv,1,124069
+fhv,2,129812
+fhv,3,141108
+fhv,4,143644
+fhv,5,155557
+fhv,6,163837
+fhv,7,141030

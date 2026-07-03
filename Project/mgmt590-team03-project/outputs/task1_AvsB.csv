@@ -1,0 +1,31 @@
+slot,model,borough,total_q
+dow1_0600_0859_allwks,A_flat,Manhattan,10678.30588364278
+dow1_0600_0859_allwks,A_flat,Bronx,128.39830505432033
+dow1_0600_0859_allwks,A_flat,Brooklyn,424.0
+dow1_0600_0859_allwks,A_flat,Queens,1663.8766078745298
+dow1_0600_0859_allwks,A_flat,Staten Island,83.77048187665666
+dow1_0600_0859_allwks,B_borough,Manhattan,10678.30588364278
+dow1_0600_0859_allwks,B_borough,Bronx,118.4432866905681
+dow1_0600_0859_allwks,B_borough,Brooklyn,415.5129643182305
+dow1_0600_0859_allwks,B_borough,Queens,1632.7586936312025
+dow1_0600_0859_allwks,B_borough,Staten Island,78.0
+dow5_1900_2359_allwks,A_flat,Manhattan,9159.57792938611
+dow5_1900_2359_allwks,A_flat,Bronx,162.30430801766536
+dow5_1900_2359_allwks,A_flat,Brooklyn,859.8683615017331
+dow5_1900_2359_allwks,A_flat,Queens,2708.1162204957136
+dow5_1900_2359_allwks,A_flat,Staten Island,110.1331805987749
+dow5_1900_2359_allwks,B_borough,Manhattan,9183.991435003689
+dow5_1900_2359_allwks,B_borough,Bronx,160.9557363000254
+dow5_1900_2359_allwks,B_borough,Brooklyn,850.5817621820688
+dow5_1900_2359_allwks,B_borough,Queens,2694.283179873328
+dow5_1900_2359_allwks,B_borough,Staten Island,110.18788664088922
+dow6_0900_1559_allwks,A_flat,Manhattan,8423.954964969122
+dow6_0900_1559_allwks,A_flat,Bronx,205.75999366238077
+dow6_0900_1559_allwks,A_flat,Brooklyn,876.5295580891035
+dow6_0900_1559_allwks,A_flat,Queens,3343.075375874344
+dow6_0900_1559_allwks,A_flat,Staten Island,150.6801074050496
+dow6_0900_1559_allwks,B_borough,Manhattan,8433.888111236523
+dow6_0900_1559_allwks,B_borough,Bronx,203.9528698446641
+dow6_0900_1559_allwks,B_borough,Brooklyn,872.5601494742111
+dow6_0900_1559_allwks,B_borough,Queens,3341.139553740675
+dow6_0900_1559_allwks,B_borough,Staten Island,148.45931570392733
