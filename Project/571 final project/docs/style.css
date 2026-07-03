@@ -50,7 +50,8 @@ a:hover { color: #a5b4fc; }
 section { padding: 80px 0; }
 section:nth-child(even) { background: var(--bg2); }
 .section-title { text-align: center; font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
-.section-subtitle { text-align: center; color: var(--dim); font-size: 1.02rem; margin-bottom: 48px; }
+.section-subtitle { text-align: center; color: var(--dim); font-size: 1.02rem; margin-bottom: 12px; }
+.section-intro { max-width: 640px; margin: 0 auto 40px; text-align: center; color: var(--dim); font-size: .94rem; line-height: 1.65; }
 .sub-heading { font-size: 1.15rem; font-weight: 700; margin: 36px 0 18px; }
 
 .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -79,7 +80,8 @@ section:nth-child(even) { background: var(--bg2); }
 
 .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
 .chart-section { margin-bottom: 32px; }
-.chart-section h3 { font-size: 1rem; font-weight: 600; margin-bottom: 16px; }
+.chart-section h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+.chart-caption { color: var(--dim); font-size: .85rem; margin-bottom: 14px; }
 .chart-container { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; }
 .chart-container.wide { height: 380px; }
 .chart-container.medium { height: 300px; }

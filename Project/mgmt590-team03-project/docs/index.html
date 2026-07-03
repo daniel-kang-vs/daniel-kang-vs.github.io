@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NYC Yellow Taxi Fleet Optimization</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">NYC Taxi Optimizer</a>
+    <ul class="nav-links">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="hero-content">
+    <h1>NYC Yellow Taxi<br/>Fleet Optimization</h1>
+    <p class="hero-sub">
+      NYC TLC has a fixed fleet of 13,000 yellow cabs. The question isn&rsquo;t whether to deploy &mdash;
+      it&rsquo;s <em>where</em> to pre-position them before each shift, when every missed fare and
+      every idle cab carry different costs.
+    </p>
+    <div class="hero-buttons">
+      <a href="#results" class="btn btn-primary">View Results</a>
+      <a href="https://github.com/dbhatt90/mgmt590-team03-project" class="btn btn-outline" target="_blank">Source Code</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">13,000</span><span class="label">Fleet</span></div>
+      <div class="hero-stat"><span class="num">263</span><span class="label">Zones</span></div>
+      <div class="hero-stat"><span class="num">$12.4M</span><span class="label">Annual Gain</span></div>
+      <div class="hero-stat"><span class="num">35</span><span class="label">Slots</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="container">
+    <h2 class="section-title">The Problem</h2>
+    <p class="section-subtitle">Two challenges before we can optimize</p>
+    <p class="section-intro">
+      Trip data only records <strong>completed yellow pickups</strong> &mdash; not people who couldn&rsquo;t
+      find a cab. We reconstruct true demand using for-hire vehicle (Uber/Lyft) data, then solve a
+      <strong>newsvendor allocation</strong> that penalizes missed high-fare trips more than idle cabs.
+    </p>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Observed vs. Estimated Demand by Borough</h3>
+        <p class="chart-caption">Gray = yellow pickups only. Gold = estimated total demand after FHV proxy. Outer boroughs are especially undercounted.</p>
+        <div class="chart-container medium">
+          <canvas id="censoringChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-section">
+        <h3>Asymmetric Cost per Trip</h3>
+        <p class="chart-caption">A missed Midtown fare (~$17) hurts more than an idle cab (~$12). This drives cabs toward airports and high-fare zones.</p>
+        <div class="chart-container medium">
+          <canvas id="costChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3>Revenue: Status Quo vs. Optimized Dispatch</h3>
+      <p class="chart-caption">Same fleet, smarter placement. Optimized pre-positioning vs. splitting cabs proportionally across zones (peak Tuesday midday).</p>
+      <div class="chart-container wide">
+        <canvas id="impactChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="container">
+    <h2 class="section-title">Results by Slot</h2>
+    <p class="section-subtitle" id="slotSubtitle">Tuesday Midday · 09:00–15:59</p>
+    <p class="section-intro" id="slotContext">
+      Optimal cab counts change by time of day. Use the buttons below to compare how the same
+      13,000-cab fleet shifts across boroughs and zones.
+    </p>
+
+    <div class="slot-toggle" role="tablist">
+      <button class="slot-btn active" data-slot="tuesday-midday">Tuesday Midday</button>
+      <button class="slot-btn" data-slot="friday-evening">Friday Evening</button>
+      <button class="slot-btn" data-slot="monday-morning">Monday Morning</button>
+    </div>
+
+    <div class="results-summary">
+      <div class="result-card yellow"><span class="result-num" id="slotRevenue">—</span><span class="result-label">Revenue</span></div>
+      <div class="result-card green"><span class="result-num" id="slotFleet">—</span><span class="result-label">Fleet Used</span></div>
+      <div class="result-card blue"><span class="result-num" id="slotNvCost">—</span><span class="result-label">NV Cost</span></div>
+      <div class="result-card orange"><span class="result-num" id="slotLambda">—</span><span class="result-label">Shadow &lambda;</span></div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3 id="zoneChartTitle">Top Zone Allocations</h3>
+        <p class="chart-caption" id="zoneCaption">q* = optimal cabs per TLC pickup zone.</p>
+        <div class="chart-container medium"><canvas id="allocationChart"></canvas></div>
+      </div>
+      <div class="chart-section">
+        <h3>Fleet by Borough</h3>
+        <p class="chart-caption" id="boroCaption">Share of the 13,000-cab budget allocated to each borough.</p>
+        <div class="chart-container medium"><canvas id="boroughChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="models">
+  <div class="container">
+    <h2 class="section-title">Demand Model Bake-off</h2>
+    <p class="section-subtitle">Which forecast feeds the optimizer best?</p>
+    <p class="section-intro">
+      We tested four demand models across 35 time-slot scenarios. Lower newsvendor (NV) cost means
+      better fleet placement. The simple <strong>empirical quantile</strong> model won &mdash; ML
+      alternatives overfit thin per-zone samples.
+    </p>
+    <div class="chart-container wide">
+      <canvas id="bakeoffChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <p>&copy; 2026 Daniel Kang &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

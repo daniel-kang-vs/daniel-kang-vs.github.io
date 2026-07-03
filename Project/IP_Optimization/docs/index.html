@@ -3,377 +3,131 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BabyShip &mdash; Packaging &amp; DIM Optimization</title>
-  <link rel="stylesheet" href="style.css?v=3" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>BabyShip Packaging Optimization</title>
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#hero" class="nav-brand">BabyShip</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#overview">Overview</a></li>
+    <ul class="nav-links">
       <li><a href="#problem">Problem</a></li>
-      <li><a href="#data">Data</a></li>
-      <li><a href="#model">Model</a></li>
       <li><a href="#results">Results</a></li>
-      <li><a href="#analysis">Analysis</a></li>
+      <li><a href="#impact">Impact</a></li>
       <li><a href="https://github.com/daniel-kang-vs/stroller-box-optimization" target="_blank">GitHub</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- Hero -->
 <header id="hero">
   <div class="hero-content">
-    <span class="hero-badge">Pricing &amp; Operations Optimization &mdash; BabyShip</span>
-    <h1><span class="hero-title-line1">BabyShip</span><br/><span class="hero-title-line2">Packaging Optimization</span></h1>
+    <h1>BabyShip<br/>Packaging Optimization</h1>
     <p class="hero-sub">
-      <strong class="hero-lead">DIM-weight pricing, packaging, and checkout economics.</strong>
-      Integer linear programming selects the best <strong>7 box types</strong> for <strong>17 top-selling strollers</strong>,
-      balancing <strong>shipping cost</strong>, <strong>operational simplicity</strong>, and the <strong>pricing &amp; conversion</strong> tradeoffs that come with bulky baby gear.
+      BabyShip ships 17 top-selling strollers nationwide. Carriers charge on
+      <strong>dimensional weight</strong> (L&times;W&times;H &divide; 250), so box choice directly
+      drives shipping cost &mdash; but warehouses can&rsquo;t stock a unique box for every product.
     </p>
     <div class="hero-buttons">
-      <a href="#results" class="btn btn-primary">View Results</a>
+      <a href="#impact" class="btn btn-primary">View Impact</a>
       <a href="https://github.com/daniel-kang-vs/stroller-box-optimization" class="btn btn-outline" target="_blank">Source Code</a>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">17</span>
-        <span class="hero-stat-label">Strollers</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">43</span>
-        <span class="hero-stat-label">Box Options</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">7</span>
-        <span class="hero-stat-label">Optimal Boxes</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">6.5%</span>
-        <span class="hero-stat-label">Cost Penalty</span>
-      </div>
+      <div class="hero-stat"><span class="hero-stat-num">17</span><span class="hero-stat-label">Products</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">7</span><span class="hero-stat-label">Box Types</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">59%</span><span class="hero-stat-label">Fewer SKUs</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">6.5%</span><span class="hero-stat-label">Cost Penalty</span></div>
     </div>
   </div>
 </header>
 
-<!-- Executive overview: merged narrative -->
-<section id="overview">
-  <div class="container">
-    <h2 class="section-title">Case Overview</h2>
-    <p class="section-subtitle section-subtitle-bright">Problem, approach, results, and business impact in one place</p>
-
-    <div class="narrative-grid">
-      <article class="narrative-card narrative-problem">
-        <h3 class="narrative-label">Problem</h3>
-        <p class="narrative-text">
-          Shipping <strong>bulky baby gear</strong> involves tradeoffs between <strong>cost</strong>, <strong>pricing</strong>, and <strong>customer experience</strong>.
-          Inefficient packaging and rigid pricing structures can raise landed shipping cost and push <strong>total checkout cost past thresholds</strong> where <strong>conversion drops sharply</strong>
-          &mdash; for many e-commerce categories, orders above roughly <strong>$100 all-in</strong> see materially lower completion rates.
-        </p>
-        <p class="narrative-text narrative-muted">
-          <strong>Technical layer:</strong> Carriers bill on <strong>dimensional weight</strong> when it exceeds actual weight (here: L&times;W&times;H / 250). Warehouses also need a <strong>limited box catalog</strong>, not one SKU per product.
-        </p>
-      </article>
-
-      <article class="narrative-card narrative-approach">
-        <h3 class="narrative-label">Approach</h3>
-        <ul class="narrative-list">
-          <li><strong>Modeled shipping cost</strong> using <strong>dimensional-weight pricing</strong>: billable weight = max(actual weight, DIM weight).</li>
-          <li>Built an <strong>integer programming framework</strong> (Gurobi) to choose box assignments under <strong>fit rules</strong>, a <strong>43-option catalog</strong>, and a cap of <strong>7 active box types</strong>.</li>
-          <li><strong>Pricing sensitivity:</strong> framed how shipping-weight penalties flow into <strong>published shipping fees</strong> and <strong>free-shipping thresholds</strong>; extension work uses <strong>Python</strong> (and in production, <strong>PostgreSQL</strong>-backed order/shipping extracts) to stress-test thresholds against real usage.</li>
-          <li>Compared the <strong>optimized 7-box system</strong> to a <strong>&ldquo;perfect fit&rdquo; baseline</strong> (best possible box per product) to quantify inefficiency from standardization.</li>
-        </ul>
-      </article>
-
-      <article class="narrative-card narrative-results">
-        <h3 class="narrative-label">Results</h3>
-        <ul class="narrative-list">
-          <li>Flagged <strong>pricing regions</strong> where high DIM-driven shipping pushes <strong>all-in cost above ~$100</strong>, a band that typically <strong>hurts conversion</strong> unless offset by subsidies or product mix.</li>
-          <li><strong>Quantified inefficiency</strong> from limited box sizes: only <strong>6.5% total billable-weight penalty</strong> (104.7 lb across 17 SKUs) vs. perfect fit, while cutting box variety from <strong>17 &rarr; 7</strong> (59% fewer packaging SKUs).</li>
-          <li><strong>Two outlier products</strong> (Vista V2, Fox 5) drive ~<strong>30% of total shipping weight</strong> via a 40&times;40&times;40 box &mdash; clear candidates for <strong>packaging redesign</strong>, <strong>surcharges</strong>, or <strong>threshold tuning</strong>.</li>
-          <li>Delivered a <strong>repeatable framework</strong> to evaluate <strong>operational simplicity vs. cost</strong> whenever leadership changes box policy or carrier DIM divisors.</li>
-        </ul>
-      </article>
-
-      <article class="narrative-card narrative-impact">
-        <h3 class="narrative-label">Business Impact</h3>
-        <ul class="narrative-list">
-          <li><strong>Actionable recommendations</strong> for <strong>pricing strategy</strong> (shipping fees, free-shipping bar) and <strong>packaging decisions</strong> (which boxes to stock, which SKUs to redesign).</li>
-          <li>Surfaced ways to <strong>reduce landed cost</strong> while <strong>preserving customer experience</strong> &mdash; e.g. concentrating fixes on the two heaviest DIM outliers instead of blanket cuts.</li>
-          <li>Showed how <strong>operational constraints</strong> (max box types, carrier DIM rules) <strong>directly shape revenue outcomes</strong> through conversion and margin, not only through freight invoices.</li>
-        </ul>
-      </article>
-    </div>
-
-    <blockquote class="key-insight">
-      <p class="key-insight-label">Key insight</p>
-      <p class="key-insight-text">
-        Optimizing pricing and packaging is <strong>not just a modeling exercise</strong>. It requires balancing <strong>carrier cost structures</strong>, <strong>customer behavior</strong> at checkout, and <strong>operational constraints</strong> so decisions stay credible in finance, ops, and product.
-      </p>
-    </blockquote>
-  </div>
-</section>
-
-<!-- Problem -->
 <section id="problem">
   <div class="container">
-    <h2 class="section-title">Why Box Selection Drives Cost</h2>
-    <p class="section-subtitle section-subtitle-bright">Dimensional weight, standardization, and the cost&ndash;complexity tradeoff</p>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-        </div>
-        <h3>Dimensional Weight</h3>
-        <p>Carriers charge the <strong>greater of actual weight and DIM weight</strong> (L&times;W&times;H / 250). Oversized boxes inflate <strong>billable weight</strong> even when the product is light &mdash; the core lever for <strong>shipping cost and pricing</strong>.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3>Box Standardization</h3>
-        <p>Using a unique box per product is impractical. Warehouses need a <strong>limited set of box sizes</strong> that can cover all products efficiently.</p>
-      </div>
-      <div class="problem-card">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="12" cy="12" r="10"/><path d="M16 8l-8 8"/><path d="M8 8l8 8"/></svg>
-        </div>
-        <h3>The Trade-off</h3>
-        <p>Fewer box types mean <strong>simpler picking and inventory</strong>, but often <strong>higher DIM penalty</strong>. The optimization finds the <strong>best 7-box portfolio</strong> that minimizes total billable weight subject to fit and operational limits.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <h2 class="section-title">The Problem</h2>
+    <p class="section-subtitle section-subtitle-bright">Bulky gear + DIM pricing + limited box catalog</p>
+    <p class="section-intro">
+      Strollers vary widely in size, but carriers bill on whichever is larger: actual weight or
+      dimensional weight. The optimization finds the <strong>best 7 boxes</strong> (from 43 candidates)
+      that cover all 17 products while minimizing total billable weight.
+    </p>
 
-<!-- Data -->
-<section id="data">
-  <div class="container">
-    <h2 class="section-title">Data Overview</h2>
-    <p class="section-subtitle">17 popular US strollers and 43 candidate shipping boxes</p>
-
-    <div class="tabs">
-      <button class="tab active" data-tab="strollers-tab">Strollers (17)</button>
-      <button class="tab" data-tab="boxes-tab">Boxes (43)</button>
-    </div>
-
-    <div id="strollers-tab" class="tab-content active">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Product</th><th>L (in)</th><th>W (in)</th><th>H (in)</th><th>Weight (lb)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Triv Next</td><td>24</td><td>22.5</td><td>15</td><td>18.4</td></tr>
-            <tr><td>Vista V2</td><td>17.3</td><td>25.7</td><td>33</td><td>27</td></tr>
-            <tr><td>Cruz V2</td><td>16.5</td><td>22.8</td><td>29.5</td><td>25.5</td></tr>
-            <tr><td>Fox 3</td><td>35</td><td>21</td><td>15</td><td>21.8</td></tr>
-            <tr><td>Fox 5</td><td>17.3</td><td>23.6</td><td>35.4</td><td>21.1</td></tr>
-            <tr><td>Fox 5 (2 pieces)</td><td>35</td><td>20.9</td><td>13.4</td><td>28</td></tr>
-            <tr><td>Mixx Next</td><td>27</td><td>23.6</td><td>19</td><td>28.3</td></tr>
-            <tr><td>City Mini GT2</td><td>31</td><td>25.5</td><td>10.5</td><td>22.4</td></tr>
-            <tr><td>Single-to-Double</td><td>34</td><td>24.5</td><td>18</td><td>27</td></tr>
-            <tr><td>Portable Playard</td><td>10.31</td><td>10.31</td><td>27.99</td><td>14</td></tr>
-            <tr><td>Close2Baby</td><td>30</td><td>18</td><td>10</td><td>30</td></tr>
-            <tr><td>Breeze Plus Playard</td><td>12</td><td>12</td><td>30</td><td>23</td></tr>
-            <tr><td>Swivel Sleeper Luxe</td><td>34</td><td>34</td><td>23</td><td>32</td></tr>
-            <tr><td>Smart Sleeper</td><td>38</td><td>22</td><td>15.5</td><td>38</td></tr>
-            <tr><td>Lullaby Playard</td><td>10.5</td><td>19</td><td>30</td><td>25</td></tr>
-            <tr><td>Travel Crib Light</td><td>5</td><td>23.5</td><td>19</td><td>13</td></tr>
-            <tr><td>Lotus Travel Crib</td><td>24</td><td>12</td><td>8</td><td>14</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="boxes-tab" class="tab-content">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Box ID</th><th>L (in)</th><th>W (in)</th><th>H (in)</th><th>Dim Weight (lb)</th></tr>
-          </thead>
-          <tbody id="box-table-body"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Stroller Dimensions Comparison</h3>
-      <div class="chart-container wide">
-        <canvas id="strollerDimChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Model -->
-<section id="model">
-  <div class="container">
-    <h2 class="section-title">Model Formulation</h2>
-    <p class="section-subtitle">Integer Linear Program solved with Gurobi optimizer</p>
-
-    <div class="formulation-grid">
-      <div class="formula-card">
-        <h3>Decision Variables</h3>
-        <div class="formula">
-          <p><strong>x<sub>ij</sub></strong> &isin; {0, 1} &mdash; assign stroller <em>j</em> to box <em>i</em></p>
-          <p><strong>y<sub>i</sub></strong> &isin; {0, 1} &mdash; use box type <em>i</em> in the system</p>
-        </div>
-      </div>
-      <div class="formula-card">
-        <h3>Objective</h3>
-        <div class="formula">
-          <p>Minimize &Sigma;<sub>i,j</sub> cost<sub>ij</sub> &middot; x<sub>ij</sub></p>
-          <p class="formula-note">where cost = max(dimensional weight, actual weight)</p>
-        </div>
-      </div>
-      <div class="formula-card">
-        <h3>Constraints</h3>
-        <div class="formula">
-          <p>1. Each stroller assigned exactly one box</p>
-          <p>2. Assignment only if box type is selected</p>
-          <p>3. Stroller must physically fit in the box</p>
-          <p>4. At most <strong>7</strong> box types total</p>
-        </div>
-      </div>
-      <div class="formula-card">
-        <h3>Fit Criteria</h3>
-        <div class="formula">
-          <p>A stroller fits a box when all three dimensions (with 0.5&Prime; padding) are &le; the corresponding box dimensions.</p>
-          <p class="formula-note">Only 731 of 731 possible pairs actually fit</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="solver-stats">
-      <div class="solver-stat"><span class="solver-num">774</span><span class="solver-label">Binary Variables</span></div>
-      <div class="solver-stat"><span class="solver-num">1,394</span><span class="solver-label">Constraints</span></div>
-      <div class="solver-stat"><span class="solver-num">0.02s</span><span class="solver-label">Solve Time</span></div>
-      <div class="solver-stat"><span class="solver-num">0.00%</span><span class="solver-label">Optimality Gap</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- Results -->
-<section id="results">
-  <div class="container">
-    <h2 class="section-title">Optimal Results</h2>
-    <p class="section-subtitle">7 box types selected to cover all 17 products</p>
-
-    <h3 class="sub-heading">Selected Box Types</h3>
-    <div class="box-cards">
-      <div class="box-card"><h4>Box 6</h4><p class="box-dims">15&times;15&times;48</p><p class="box-dw">DW: 43.2 lb</p><span class="box-count">2 products</span></div>
-      <div class="box-card"><h4>Box 8</h4><p class="box-dims">40&times;40&times;40</p><p class="box-dw">DW: 256.0 lb</p><span class="box-count">2 products</span></div>
-      <div class="box-card"><h4>S-16765</h4><p class="box-dims">36&times;24&times;18</p><p class="box-dw">DW: 62.2 lb</p><span class="box-count">5 products</span></div>
-      <div class="box-card"><h4>S-4478</h4><p class="box-dims">36&times;36&times;24</p><p class="box-dw">DW: 124.4 lb</p><span class="box-count">3 products</span></div>
-      <div class="box-card"><h4>S-4659</h4><p class="box-dims">24&times;24&times;36</p><p class="box-dw">DW: 82.9 lb</p><span class="box-count">2 products</span></div>
-      <div class="box-card"><h4>S-4866</h4><p class="box-dims">28&times;28&times;20</p><p class="box-dw">DW: 62.7 lb</p><span class="box-count">2 products</span></div>
-      <div class="box-card"><h4>S-16766</h4><p class="box-dims">40&times;30&times;30</p><p class="box-dw">DW: 144.0 lb</p><span class="box-count">1 product</span></div>
-    </div>
-
-    <h3 class="sub-heading">Product &rarr; Box Assignments</h3>
-    <div class="table-wrap">
-      <table class="assignment-table">
-        <thead>
-          <tr><th>Product</th><th>Assigned Box</th><th>Box Dimensions</th><th>Ship Weight (lb)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Triv Next</td><td><span class="box-tag s16765">S-16765</span></td><td>36&times;24&times;18</td><td>62.2</td></tr>
-          <tr class="highlight-row"><td>Vista V2</td><td><span class="box-tag b8">Box 8</span></td><td>40&times;40&times;40</td><td>256.0</td></tr>
-          <tr><td>Cruz V2</td><td><span class="box-tag s4659">S-4659</span></td><td>24&times;24&times;36</td><td>82.9</td></tr>
-          <tr><td>Fox 3</td><td><span class="box-tag s16765">S-16765</span></td><td>36&times;24&times;18</td><td>62.2</td></tr>
-          <tr class="highlight-row"><td>Fox 5</td><td><span class="box-tag b8">Box 8</span></td><td>40&times;40&times;40</td><td>256.0</td></tr>
-          <tr><td>Fox 5 (2 pieces)</td><td><span class="box-tag s16765">S-16765</span></td><td>36&times;24&times;18</td><td>62.2</td></tr>
-          <tr><td>Mixx Next</td><td><span class="box-tag s4866">S-4866</span></td><td>28&times;28&times;20</td><td>62.7</td></tr>
-          <tr><td>City Mini GT2</td><td><span class="box-tag s4478">S-4478</span></td><td>36&times;36&times;24</td><td>124.4</td></tr>
-          <tr><td>Single-to-Double</td><td><span class="box-tag s4478">S-4478</span></td><td>36&times;36&times;24</td><td>124.4</td></tr>
-          <tr><td>Portable Playard</td><td><span class="box-tag b6">Box 6</span></td><td>15&times;15&times;48</td><td>43.2</td></tr>
-          <tr><td>Close2Baby</td><td><span class="box-tag s16765">S-16765</span></td><td>36&times;24&times;18</td><td>62.2</td></tr>
-          <tr><td>Breeze Plus Playard</td><td><span class="box-tag b6">Box 6</span></td><td>15&times;15&times;48</td><td>43.2</td></tr>
-          <tr><td>Swivel Sleeper Luxe</td><td><span class="box-tag s4478">S-4478</span></td><td>36&times;36&times;24</td><td>124.4</td></tr>
-          <tr><td>Smart Sleeper</td><td><span class="box-tag s16766">S-16766</span></td><td>40&times;30&times;30</td><td>144.0</td></tr>
-          <tr><td>Lullaby Playard</td><td><span class="box-tag s4659">S-4659</span></td><td>24&times;24&times;36</td><td>82.9</td></tr>
-          <tr><td>Travel Crib Light</td><td><span class="box-tag s4866">S-4866</span></td><td>28&times;28&times;20</td><td>62.7</td></tr>
-          <tr><td>Lotus Travel Crib</td><td><span class="box-tag s16765">S-16765</span></td><td>36&times;24&times;18</td><td>62.2</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- Analysis -->
-<section id="analysis">
-  <div class="container">
-    <h2 class="section-title">Cost Analysis</h2>
-    <p class="section-subtitle">Comparing the optimized 7-box system against a perfect per-product baseline</p>
-
-    <div class="analysis-summary">
-      <div class="analysis-card green">
-        <span class="analysis-num">1,718.0</span>
-        <span class="analysis-label">Optimized Total (lb)</span>
-        <span class="analysis-sub">7-box system</span>
-      </div>
-      <div class="analysis-card orange">
-        <span class="analysis-num">1,613.3</span>
-        <span class="analysis-label">Perfect Total (lb)</span>
-        <span class="analysis-sub">Unique box per product</span>
-      </div>
-      <div class="analysis-card blue">
-        <span class="analysis-num">104.7</span>
-        <span class="analysis-label">Total Penalty (lb)</span>
-        <span class="analysis-sub">Only 6.5% increase</span>
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Product Dimensions (inches)</h3>
+        <p class="chart-caption">Height drives DIM weight for most SKUs &mdash; two outliers (Vista V2, Fox 5) force oversized boxes.</p>
+        <div class="chart-container wide"><canvas id="strollerDimChart"></canvas></div>
       </div>
     </div>
 
     <div class="chart-row">
       <div class="chart-section">
-        <h3>Shipping Weight: Optimized vs. Perfect</h3>
-        <div class="chart-container">
-          <canvas id="comparisonChart"></canvas>
-        </div>
+        <h3>Billable Weight: DIM vs. Actual</h3>
+        <p class="chart-caption">Blue = what the carrier charges. Gray = product weight. When blue is taller, you pay for empty box space.</p>
+        <div class="chart-container medium"><canvas id="dwVsActualChart"></canvas></div>
       </div>
       <div class="chart-section">
-        <h3>Extra Cost per Product</h3>
-        <div class="chart-container">
-          <canvas id="penaltyChart"></canvas>
-        </div>
+        <h3>17 Unique Boxes vs. 7 Shared</h3>
+        <p class="chart-caption">One box per product is cheapest to ship but hard to operate. Seven shared types cut SKUs by 59%.</p>
+        <div class="chart-container medium"><canvas id="skuChart"></canvas></div>
       </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Box Utilization &mdash; How Many Products per Box Type</h3>
-      <div class="chart-container medium">
-        <canvas id="utilizationChart"></canvas>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Dimensional Weight vs. Actual Weight by Assignment</h3>
-      <div class="chart-container wide">
-        <canvas id="dwVsActualChart"></canvas>
-      </div>
-    </div>
-
-    <div class="takeaway">
-      <h3>Technical takeaways</h3>
-      <ul>
-        <li><strong>S-16765 (36&times;24&times;18)</strong> is the workhorse box, covering <strong>5 of 17</strong> products efficiently.</li>
-        <li><strong>Vista V2 and Fox 5</strong> are the costliest to ship &mdash; they force <strong>Box 8 (40&times;40&times;40)</strong> and drive ~<strong>30% of total billable weight</strong>; prioritize these for packaging or pricing levers.</li>
-        <li>The <strong>7-box system</strong> adds only <strong>6.5% extra billable weight</strong> vs. a perfect per-SKU box &mdash; a strong <strong>ops simplicity</strong> trade for finance.</li>
-        <li>Most standardization penalty sits on <strong>two SKUs</strong>; the other fifteen pack near the theoretical minimum under the shared catalog.</li>
-      </ul>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
+<section id="results">
+  <div class="container">
+    <h2 class="section-title">Optimal Solution</h2>
+    <p class="section-subtitle section-subtitle-bright">Integer program solved with Gurobi in 0.02s</p>
+    <p class="section-intro">
+      Each product is assigned exactly one box. At most 7 box types can be active. The solver
+      picks assignments that minimize total billable weight subject to fit rules (product + 0.5&Prime;
+      padding must fit inside the box).
+    </p>
+
+    <div class="chart-section">
+      <h3>Products per Box Type</h3>
+      <p class="chart-caption">S-16765 (36&times;24&times;18) is the workhorse &mdash; covers 5 of 17 products. Box 8 (40&times;40&times;40) handles the two heaviest outliers.</p>
+      <div class="chart-container medium"><canvas id="utilizationChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section id="impact">
+  <div class="container">
+    <h2 class="section-title">Impact</h2>
+    <p class="section-subtitle section-subtitle-bright">What standardization costs</p>
+    <p class="section-intro">
+      We compared the 7-box system against a &ldquo;perfect fit&rdquo; baseline where every product gets
+      its own ideal box. The penalty is only <strong>6.5%</strong> extra billable weight &mdash; a
+      small trade for cutting packaging SKUs by more than half.
+    </p>
+
+    <div class="analysis-summary">
+      <div class="analysis-card green"><span class="analysis-num">1,718</span><span class="analysis-label">Optimized (lb)</span></div>
+      <div class="analysis-card orange"><span class="analysis-num">1,613</span><span class="analysis-label">Perfect Fit (lb)</span></div>
+      <div class="analysis-card blue"><span class="analysis-num">6.5%</span><span class="analysis-label">Penalty</span></div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Shipping Weight by Product</h3>
+        <p class="chart-caption">Green = optimized 7-box system. Orange = best possible single-product box.</p>
+        <div class="chart-container medium"><canvas id="comparisonChart"></canvas></div>
+      </div>
+      <div class="chart-section">
+        <h3>Standardization Penalty (lb)</h3>
+        <p class="chart-caption">Red bars = extra weight from sharing boxes. Vista V2 and Fox 5 account for most of the total penalty.</p>
+        <div class="chart-container medium"><canvas id="penaltyChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container footer-inner">
-    <p>&copy; 2026 Daniel Kang &middot; Purdue University &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+    <p>&copy; 2026 Daniel Kang &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
   </div>
 </footer>
 

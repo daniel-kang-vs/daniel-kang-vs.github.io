@@ -129,10 +129,14 @@ section:nth-child(even) { background: var(--bg-800); }
   padding: 0 8px; max-width: 900px;
 }
 .section-subtitle {
-  text-align: center; color: var(--text-dim); font-size: 1.05rem; margin: 0 auto 48px;
+  text-align: center; color: var(--text-dim); font-size: 1.05rem; margin: 0 auto 12px;
   padding: 0 16px; max-width: 640px;
 }
 .section-subtitle-bright { color: var(--text-body); }
+.section-intro {
+  max-width: 640px; margin: 0 auto 40px; text-align: center;
+  color: var(--text-dim); font-size: .94rem; line-height: 1.65; padding: 0 16px;
+}
 .sub-heading {
   font-size: 1.15rem; font-weight: 700; margin: 40px auto 20px; color: var(--text);
   text-align: center; max-width: 900px; padding: 0 8px;
@@ -296,8 +300,11 @@ tr:hover td { background: rgba(94,196,179,0.06); }
 .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
 .chart-section { margin-bottom: 32px; }
 .chart-section h3 {
-  font-size: 1rem; font-weight: 600; margin-bottom: 16px; color: var(--text);
+  font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--text);
   text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;
+}
+.chart-caption {
+  color: var(--dim); font-size: .85rem; margin-bottom: 14px; text-align: center;
 }
 .chart-container {
   background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);

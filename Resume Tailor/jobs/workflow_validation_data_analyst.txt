@@ -1,0 +1,26 @@
+Data Analyst
+
+Required Qualifications:
+- Bachelor's degree in analytics, business, or related field
+- 1+ years experience in data analysis or business intelligence
+- Strong SQL skills for querying and transforming data
+- Python for data analysis and automation
+- Power BI or Tableau for data visualization and dashboards
+- Excel for analysis and reporting
+- Experience building ETL data pipelines
+- Statistical analysis and modeling
+- Ability to communicate insights to technical and non-technical stakeholders
+
+Preferred Qualifications:
+- Microsoft Azure or AWS cloud experience
+- A/B testing and experimentation experience
+- Forecasting and predictive analytics
+- Experience in manufacturing, healthcare, or retail
+- Google Data Analytics or similar certification
+
+Responsibilities:
+- Build dashboards and KPI monitoring reports for business stakeholders
+- Develop SQL-based analytics pipelines from behavioral and operational data
+- Perform cohort, funnel, and segmentation analysis
+- Support data-driven decision-making across acquisition, engagement, and retention
+- Automate reporting and streamline insight generation
