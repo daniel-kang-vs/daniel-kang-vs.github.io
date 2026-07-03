@@ -6,6 +6,13 @@
   <title>NYC Yellow Taxi Fleet Optimization</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -91,42 +98,77 @@
       (lost fare when demand exceeds supply) and <strong>overage</strong> (idle cab when supply exceeds demand).
     </p>
 
-    <div class="formula-grid">
-      <article class="formula-card">
-        <h3>Decision Variable</h3>
-        <p class="formula-text">Allocate cabs across 263 TLC pickup zones.</p>
-        <div class="math-block">q<sub>z</sub> = cabs assigned to zone z</div>
-      </article>
-
-      <article class="formula-card">
-        <h3>Objective Function</h3>
-        <p class="formula-text">Minimize expected lost-fare and idle-cab cost.</p>
-        <div class="math-block">
-          min<sub>q</sub> &nbsp; &Sigma;<sub>z</sub>
-          [ C<sup>o</sup><sub>z</sub>E(q<sub>z</sub> - D<sub>z</sub>)<sup>+</sup>
-          + C<sup>u</sup><sub>z</sub>E(D<sub>z</sub> - q<sub>z</sub>)<sup>+</sup> ]
+    <div class="math-layout">
+      <article class="math-panel">
+        <span class="math-label">01 · Sets &amp; Variables</span>
+        <h3>What We Choose</h3>
+        <p>For every pickup zone \(z\), choose the number of yellow cabs to pre-position before the time slot starts.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          Z &amp;= \{\text{263 TLC pickup zones}\} \\
+          q_z &amp;\ge 0 \quad \text{cabs assigned to zone } z \in Z
+          \end{aligned}
+          \]
         </div>
       </article>
 
-      <article class="formula-card">
-        <h3>Fleet Constraint</h3>
-        <p class="formula-text">The allocation cannot exceed the available cab fleet.</p>
-        <div class="math-block">&Sigma;<sub>z</sub> q<sub>z</sub> &le; 13,000</div>
+      <article class="math-panel">
+        <span class="math-label">02 · Demand &amp; Costs</span>
+        <h3>Inputs to the Model</h3>
+        <p>Demand is random and estimated from yellow taxi plus FHV proxy data. Costs make missed trips more expensive than idle cabs.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          D_z &amp;= \text{latent demand in zone } z \\
+          C^u_z &amp;= \text{underage cost (lost fare)} \\
+          C^o_z &amp;= \text{overage cost (idle cab)}
+          \end{aligned}
+          \]
+        </div>
       </article>
 
-      <article class="formula-card">
-        <h3>Zone Bounds</h3>
-        <p class="formula-text">Floors protect baseline coverage; caps prevent over-concentrating in one zone.</p>
-        <div class="math-block">floor<sub>z</sub> &le; q<sub>z</sub> &le; cap<sub>z</sub></div>
+      <article class="math-panel math-panel-wide">
+        <span class="math-label">03 · Objective Function</span>
+        <h3>Minimize Expected Newsvendor Cost</h3>
+        <p>The first term penalizes too many cabs in a zone. The second term penalizes too few cabs when demand exceeds supply.</p>
+        <div class="math-display math-display-large">
+          \[
+          \min_{\mathbf{q}} \quad
+          \sum_{z \in Z}
+          \left[
+          C^o_z \, \mathbb{E}\left(q_z - D_z\right)^+
+          +
+          C^u_z \, \mathbb{E}\left(D_z - q_z\right)^+
+          \right]
+          \]
+        </div>
+      </article>
+
+      <article class="math-panel math-panel-wide">
+        <span class="math-label">04 · Constraints</span>
+        <h3>Fleet Budget + Zone Bounds</h3>
+        <p>The allocation cannot use more than 13,000 cabs. Zone-level floors preserve minimum service and caps avoid over-concentration.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          \sum_{z \in Z} q_z &amp;\le F, \qquad F = 13{,}000 \\
+          \ell_z &amp;\le q_z \le u_z \qquad \forall z \in Z
+          \end{aligned}
+          \]
+        </div>
       </article>
     </div>
 
     <div class="formula-note-card">
-      <strong>Closed-form intuition:</strong>
-      without the shared fleet constraint, each zone receives the demand quantile
-      q<sup>*</sup><sub>z</sub> = F<sup>-1</sup><sub>z</sub>(&tau;<sub>z</sub>), where
-      &tau;<sub>z</sub> = C<sup>u</sup><sub>z</sub> / (C<sup>u</sup><sub>z</sub> + C<sup>o</sup><sub>z</sub>).
-      Higher lost-fare cost pushes the target quantile higher.
+      <strong>Critical fractile intuition:</strong> without the shared fleet constraint, each zone
+      gets the demand quantile
+      \[
+      q^*_z = F_z^{-1}(\tau_z),
+      \qquad
+      \tau_z = \frac{C^u_z}{C^u_z + C^o_z}.
+      \]
+      When the cost of missing a fare rises, \(\tau_z\) increases, so the model assigns more cabs.
     </div>
   </div>
 </section>

@@ -6,6 +6,13 @@
   <title>BabyShip Packaging Optimization</title>
   <link rel="stylesheet" href="style.css?v=4" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -87,52 +94,62 @@
       box catalog to <strong>7 box types</strong>.
     </p>
 
-    <div class="formulation-grid">
-      <article class="formula-card">
-        <h3>Decision Variables</h3>
-        <p class="formula-text">Assign each product j to box i, and decide whether box i is active.</p>
-        <div class="math-block">
-          x<sub>ij</sub> &in; {0,1}: product j uses box i<br/>
-          y<sub>i</sub> &in; {0,1}: box i is stocked
+    <div class="math-layout">
+      <article class="math-panel">
+        <span class="math-label">01 · Sets</span>
+        <h3>Products and Candidate Boxes</h3>
+        <p>The model evaluates every product-box pair, then chooses a small box catalog that can cover all products.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          I &amp;= \{\text{candidate boxes}\} \\
+          J &amp;= \{\text{stroller products}\}
+          \end{aligned}
+          \]
         </div>
       </article>
 
-      <article class="formula-card">
-        <h3>Objective Function</h3>
-        <p class="formula-text">Minimize total billable weight across all product assignments.</p>
-        <div class="math-block">
-          min &nbsp; &Sigma;<sub>i</sub>&Sigma;<sub>j</sub>
-          c<sub>ij</sub>x<sub>ij</sub><br/>
-          c<sub>ij</sub> = max(actual<sub>j</sub>, L<sub>i</sub>W<sub>i</sub>H<sub>i</sub> / 250)
+      <article class="math-panel">
+        <span class="math-label">02 · Decision Variables</span>
+        <h3>Assignment + Box Selection</h3>
+        <p>\(x_{ij}\) assigns product \(j\) to box \(i\). \(y_i\) turns a box type on or off in the warehouse catalog.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          x_{ij} &amp;\in \{0,1\} \quad \text{product } j \text{ uses box } i \\
+          y_i &amp;\in \{0,1\} \quad \text{box } i \text{ is stocked}
+          \end{aligned}
+          \]
         </div>
       </article>
 
-      <article class="formula-card">
-        <h3>Assignment Constraint</h3>
-        <p class="formula-text">Every stroller must be assigned to exactly one shipping box.</p>
-        <div class="math-block">&Sigma;<sub>i</sub> x<sub>ij</sub> = 1 &nbsp; for every product j</div>
+      <article class="math-panel math-panel-wide">
+        <span class="math-label">03 · Objective Function</span>
+        <h3>Minimize Total Billable Weight</h3>
+        <p>The assignment cost is the carrier billable weight: the larger of actual product weight and box dimensional weight.</p>
+        <div class="math-display math-display-large">
+          \[
+          \begin{aligned}
+          \min_{x,y} \quad &amp; \sum_{i \in I}\sum_{j \in J} c_{ij}x_{ij} \\
+          c_{ij} = &amp; \max\left(w_j,\frac{L_i W_i H_i}{250}\right)
+          \end{aligned}
+          \]
+        </div>
       </article>
 
-      <article class="formula-card">
-        <h3>Catalog Constraint</h3>
-        <p class="formula-text">Use at most 7 box types to keep warehouse operations simple.</p>
-        <div class="math-block">&Sigma;<sub>i</sub> y<sub>i</sub> &le; 7</div>
-      </article>
-
-      <article class="formula-card">
-        <h3>Linking Constraint</h3>
-        <p class="formula-text">A product can only use a box type that is selected for the catalog.</p>
-        <div class="math-block">x<sub>ij</sub> &le; y<sub>i</sub> &nbsp; for every box i and product j</div>
-      </article>
-
-      <article class="formula-card">
-        <h3>Fit Constraint</h3>
-        <p class="formula-text">A box-product pair is allowed only if the product physically fits with padding.</p>
-        <div class="math-block">
-          x<sub>ij</sub> = 0 if<br/>
-          L<sub>j</sub> + 0.5 &gt; L<sub>i</sub> or
-          W<sub>j</sub> + 0.5 &gt; W<sub>i</sub> or
-          H<sub>j</sub> + 0.5 &gt; H<sub>i</sub>
+      <article class="math-panel math-panel-wide">
+        <span class="math-label">04 · Constraints</span>
+        <h3>One Assignment, Seven Boxes, Feasible Fit</h3>
+        <p>Each product gets one box, products can only use active box types, and the active catalog is capped at seven boxes.</p>
+        <div class="math-display">
+          \[
+          \begin{aligned}
+          \sum_{i \in I} x_{ij} &amp;= 1 &amp;&amp; \forall j \in J \\
+          x_{ij} &amp;\le y_i &amp;&amp; \forall i \in I,\; j \in J \\
+          \sum_{i \in I} y_i &amp;\le 7 \\
+          x_{ij} &amp;= 0 &amp;&amp; \text{if product } j \text{ does not fit in box } i
+          \end{aligned}
+          \]
         </div>
       </article>
     </div>
