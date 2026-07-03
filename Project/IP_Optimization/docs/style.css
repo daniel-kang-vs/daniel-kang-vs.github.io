@@ -259,6 +259,12 @@ tr:hover td { background: rgba(94,196,179,0.06); }
 .formula p { color: var(--text-body); font-size: .92rem; margin-bottom: 6px; line-height: 1.65; }
 .formula p strong { color: var(--text); }
 .formula-note { font-style: italic; font-size: .82rem !important; opacity: .7; }
+.formula-text { color: var(--text-body); font-size: .9rem; line-height: 1.55; margin-bottom: 14px; }
+.math-block {
+  background: rgba(18,22,27,0.72); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; color: var(--text); font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: .86rem; line-height: 1.8; overflow-x: auto;
+}
 
 .solver-stats { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
 .solver-stat {

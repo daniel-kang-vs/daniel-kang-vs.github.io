@@ -15,6 +15,7 @@
     <a href="#hero" class="nav-brand">BabyShip</a>
     <ul class="nav-links">
       <li><a href="#problem">Problem</a></li>
+      <li><a href="#model">Model</a></li>
       <li><a href="#results">Results</a></li>
       <li><a href="#impact">Impact</a></li>
       <li><a href="https://github.com/daniel-kang-vs/stroller-box-optimization" target="_blank">GitHub</a></li>
@@ -72,6 +73,68 @@
         <p class="chart-caption">One box per product is cheapest to ship but hard to operate. Seven shared types cut SKUs by 59%.</p>
         <div class="chart-container medium"><canvas id="skuChart"></canvas></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="model">
+  <div class="container">
+    <h2 class="section-title">Optimization Model</h2>
+    <p class="section-subtitle section-subtitle-bright">A box-assignment integer program</p>
+    <p class="section-intro">
+      The model chooses which box types to keep in the warehouse and which box each stroller uses.
+      It minimizes total billable shipping weight while enforcing fit rules and limiting the active
+      box catalog to <strong>7 box types</strong>.
+    </p>
+
+    <div class="formulation-grid">
+      <article class="formula-card">
+        <h3>Decision Variables</h3>
+        <p class="formula-text">Assign each product j to box i, and decide whether box i is active.</p>
+        <div class="math-block">
+          x<sub>ij</sub> &in; {0,1}: product j uses box i<br/>
+          y<sub>i</sub> &in; {0,1}: box i is stocked
+        </div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Objective Function</h3>
+        <p class="formula-text">Minimize total billable weight across all product assignments.</p>
+        <div class="math-block">
+          min &nbsp; &Sigma;<sub>i</sub>&Sigma;<sub>j</sub>
+          c<sub>ij</sub>x<sub>ij</sub><br/>
+          c<sub>ij</sub> = max(actual<sub>j</sub>, L<sub>i</sub>W<sub>i</sub>H<sub>i</sub> / 250)
+        </div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Assignment Constraint</h3>
+        <p class="formula-text">Every stroller must be assigned to exactly one shipping box.</p>
+        <div class="math-block">&Sigma;<sub>i</sub> x<sub>ij</sub> = 1 &nbsp; for every product j</div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Catalog Constraint</h3>
+        <p class="formula-text">Use at most 7 box types to keep warehouse operations simple.</p>
+        <div class="math-block">&Sigma;<sub>i</sub> y<sub>i</sub> &le; 7</div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Linking Constraint</h3>
+        <p class="formula-text">A product can only use a box type that is selected for the catalog.</p>
+        <div class="math-block">x<sub>ij</sub> &le; y<sub>i</sub> &nbsp; for every box i and product j</div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Fit Constraint</h3>
+        <p class="formula-text">A box-product pair is allowed only if the product physically fits with padding.</p>
+        <div class="math-block">
+          x<sub>ij</sub> = 0 if<br/>
+          L<sub>j</sub> + 0.5 &gt; L<sub>i</sub> or
+          W<sub>j</sub> + 0.5 &gt; W<sub>i</sub> or
+          H<sub>j</sub> + 0.5 &gt; H<sub>i</sub>
+        </div>
+      </article>
     </div>
   </div>
 </section>

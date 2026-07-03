@@ -15,6 +15,7 @@
     <a href="#hero" class="nav-brand">NYC Taxi Optimizer</a>
     <ul class="nav-links">
       <li><a href="#problem">Problem</a></li>
+      <li><a href="#optimization">Optimization</a></li>
       <li><a href="#results">Results</a></li>
       <li><a href="#models">Models</a></li>
       <li><a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank">GitHub</a></li>
@@ -76,6 +77,56 @@
       <div class="chart-container wide">
         <canvas id="impactChart"></canvas>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="optimization">
+  <div class="container">
+    <h2 class="section-title">Optimization Model</h2>
+    <p class="section-subtitle">A multi-zone newsvendor allocation problem</p>
+    <p class="section-intro">
+      For each deployment slot, the decision is <strong>q<sub>z</sub></strong>: how many cabs to
+      pre-position in zone <strong>z</strong>. The objective balances two costs: <strong>underage</strong>
+      (lost fare when demand exceeds supply) and <strong>overage</strong> (idle cab when supply exceeds demand).
+    </p>
+
+    <div class="formula-grid">
+      <article class="formula-card">
+        <h3>Decision Variable</h3>
+        <p class="formula-text">Allocate cabs across 263 TLC pickup zones.</p>
+        <div class="math-block">q<sub>z</sub> = cabs assigned to zone z</div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Objective Function</h3>
+        <p class="formula-text">Minimize expected lost-fare and idle-cab cost.</p>
+        <div class="math-block">
+          min<sub>q</sub> &nbsp; &Sigma;<sub>z</sub>
+          [ C<sup>o</sup><sub>z</sub>E(q<sub>z</sub> - D<sub>z</sub>)<sup>+</sup>
+          + C<sup>u</sup><sub>z</sub>E(D<sub>z</sub> - q<sub>z</sub>)<sup>+</sup> ]
+        </div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Fleet Constraint</h3>
+        <p class="formula-text">The allocation cannot exceed the available cab fleet.</p>
+        <div class="math-block">&Sigma;<sub>z</sub> q<sub>z</sub> &le; 13,000</div>
+      </article>
+
+      <article class="formula-card">
+        <h3>Zone Bounds</h3>
+        <p class="formula-text">Floors protect baseline coverage; caps prevent over-concentrating in one zone.</p>
+        <div class="math-block">floor<sub>z</sub> &le; q<sub>z</sub> &le; cap<sub>z</sub></div>
+      </article>
+    </div>
+
+    <div class="formula-note-card">
+      <strong>Closed-form intuition:</strong>
+      without the shared fleet constraint, each zone receives the demand quantile
+      q<sup>*</sup><sub>z</sub> = F<sup>-1</sup><sub>z</sub>(&tau;<sub>z</sub>), where
+      &tau;<sub>z</sub> = C<sup>u</sup><sub>z</sub> / (C<sup>u</sup><sub>z</sub> + C<sup>o</sup><sub>z</sub>).
+      Higher lost-fare cost pushes the target quantile higher.
     </div>
   </div>
 </section>
