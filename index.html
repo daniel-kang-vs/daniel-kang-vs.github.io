@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daniel Kang — Data Analyst</title>
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=6" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -65,24 +65,76 @@
 
 <section id="about">
   <div class="container about-layout">
-    <div class="about-text">
-      <h2 class="section-heading">About me</h2>
-      <p>
-        I&rsquo;m a graduate student at <strong>Purdue University</strong> (MS Business Analytics, Aug 2026)
-        and a data analyst who cares about one question: <em>what should we do next?</em>
-      </p>
-      <p>
-        At <strong>Jambo Club</strong> I cut CPC 27% through incrementality testing and doubled retention
-        with survival analysis. At <strong>Mayacrew</strong> I lifted conversion 15% and automated B2B reporting.
-        At <strong>The Data Mine</strong> I built reorder-risk dashboards for a corporate partner.
-        I work across the full analytics lifecycle — from framing the question to delivering recommendations
-        people act on.
-      </p>
-      <p class="about-availability">Available for internships and full-time roles starting 2026.</p>
-    </div>
     <figure class="about-photo-wrap">
       <img src="image_portfolio.jpeg" alt="Daniel Kang" class="about-photo" width="480" height="600" loading="lazy" />
     </figure>
+    <div class="about-text">
+      <h2 class="section-heading">About me</h2>
+      <p>
+        I&rsquo;m a Purdue MS Business Analytics candidate and data analyst focused on turning
+        messy business questions into measurable decisions. My work spans experimentation,
+        forecasting, optimization, and stakeholder dashboards.
+      </p>
+      <p>
+        The timeline below brings my experience and education together: applied analytics roles
+        on one track, Purdue training on the other.
+      </p>
+      <p class="about-availability">Available for internships and full-time roles starting 2026.</p>
+    </div>
+
+    <div class="timeline-panel" aria-label="Experience and education timeline">
+      <div class="timeline-lane">
+        <div class="timeline-lane-header">
+          <span>Experience</span>
+        </div>
+        <div class="timeline-track">
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2024</span>
+            <h3>Applied Materials</h3>
+            <p>RF + XGBoost utilization forecasting, improving accuracy 13%.</p>
+          </article>
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2024</span>
+            <h3>Mayacrew</h3>
+            <p>Segmentation and B2B dashboards; engagement +20%, reporting time -40%.</p>
+          </article>
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2025</span>
+            <h3>Jambo Club</h3>
+            <p>Geo experiments and retention modeling across 100K+ user events.</p>
+          </article>
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2025</span>
+            <h3>The Data Mine</h3>
+            <p>Reorder-risk dashboards and SKU clustering for seed distribution planning.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="timeline-lane">
+        <div class="timeline-lane-header">
+          <span>Education</span>
+        </div>
+        <div class="timeline-track timeline-track--education">
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2024</span>
+            <h3>BS BAIM</h3>
+            <p>Purdue University · GPA 3.85</p>
+          </article>
+          <article class="timeline-node">
+            <span class="timeline-dot"></span>
+            <span class="timeline-year">2026</span>
+            <h3>MS BAIM</h3>
+            <p>Purdue University · expected Aug 2026</p>
+          </article>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -111,14 +163,14 @@
         </div>
       </a>
 
-      <a href="#experience" class="portfolio-item portfolio-item--placeholder">
+      <a href="#about" class="portfolio-item portfolio-item--placeholder">
         <div class="portfolio-placeholder" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         </div>
         <div class="portfolio-label">Jambo Club</div>
         <div class="portfolio-overlay">
           <p>Geo-split experiments and retention analysis that cut CPC 27% and raised 30-day retention from 22% to 53%.</p>
-          <span class="portfolio-cta">See experience &rarr;</span>
+          <span class="portfolio-cta">See timeline &rarr;</span>
         </div>
       </a>
 
@@ -131,14 +183,14 @@
         </div>
       </a>
 
-      <a href="#experience" class="portfolio-item portfolio-item--placeholder portfolio-item--alt">
+      <a href="#about" class="portfolio-item portfolio-item--placeholder portfolio-item--alt">
         <div class="portfolio-placeholder" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 16l4-6 4 4 4-8"/></svg>
         </div>
         <div class="portfolio-label">Applied Materials</div>
         <div class="portfolio-overlay">
           <p>Ensemble forecasting model linking utilization to CapEx cycles — 13% accuracy gain over the baseline for capacity planning.</p>
-          <span class="portfolio-cta">See experience &rarr;</span>
+          <span class="portfolio-cta">See timeline &rarr;</span>
         </div>
       </a>
 
@@ -160,50 +212,6 @@
         </div>
       </a>
 
-    </div>
-  </div>
-</section>
-
-<section id="experience">
-  <div class="container">
-    <h2 class="section-heading">Experience</h2>
-    <div class="experience-list">
-      <article class="experience-item">
-        <span class="experience-date">Aug 2025 – Dec 2025</span>
-        <h3>Graduate Data Science Researcher — The Data Mine, Purdue</h3>
-        <p>Built reorder-risk dashboards and SKU clustering for a corporate seed distributor partner.</p>
-      </article>
-      <article class="experience-item">
-        <span class="experience-date">Jan 2025 – Aug 2025</span>
-        <h3>Data Analyst — Jambo Club</h3>
-        <p>Geo-split experiments, retention modeling, and automated KPI pipelines across 100K+ user events.</p>
-      </article>
-      <article class="experience-item">
-        <span class="experience-date">May 2024 – Aug 2024</span>
-        <h3>Data Analyst — Mayacrew</h3>
-        <p>Segmentation models and B2B dashboards that improved engagement 20% and cut reporting time 40%.</p>
-      </article>
-      <article class="experience-item">
-        <span class="experience-date">Jan 2024 – May 2024</span>
-        <h3>Analytics Researcher — Applied Materials, Purdue</h3>
-        <p>Utilization forecasting with RF + XGBoost ensemble, improving prediction accuracy by 13%.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="education">
-  <div class="container">
-    <h2 class="section-heading">Education</h2>
-    <div class="education-row">
-      <div class="education-item">
-        <h3>MS Business Analytics &amp; Information Management</h3>
-        <p>Purdue University · Expected Aug 2026</p>
-      </div>
-      <div class="education-item">
-        <h3>BS Business Analytics &amp; Information Management</h3>
-        <p>Purdue University · Dec 2024 · GPA 3.85</p>
-      </div>
     </div>
   </div>
 </section>
