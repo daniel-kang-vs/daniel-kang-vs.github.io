@@ -29,6 +29,8 @@ jobs:
           mkdir -p _site
           cp index.html style.css resume.pdf _site/
           cp *.png *.jpeg _site/ 2>/dev/null || true
+          mkdir -p _site/nyc-taxi-fleet-optimization
+          cp -R "Project/mgmt590-team03-project/docs/." _site/nyc-taxi-fleet-optimization/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
