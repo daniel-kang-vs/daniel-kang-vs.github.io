@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ATS copy-paste parse test: extract PDF text and verify section order.
+# ATS copy-paste parse test (uses a temp file; nothing saved to the company folder).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,7 +20,9 @@ if [[ ! -f "$PDF_FILE" ]]; then
   exit 1
 fi
 
-TEXT_FILE="${PDF_FILE%.pdf}.parse.txt"
+TEXT_FILE="$(mktemp)"
+trap 'rm -f "$TEXT_FILE"' EXIT
+
 python3 "$SCRIPT_DIR/extract_pdf_text.py" "$PDF_FILE" -o "$TEXT_FILE" >/dev/null
 TEXT="$(cat "$TEXT_FILE")"
 
@@ -53,7 +55,6 @@ else
   FAIL=1
 fi
 
-echo "Extracted text saved to: $TEXT_FILE"
 if [[ "$FAIL" -eq 0 ]]; then
   echo "Parse test passed."
 else

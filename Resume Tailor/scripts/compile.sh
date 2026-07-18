@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Compile a .tex resume with pdflatex (two passes for hyperlinks).
+# Compile a .tex resume; leave only .tex and .pdf in the output folder.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -33,8 +33,10 @@ elif command -v pdflatex >/dev/null 2>&1; then
   pdflatex -interaction=nonstopmode "$BASE.tex" >/dev/null
 else
   echo "Error: no LaTeX compiler found." >&2
-  echo "  Run: curl download in scripts/ or install BasicTeX (brew install --cask basictex)" >&2
   exit 1
 fi
+
+rm -f "$BASE.aux" "$BASE.log" "$BASE.out" "$BASE.synctex.gz" \
+      "$BASE.fls" "$BASE.fdb_latexmk" "$BASE.parse.txt"
 
 echo "Compiled: $WORK_DIR/$BASE.pdf"

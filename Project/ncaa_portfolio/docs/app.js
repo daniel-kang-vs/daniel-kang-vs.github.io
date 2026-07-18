@@ -1,6 +1,14 @@
-Chart.defaults.color = "#909094";
-Chart.defaults.borderColor = "rgba(255,255,255,0.05)";
-Chart.defaults.font.family = "Inter, sans-serif";
+Chart.defaults.color = "#4a5a6a";
+Chart.defaults.borderColor = "rgba(15, 28, 42, 0.08)";
+Chart.defaults.font.family = "Figtree, sans-serif";
+
+const teal = "#0e7490";
+const tealSoft = "#5ec4d8";
+const navy = "#0b1f33";
+const slate = "#94a3b8";
+const coral = "#c45c4a";
+const amber = "#d4a017";
+const sage = "#3d8b6e";
 
 // Selection Distribution (donut)
 new Chart(document.getElementById("selectionDistChart"), {
@@ -9,7 +17,7 @@ new Chart(document.getElementById("selectionDistChart"), {
     labels: ["Not Selected (Seed = 0)", "Selected (Seed 1\u201368)"],
     datasets: [{
       data: [1997, 704],
-      backgroundColor: ["#333337", "#A1C9F4"],
+      backgroundColor: [slate, teal],
       borderWidth: 0
     }]
   },
@@ -38,7 +46,7 @@ new Chart(document.getElementById("featureImpChart"), {
     datasets: [{
       label: "Importance",
       data: featImps,
-      backgroundColor: featImps.map((v, i) => i < 3 ? "#A1C9F4" : i < 6 ? "#FFB482" : "#8DE5A1"),
+      backgroundColor: featImps.map((v, i) => i < 3 ? teal : i < 6 ? tealSoft : sage),
       borderRadius: 4
     }]
   },
@@ -72,9 +80,9 @@ new Chart(document.getElementById("thresholdChart"), {
   data: {
     labels: thresholds,
     datasets: [
-      { label: "Precision", data: precisions, borderColor: "#A1C9F4", borderWidth: 2, fill: false, pointRadius: 0 },
-      { label: "Recall", data: recalls, borderColor: "#FFB482", borderWidth: 2, fill: false, pointRadius: 0 },
-      { label: "F1 Score", data: f1s, borderColor: "#8DE5A1", borderWidth: 2.5, fill: false, pointRadius: 0 }
+      { label: "Precision", data: precisions, borderColor: teal, borderWidth: 2, fill: false, pointRadius: 0 },
+      { label: "Recall", data: recalls, borderColor: coral, borderWidth: 2, fill: false, pointRadius: 0 },
+      { label: "F1 Score", data: f1s, borderColor: sage, borderWidth: 2.5, fill: false, pointRadius: 0 }
     ]
   },
   options: {
@@ -93,7 +101,6 @@ new Chart(document.getElementById("thresholdChart"), {
 // Seed Distribution
 const seedBins = ["1\u20134", "5\u20138", "9\u201312", "13\u201316", "Play-in\n(17\u201368)"];
 const seedCounts = [4, 4, 4, 4, 54];
-const oldSeedCounts = [4, 4, 4, 4, 60];
 
 new Chart(document.getElementById("seedDistChart"), {
   type: "bar",
@@ -102,7 +109,7 @@ new Chart(document.getElementById("seedDistChart"), {
     datasets: [{
       label: "Predicted Teams",
       data: seedCounts,
-      backgroundColor: ["#A1C9F4", "#FFB482", "#8DE5A1", "#D0BBFF", "#FF9F9B"],
+      backgroundColor: [teal, tealSoft, sage, "#6b8cae", coral],
       borderRadius: 6
     }]
   },
@@ -121,8 +128,8 @@ new Chart(document.getElementById("comparisonChart"), {
   data: {
     labels: ["Teams Selected", "AUC Score \u00d7100", "Features Used"],
     datasets: [
-      { label: "Old (Single Model)", data: [76, 94, 30], backgroundColor: "#FF9F9B", borderRadius: 4 },
-      { label: "Improved (Ensemble)", data: [70, 96.6, 50], backgroundColor: "#A1C9F4", borderRadius: 4 }
+      { label: "Old (Single Model)", data: [76, 94, 30], backgroundColor: coral, borderRadius: 4 },
+      { label: "Improved (Ensemble)", data: [70, 96.6, 50], backgroundColor: teal, borderRadius: 4 }
     ]
   },
   options: {
@@ -146,7 +153,7 @@ new Chart(document.getElementById("probDistChart"), {
     datasets: [{
       label: "Teams",
       data: probCounts,
-      backgroundColor: probCounts.map((_, i) => i < 6 ? "#333337" : i === 6 ? "#ffd400" : "#A1C9F4"),
+      backgroundColor: probCounts.map((_, i) => i < 6 ? slate : i === 6 ? amber : teal),
       borderRadius: 4
     }]
   },

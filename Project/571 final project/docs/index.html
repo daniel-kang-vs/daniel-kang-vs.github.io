@@ -3,90 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Corporate Bankruptcy Prediction</title>
+  <title>Corporate Distress Ranking | Daniel Kang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="#hero" class="nav-brand">Bankruptcy Predictor</a>
+    <a href="#hero" class="nav-brand">Distress Ranking</a>
     <ul class="nav-links">
-      <li><a href="#problem">Problem</a></li>
+      <li><a href="#context">Context</a></li>
       <li><a href="#pipeline">Pipeline</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" target="_blank">GitHub</a></li>
+      <li><a href="#methodology">Method</a></li>
+      <li><a href="#visualizations">Insights</a></li>
+      <li><a href="#impact">Impact</a></li>
     </ul>
   </div>
 </nav>
 
 <header id="hero">
   <div class="hero-content">
-    <h1>Corporate Bankruptcy<br/>Prediction</h1>
+    <p class="hero-kicker">Financial Risk Analytics</p>
+    <h1>Rank corporate distress<br />before default hits the book</h1>
     <p class="hero-sub">
-      Given 64 anonymized financial ratios for 10,000 companies, predict which will go bankrupt
-      within the next period. Built for a graduate ML competition &mdash; placed
-      <strong>3rd out of 53 teams</strong> with mean CV AUC of 0.907.
+      Credit and risk teams need an early ranking of which firms are most likely to fail&mdash;not a
+      binary label after the fact. This model scores 10,000 companies on 64 financial ratios and
+      surfaces high-risk accounts while there is still time to act.
     </p>
     <div class="hero-buttons">
-      <a href="#results" class="btn btn-primary">View Results</a>
-      <a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" class="btn btn-outline" target="_blank">Source Code</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><span class="num">0.907</span><span class="label">Mean AUC</span></div>
-      <div class="hero-stat"><span class="num">3rd</span><span class="label">of 53 Teams</span></div>
-      <div class="hero-stat"><span class="num">4.3%</span><span class="label">Bankrupt Class</span></div>
-      <div class="hero-stat"><span class="num">64</span><span class="label">Features</span></div>
+      <a href="#impact" class="btn btn-primary">See business impact</a>
+      <a href="#pipeline" class="btn btn-outline">How it was built</a>
     </div>
   </div>
 </header>
 
-<section id="problem">
+<section id="context">
   <div class="container">
-    <h2 class="section-title">The Problem</h2>
-    <p class="section-subtitle">Rare events in messy financial data</p>
+    <p class="section-eyebrow">01 &mdash; Business Context &amp; Stakes</p>
+    <h2 class="section-title">Why early distress ranking matters</h2>
     <p class="section-intro">
-      Only 4.3% of companies in the training set went bankrupt &mdash; a heavily imbalanced
-      classification problem. On top of that, many financial ratios have <strong>missing values</strong>
-      and extreme outliers that can distort tree-based models if left untreated.
+      Lenders, insurers, and portfolio managers allocate capital against rare but costly failures.
+      Missing a distressed firm is expensive; treating every account as high-risk is also expensive.
+      The job is prioritization: put scarce analyst attention on the companies most likely to go bankrupt next.
     </p>
 
-    <div class="chart-row">
-      <div class="chart-section">
-        <h3>Class Distribution</h3>
-        <p class="chart-caption">9,573 survived vs. 427 bankrupt. The model must learn from very few positive examples.</p>
-        <div class="chart-container medium"><canvas id="classDistChart"></canvas></div>
-      </div>
-      <div class="chart-section">
-        <h3>Missing Values (Top Features)</h3>
-        <p class="chart-caption">Up to 34% missing on some attributes. Simple mean-fill would break correlations between ratios.</p>
-        <div class="chart-container medium"><canvas id="missingChart"></canvas></div>
-      </div>
+    <div class="stakes-grid">
+      <article class="stake-block">
+        <h3>Decision problem</h3>
+        <p>
+          Rank firms by bankruptcy risk so underwriting, monitoring, and workout teams can intervene earlier&mdash;tighten covenants, reduce exposure, or trigger deeper review.
+        </p>
+      </article>
+      <article class="stake-block">
+        <h3>Operating constraint</h3>
+        <p>
+          Only 4.3% of firms fail in a given period. Accuracy alone misleads; ranking quality (AUC) is what separates useful triage from noise.
+        </p>
+      </article>
+      <article class="stake-block">
+        <h3>Data reality</h3>
+        <p>
+          Ratios arrive incomplete and extreme. Up to 34% missing on key attributes. Without careful cleaning, models chase outliers instead of distress signals.
+        </p>
+      </article>
     </div>
   </div>
 </section>
 
 <section id="pipeline">
   <div class="container">
-    <h2 class="section-title">Pipeline Impact</h2>
-    <p class="section-subtitle">Preprocessing mattered as much as model choice</p>
+    <p class="section-eyebrow">02 &mdash; Data Pipeline</p>
+    <h2 class="section-title">Clean the ratios before you trust the score</h2>
     <p class="section-intro">
-      <strong>Winsorization</strong> clips extreme ratios to the 0.5th&ndash;99.5th percentile.
-      <strong>KNN imputation</strong> (k=5) fills gaps using similar companies&rsquo; profiles.
-      Only then does XGBoost see clean, comparable features.
+      Financial statements are messy. Extreme leverage and liquidity ratios distort tree splits;
+      missing fields break simple averages. The pipeline treats those issues before modeling.
     </p>
+
+    <div class="pipe-steps">
+      <div class="pipe-step">
+        <span class="pipe-label">Step 1</span>
+        <h3>Winsorization</h3>
+        <p>Clip each ratio to the 0.5th&ndash;99.5th percentile so a handful of extreme values cannot dominate feature importance.</p>
+      </div>
+      <div class="pipe-step">
+        <span class="pipe-label">Step 2</span>
+        <h3>KNN imputation</h3>
+        <p>Fill gaps with k=5 nearest peers so correlated ratios stay coherent instead of collapsing to a global mean.</p>
+      </div>
+      <div class="pipe-step">
+        <span class="pipe-label">Step 3</span>
+        <h3>Model-ready features</h3>
+        <p>Only then does XGBoost see comparable, complete inputs across all 64 anonymized financial ratios.</p>
+      </div>
+    </div>
 
     <div class="chart-row">
       <div class="chart-section">
-        <h3>AUC by Preprocessing Step</h3>
-        <p class="chart-caption">Each step adds ~1&ndash;2 points of AUC. Raw data alone scored 0.872; the full pipeline reached 0.907.</p>
+        <h3>AUC by preprocessing step</h3>
+        <p class="chart-caption">Raw data scored 0.872. Winsorization and KNN each added lift; the full pipeline reached 0.907.</p>
         <div class="chart-container medium"><canvas id="pipelineChart"></canvas></div>
       </div>
       <div class="chart-section">
-        <h3>End-to-End Flow</h3>
-        <p class="chart-caption">5-fold stratified CV ensures each fold keeps the 4.3% bankrupt rate.</p>
+        <h3>End-to-end flow</h3>
+        <p class="chart-caption">5-fold stratified CV preserves the 4.3% bankrupt rate in every fold.</p>
         <div class="flow">
           <div class="flow-step"><span class="flow-num">1</span><span class="flow-text">Winsorize</span></div>
           <div class="flow-arrow">&rarr;</div>
@@ -99,41 +122,124 @@
   </div>
 </section>
 
-<section id="results">
+<section id="methodology">
   <div class="container">
-    <h2 class="section-title">Results</h2>
-    <p class="section-subtitle">Consistent across folds and the competition leaderboard</p>
+    <p class="section-eyebrow">03 &mdash; Methodology</p>
+    <h2 class="section-title">XGBoost for imbalanced distress classification</h2>
     <p class="section-intro">
-      AUC held between 0.875 and 0.936 across all five folds. The approach ranked
-      <strong>3rd of 53 teams</strong> &mdash; careful preprocessing plus a well-tuned XGBoost
-      outperformed many larger ensemble stacks.
+      The business question is ranking, so the primary metric is ROC-AUC: how well the model orders
+      distressed firms above healthy ones. Class imbalance is treated as a design constraint, not an afterthought.
     </p>
 
-    <div class="results-summary">
-      <div class="result-card blue"><span class="result-num">0.907</span><span class="result-lbl">Mean AUC</span></div>
-      <div class="result-card green"><span class="result-num">0.936</span><span class="result-lbl">Best Fold</span></div>
-      <div class="result-card amber"><span class="result-num">0.875</span><span class="result-lbl">Worst Fold</span></div>
-      <div class="result-card coral"><span class="result-num">3rd</span><span class="result-lbl">Competition</span></div>
+    <div class="method-grid">
+      <article class="method-block">
+        <h3>Model</h3>
+        <p>Gradient-boosted trees (XGBoost) capture non-linear interactions among ratios without assuming a linear credit scorecard form.</p>
+      </article>
+      <article class="method-block">
+        <h3>Metric</h3>
+        <p>AUC evaluates ranking quality under imbalance. A 0.90+ score means distressed firms reliably rise to the top of the risk list.</p>
+      </article>
+      <article class="method-block">
+        <h3>Validation</h3>
+        <p>Stratified 5-fold CV keeps the bankrupt rate stable per fold, so reported performance reflects triage quality&mdash;not a lucky split.</p>
+      </article>
+      <article class="method-block">
+        <h3>Imbalance</h3>
+        <p>With only 427 bankrupt cases vs. 9,573 survivors, preprocessing and tree-based learning matter more than oversampling theater.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="visualizations">
+  <div class="container">
+    <p class="section-eyebrow">04 &mdash; Visualizations</p>
+    <h2 class="section-title">Evidence behind the ranking</h2>
+    <p class="section-intro">
+      Diagnostic views of class rarity, missingness, fold stability, and competitive standing&mdash;the same signals a risk lead would ask for in a model review.
+    </p>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Class distribution</h3>
+        <p class="chart-caption">9,573 survived vs. 427 bankrupt. The model must learn from very few positive examples.</p>
+        <div class="chart-container medium"><canvas id="classDistChart"></canvas></div>
+      </div>
+      <div class="chart-section">
+        <h3>Missing values (top features)</h3>
+        <p class="chart-caption">Up to 34% missing on some attributes. Simple mean-fill would break correlations between ratios.</p>
+        <div class="chart-container medium"><canvas id="missingChart"></canvas></div>
+      </div>
     </div>
 
     <div class="chart-row">
       <div class="chart-section">
-        <h3>AUC by Fold</h3>
-        <p class="chart-caption">Purple = above mean. Red = below. Tight range suggests stable generalization.</p>
+        <h3>AUC by fold</h3>
+        <p class="chart-caption">Fold AUCs range from 0.875 to 0.936. Tight spread supports stable generalization for triage use.</p>
         <div class="chart-container medium"><canvas id="foldChart"></canvas></div>
       </div>
       <div class="chart-section">
-        <h3>Competition Leaderboard (Top 8)</h3>
-        <p class="chart-caption">Highlighted bar = this submission. Top two teams used similar gradient-boosting approaches.</p>
+        <h3>Competition leaderboard (top 8)</h3>
+        <p class="chart-caption">Highlighted bar = this submission. Strong ranking quality under the same evaluation used by peers.</p>
         <div class="chart-container medium"><canvas id="leaderboardChart"></canvas></div>
       </div>
     </div>
   </div>
 </section>
 
+<section id="impact">
+  <div class="container">
+    <p class="section-eyebrow">05 &mdash; Business Insights &amp; Impact</p>
+    <h2 class="section-title">What this delivers for a risk team</h2>
+
+    <div class="impact-banner">
+      <div class="impact-hero-stat">
+        <span class="impact-num">0.907</span>
+        <span class="impact-lbl">Mean CV AUC</span>
+        <p>Strong separation of distressed vs. healthy firms for early ranking.</p>
+      </div>
+      <div class="impact-hero-stat featured">
+        <span class="impact-num">3rd</span>
+        <span class="impact-lbl">of 53 teams</span>
+        <p>Competitive proof that careful preprocessing plus a focused model beats heavier stacks.</p>
+      </div>
+    </div>
+
+    <div class="results-summary">
+      <div class="result-card"><span class="result-num">0.936</span><span class="result-lbl">Best fold AUC</span></div>
+      <div class="result-card"><span class="result-num">0.875</span><span class="result-lbl">Worst fold AUC</span></div>
+      <div class="result-card"><span class="result-num">4.3%</span><span class="result-lbl">Bankrupt base rate</span></div>
+      <div class="result-card"><span class="result-num">64</span><span class="result-lbl">Financial ratios</span></div>
+    </div>
+
+    <div class="insight-list">
+      <article>
+        <h3>Preprocessing is a business lever</h3>
+        <p>Moving from raw ratios (0.872 AUC) to the full pipeline (0.907) is the difference between a noisy list and a usable monitoring queue.</p>
+      </article>
+      <article>
+        <h3>Ranking beats raw accuracy</h3>
+        <p>With a 4.3% event rate, AUC-focused evaluation matches how credit teams actually work: who should we look at first?</p>
+      </article>
+      <article>
+        <h3>Stable enough to operationalize</h3>
+        <p>Fold-to-fold consistency (0.875&ndash;0.936) supports confidence that the ranking is not an artifact of a single holdout slice.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container footer-inner">
-    <p>&copy; 2026 Daniel Kang &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+    <div class="footer-brand">
+      <p class="footer-title">Corporate Distress Ranking</p>
+      <p class="footer-meta">Data Analyst portfolio project &middot; Daniel Kang</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/daniel-kang-vs/bankruptcy-prediction" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://daniel-kang-vs.github.io" target="_blank" rel="noopener">Portfolio</a>
+    </div>
   </div>
 </footer>
 

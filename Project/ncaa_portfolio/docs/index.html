@@ -3,141 +3,282 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NCAA Tournament Prediction</title>
+  <title>Multi-Signal Ranking Under Uncertainty — Daniel Kang</title>
+  <meta name="description" content="Case study: ranking candidates at a hard selection boundary under class imbalance — transferable to business prioritization, capacity planning, and resource allocation." />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="#hero" class="nav-brand">NCAA Predictor</a>
+    <a href="#hero" class="nav-brand">Daniel Kang</a>
     <ul class="nav-links">
-      <li><a href="#problem">Problem</a></li>
+      <li><a href="#context">Context</a></li>
       <li><a href="#pipeline">Pipeline</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" target="_blank">GitHub</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
   </div>
 </nav>
 
 <header id="hero">
+  <div class="hero-atmosphere" aria-hidden="true"></div>
   <div class="hero-content">
-    <h1>NCAA Tournament<br/>Prediction</h1>
+    <p class="hero-eyebrow">Decision Support Case Study</p>
+    <h1>Ranking at the Cut Line</h1>
     <p class="hero-sub">
-      Each March, 68 teams make the NCAA men&rsquo;s basketball tournament. This project predicts
-      <strong>who gets in</strong> and <strong>what seed they receive</strong> &mdash; built for the
-      Final Four Analytics Challenge 2026 using 2,701 historical team records.
+      When capacity is fixed and most candidates miss the cut, ranking quality is not enough —
+      the selection boundary itself must be calibrated. This project turns multi-signal team data
+      into a prioritization system under uncertainty: who clears a hard slot constraint, and in what order.
     </p>
     <div class="hero-buttons">
-      <a href="#results" class="btn btn-primary">View Results</a>
-      <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" class="btn btn-outline" target="_blank">Source Code</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><span class="num">0.966</span><span class="label">Selection AUC</span></div>
-      <div class="hero-stat"><span class="num">70</span><span class="label">Teams Picked</span></div>
-      <div class="hero-stat"><span class="num">68</span><span class="label">Actual Bids</span></div>
-      <div class="hero-stat"><span class="num">50</span><span class="label">Features</span></div>
+      <a href="#impact" class="btn btn-primary">See Impact</a>
+      <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" class="btn btn-outline" target="_blank" rel="noopener">Source Code</a>
     </div>
   </div>
 </header>
 
-<section id="problem">
+<section id="context">
   <div class="container">
-    <h2 class="section-title">The Problem</h2>
-    <p class="section-subtitle">Two linked tasks: selection, then seeding</p>
-    <p class="section-intro">
-      Only ~26% of teams earn a tournament bid, so the selection model faces severe class imbalance.
-      For teams that make it in, a second model predicts their <strong>seed (1&ndash;68)</strong>.
-      Getting the team <em>count</em> right matters as much as ranking &mdash; there are exactly 68 slots.
+    <p class="section-kicker">01 — Business Context</p>
+    <h2 class="section-title">Fixed slots. Uneven odds. Costly misses.</h2>
+    <p class="section-lead">
+      The domain is NCAA tournament selection, but the decision problem is familiar in business:
+      prioritize a long list when only a fixed number of slots exist, signals conflict, and false
+      positives burn scarce capacity.
     </p>
 
-    <div class="chart-row">
-      <div class="chart-section">
-        <h3>Tournament Selection (Training Set)</h3>
-        <p class="chart-caption">Most teams are not selected. The model must find the ~26% that make the bracket.</p>
-        <div class="chart-container medium"><canvas id="selectionDistChart"></canvas></div>
-      </div>
-      <div class="chart-section">
-        <h3>Selection Probability Distribution</h3>
-        <p class="chart-caption">Default 0.5 threshold picks too many teams (76). PR-curve calibration at <strong>0.653</strong> lands closer to 68.</p>
-        <div class="chart-container medium"><canvas id="probDistChart"></canvas></div>
-      </div>
+    <div class="stakes-grid">
+      <article class="stake-block">
+        <h3>Hard capacity constraint</h3>
+        <p>
+          Exactly 68 bids. Over-selecting is as wrong as under-selecting — the same failure mode as
+          over-promoting SKUs, leads, or vendors past a budgeted quota.
+        </p>
+      </article>
+      <article class="stake-block">
+        <h3>Severe class imbalance</h3>
+        <p>
+          Only ~26% of historical teams earn a bid. Default thresholds inflate the selected set;
+          the model must find the boundary, not just rank the middle of the pack.
+        </p>
+      </article>
+      <article class="stake-block">
+        <h3>Two-stage decision</h3>
+        <p>
+          First: binary clearance (in / out). Second: ordered priority (seed 1–68).
+          Same pattern as shortlist → tier assignment in hiring, lending, or inventory allocation.
+        </p>
+      </article>
     </div>
+
+    <p class="transfer-note">
+      Transferable framing: multi-signal ranking and threshold calibration for any prioritization
+      problem where leadership must defend a cut line under uncertainty.
+    </p>
   </div>
 </section>
 
 <section id="pipeline">
   <div class="container">
-    <h2 class="section-title">Pipeline</h2>
-    <p class="section-subtitle">From 15 raw columns to a stacked ensemble</p>
-    <p class="section-intro">
-      Win-loss strings (e.g. &ldquo;23&ndash;7&rdquo;) were parsed into numeric features, then combined with
-      NET rankings and quadrant records to build <strong>50 engineered features</strong>. Eight base
-      models feed a meta-learner trained with 10-fold cross-validation.
+    <p class="section-kicker">02 — Data Pipeline</p>
+    <h2 class="section-title">From raw records to decision features</h2>
+    <p class="section-lead">
+      2,701 historical team-seasons. Fifteen raw columns become fifty engineered features —
+      win-loss strings parsed to rates, NET and strength-of-schedule composites, quadrant win quality,
+      and momentum signals that separate true contenders from noisy records.
     </p>
 
-    <div class="chart-row">
-      <div class="chart-section">
-        <h3>Top Features (Selection Model)</h3>
-        <p class="chart-caption">NET Rank dominates, but Quadrant 1 win% and overall win% add signal beyond the ranking alone.</p>
-        <div class="chart-container medium"><canvas id="featureImpChart"></canvas></div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <span class="pipe-num">01</span>
+        <span class="pipe-text">2,701 team-seasons</span>
       </div>
-      <div class="chart-section">
-        <h3>Precision / Recall vs. Threshold</h3>
-        <p class="chart-caption">Raising the cutoff trades recall for precision &mdash; critical when only 68 teams can be selected.</p>
-        <div class="chart-container medium"><canvas id="thresholdChart"></canvas></div>
+      <div class="pipe-arrow" aria-hidden="true">&rarr;</div>
+      <div class="pipe-step">
+        <span class="pipe-num">02</span>
+        <span class="pipe-text">Parse &amp; clean W–L strings</span>
+      </div>
+      <div class="pipe-arrow" aria-hidden="true">&rarr;</div>
+      <div class="pipe-step">
+        <span class="pipe-num">03</span>
+        <span class="pipe-text">50 engineered features</span>
+      </div>
+      <div class="pipe-arrow" aria-hidden="true">&rarr;</div>
+      <div class="pipe-step accent">
+        <span class="pipe-num">04</span>
+        <span class="pipe-text">Model-ready matrix</span>
       </div>
     </div>
 
-    <div class="pipeline">
-      <div class="pipe-step"><span class="pipe-num">1</span><span class="pipe-text">2,701 teams</span></div>
-      <div class="pipe-arrow">&rarr;</div>
-      <div class="pipe-step"><span class="pipe-num">2</span><span class="pipe-text">50 features</span></div>
-      <div class="pipe-arrow">&rarr;</div>
-      <div class="pipe-step"><span class="pipe-num">3</span><span class="pipe-text">8 base models</span></div>
-      <div class="pipe-arrow">&rarr;</div>
-      <div class="pipe-step accent"><span class="pipe-num">4</span><span class="pipe-text">Selection + Seed</span></div>
+    <div class="feat-row">
+      <div class="feat-block">
+        <h3>Signal families</h3>
+        <p>NET rank, quadrant win%, quality wins / bad losses, conference &amp; road splits, SOS composites, and net momentum.</p>
+      </div>
+      <div class="feat-block">
+        <h3>Business parallel</h3>
+        <p>Like blending volume KPIs with quality and trajectory metrics so prioritization is not driven by a single noisy score.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="results">
+<section id="method">
   <div class="container">
-    <h2 class="section-title">Results</h2>
-    <p class="section-subtitle">Stacked ensemble vs. single-model baseline</p>
-    <p class="section-intro">
-      The final model selected <strong>70 teams</strong> (vs. 68 actual bids) with AUC 0.966 &mdash;
-      a 2.6-point lift over the single-model baseline. Seed predictions are spread realistically
-      across all four regions.
+    <p class="section-kicker">03 — Methodology</p>
+    <h2 class="section-title">Stacked ensemble + calibrated cut line</h2>
+    <p class="section-lead">
+      Eight base learners feed a meta-model trained with 10-fold cross-validation. Selection scores
+      are then threshold-calibrated on the precision–recall curve so the predicted set size lands near
+      the 68-slot business constraint — not at a naive 0.5 probability cutoff.
     </p>
 
-    <div class="results-summary">
-      <div class="result-card blue"><span class="result-num">0.966</span><span class="result-label">Selection AUC</span></div>
-      <div class="result-card orange"><span class="result-num">0.653</span><span class="result-label">Optimal Threshold</span></div>
-      <div class="result-card green"><span class="result-num">70</span><span class="result-label">Teams Selected</span></div>
-      <div class="result-card coral"><span class="result-num">+2.6</span><span class="result-label">AUC vs Baseline</span></div>
+    <div class="method-grid">
+      <article class="method-block">
+        <span class="method-label">Layer 1</span>
+        <h3>Base models</h3>
+        <p>Diverse learners capture different non-linearities and ranking biases across the feature space.</p>
+      </article>
+      <article class="method-block">
+        <span class="method-label">Layer 2</span>
+        <h3>Meta-learner</h3>
+        <p>Stacking blends base probabilities with out-of-fold training to reduce single-model overconfidence.</p>
+      </article>
+      <article class="method-block">
+        <span class="method-label">Constraint</span>
+        <h3>Threshold at 0.653</h3>
+        <p>PR-curve calibration replaces the default 0.5 cutoff, pulling selected volume from ~76 toward ~68 slots.</p>
+      </article>
+      <article class="method-block">
+        <span class="method-label">Stage 2</span>
+        <h3>Seed ranking</h3>
+        <p>Conditional on selection, a second model assigns ordered priority (seed) across the cleared set.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="visuals">
+  <div class="container">
+    <p class="section-kicker">04 — Visualizations</p>
+    <h2 class="section-title">Evidence behind the cut</h2>
+    <p class="section-lead">
+      Class balance, score distribution, feature drivers, threshold tradeoffs, seed mix, and
+      before/after model lift — the diagnostics a stakeholder would ask for before trusting a ranking system.
+    </p>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Selection Base Rates</h3>
+        <p class="chart-caption">Most candidates miss the cut. The system must recover the minority that clear capacity.</p>
+        <div class="chart-container medium"><canvas id="selectionDistChart"></canvas></div>
+      </div>
+      <div class="chart-section">
+        <h3>Score Distribution &amp; Cut Line</h3>
+        <p class="chart-caption">Default 0.5 overshoots capacity. Calibrated threshold at <strong>0.653</strong> anchors selection near 68 slots.</p>
+        <div class="chart-container medium"><canvas id="probDistChart"></canvas></div>
+      </div>
     </div>
 
     <div class="chart-row">
       <div class="chart-section">
-        <h3>Predicted Seed Distribution</h3>
-        <p class="chart-caption">Teams bucketed by seed range. Most selected teams land in the play-in and mid-seed bands.</p>
+        <h3>Feature Drivers</h3>
+        <p class="chart-caption">NET Rank leads, but quality-of-win and overall win% add independent signal beyond a single ranking.</p>
+        <div class="chart-container medium"><canvas id="featureImpChart"></canvas></div>
+      </div>
+      <div class="chart-section">
+        <h3>Precision / Recall vs. Threshold</h3>
+        <p class="chart-caption">Raising the cutoff trades coverage for precision — required when slots are fixed.</p>
+        <div class="chart-container medium"><canvas id="thresholdChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-section">
+        <h3>Predicted Priority Bands</h3>
+        <p class="chart-caption">Ordered seed buckets for selected teams — analogous to tiered priority after shortlisting.</p>
         <div class="chart-container medium"><canvas id="seedDistChart"></canvas></div>
       </div>
       <div class="chart-section">
-        <h3>Old vs. Improved Model</h3>
-        <p class="chart-caption">Feature engineering + stacking improved AUC and brought team count closer to 68.</p>
+        <h3>Baseline vs. Ensemble</h3>
+        <p class="chart-caption">Feature engineering + stacking lifted AUC and moved selected volume closer to the 68-slot target.</p>
         <div class="chart-container medium"><canvas id="comparisonChart"></canvas></div>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
+<section id="impact">
+  <div class="container">
+    <p class="section-kicker">05 — Impact</p>
+    <h2 class="section-title">What the system delivered</h2>
+    <p class="section-lead">
+      Discrimination, ranking fidelity, and capacity alignment — the three outcomes that matter
+      when a model is used to defend a selection boundary.
+    </p>
+
+    <div class="impact-hero">
+      <div class="impact-metric primary">
+        <span class="impact-num">0.966</span>
+        <span class="impact-label">Selection AUC</span>
+        <span class="impact-sub">Strong separation of clears vs. misses across 2,701 team-seasons</span>
+      </div>
+      <div class="impact-metric">
+        <span class="impact-num">±2</span>
+        <span class="impact-label">Seed within 2 lines</span>
+        <span class="impact-sub">Ordered priority stays close to actual seeding bands</span>
+      </div>
+      <div class="impact-metric">
+        <span class="impact-num">~68</span>
+        <span class="impact-label">Slots calibrated</span>
+        <span class="impact-sub">Threshold tuning brings predicted volume to the capacity constraint</span>
+      </div>
+    </div>
+
+    <div class="impact-secondary">
+      <div class="impact-stat">
+        <span class="impact-stat-num">+2.6</span>
+        <span class="impact-stat-label">AUC points vs. single-model baseline</span>
+      </div>
+      <div class="impact-stat">
+        <span class="impact-stat-num">0.653</span>
+        <span class="impact-stat-label">PR-calibrated decision threshold</span>
+      </div>
+      <div class="impact-stat">
+        <span class="impact-stat-num">70</span>
+        <span class="impact-stat-label">Teams selected (target 68)</span>
+      </div>
+      <div class="impact-stat">
+        <span class="impact-stat-num">50</span>
+        <span class="impact-stat-label">Engineered decision features</span>
+      </div>
+    </div>
+
+    <p class="impact-takeaway">
+      Bottom line for stakeholders: a multi-signal ranking system that does not stop at “good AUC” —
+      it respects a hard capacity constraint and produces an ordered shortlist leadership can act on.
+    </p>
+  </div>
+</section>
+
+<footer id="tech">
   <div class="container footer-inner">
-    <p>&copy; 2026 Daniel Kang &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+    <div class="footer-brand">
+      <p class="footer-title">Daniel Kang</p>
+      <p class="footer-role">Business Intelligence &amp; Data Analyst</p>
+    </div>
+    <div class="footer-tech">
+      <p class="footer-heading">Stack</p>
+      <p>Python · scikit-learn · stacked ensemble · PR-curve calibration · Chart.js</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" target="_blank" rel="noopener">GitHub Repository</a>
+      <a href="https://daniel-kang-vs.github.io" target="_blank" rel="noopener">Portfolio</a>
+    </div>
   </div>
 </footer>
 

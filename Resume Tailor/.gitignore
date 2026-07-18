@@ -6,3 +6,4 @@
 *.fdb_latexmk
 *.parse.txt
 scripts/bin/tectonic
+jobs/

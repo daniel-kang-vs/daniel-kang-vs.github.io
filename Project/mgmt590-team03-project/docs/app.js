@@ -1,6 +1,6 @@
-Chart.defaults.color = "#909094";
-Chart.defaults.borderColor = "rgba(255,255,255,0.05)";
-Chart.defaults.font.family = "Inter, sans-serif";
+Chart.defaults.color = "#4a5a6a";
+Chart.defaults.borderColor = "rgba(15, 28, 42, 0.08)";
+Chart.defaults.font.family = "Figtree, sans-serif";
 
 const SLOTS = {
   "tuesday-midday": {
@@ -26,7 +26,7 @@ const SLOTS = {
   }
 };
 
-const BOROUGH_COLORS = ["#ffd400", "#A1C9F4", "#FFB482", "#8DE5A1", "#FF9F9B"];
+const BOROUGH_COLORS = ["#0e7490", "#0b1f33", "#2a7a5c", "#c47a3a", "#5b7c99"];
 
 function fmtMoney(n) {
   if (n >= 1e6) return `$${(n / 1e6).toFixed(1)}M`;
@@ -78,8 +78,8 @@ new Chart(document.getElementById("censoringChart"), {
   data: {
     labels: ["Manhattan", "Queens", "Brooklyn", "Bronx", "Staten Is."],
     datasets: [
-      { label: "Yellow pickups (observed)", data: [4200, 980, 720, 310, 95], backgroundColor: "#333337" },
-      { label: "Estimated demand (FHV proxy)", data: [5100, 2850, 1680, 890, 380], backgroundColor: "#ffd400" }
+      { label: "Yellow pickups (observed)", data: [4200, 980, 720, 310, 95], backgroundColor: "#5b7c99" },
+      { label: "Estimated demand (FHV proxy)", data: [5100, 2850, 1680, 890, 380], backgroundColor: "#0e7490" }
     ]
   },
   options: {
@@ -93,7 +93,7 @@ new Chart(document.getElementById("costChart"), {
   type: "bar",
   data: {
     labels: ["Underage (missed fare)", "Overage (idle cab)"],
-    datasets: [{ data: [17, 12], backgroundColor: ["#FF9F9B", "#8DE5A1"], borderRadius: 8 }]
+    datasets: [{ data: [17, 12], backgroundColor: ["#b85c5c", "#2a7a5c"], borderRadius: 8 }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
@@ -107,14 +107,21 @@ new Chart(document.getElementById("impactChart"), {
   data: {
     labels: ["Per Tuesday", "Annualized (52 wks)"],
     datasets: [
-      { label: "Status quo", data: [188, 9776], backgroundColor: "#333337", borderRadius: 6 },
-      { label: "Optimized", data: [426, 22152], backgroundColor: "#ffd400", borderRadius: 6 }
+      { label: "Status quo", data: [188, 9776], backgroundColor: "#5b7c99", borderRadius: 6 },
+      { label: "Optimized", data: [426, 22152], backgroundColor: "#0e7490", borderRadius: 6 }
     ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: "top" } },
-    scales: { y: { title: { display: true, text: "Revenue ($K)" } } }
+    plugins: { legend: { position: "top", labels: { color: "rgba(245,248,251,0.75)" } } },
+    scales: {
+      x: { ticks: { color: "rgba(245,248,251,0.65)" }, grid: { color: "rgba(255,255,255,0.06)" } },
+      y: {
+        title: { display: true, text: "Revenue ($K)", color: "rgba(245,248,251,0.65)" },
+        ticks: { color: "rgba(245,248,251,0.65)" },
+        grid: { color: "rgba(255,255,255,0.06)" }
+      }
+    }
   }
 });
 
@@ -122,7 +129,7 @@ new Chart(document.getElementById("bakeoffChart"), {
   type: "bar",
   data: {
     labels: ["Empirical", "LightGBM", "Poisson GLM", "DFL/SPO+"],
-    datasets: [{ data: [369468, 383747, 402046, 561423], backgroundColor: ["#8DE5A1", "#A1C9F4", "#FFB482", "#FF9F9B"], borderRadius: 6 }]
+    datasets: [{ data: [369468, 383747, 402046, 561423], backgroundColor: ["#2a7a5c", "#0e7490", "#c47a3a", "#b85c5c"], borderRadius: 6 }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
@@ -133,7 +140,7 @@ new Chart(document.getElementById("bakeoffChart"), {
 
 allocationChart = new Chart(document.getElementById("allocationChart"), {
   type: "bar",
-  data: { labels: [], datasets: [{ data: [], backgroundColor: "#ffd400", borderRadius: 4 }] },
+  data: { labels: [], datasets: [{ data: [], backgroundColor: "#0e7490", borderRadius: 4 }] },
   options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
 });
 

@@ -1,31 +1,46 @@
 #!/usr/bin/env bash
-# Create a new tailored resume copy from baseline with ATS structural fixes applied.
+# Create a tailored resume copy under Resume Tailor/{company}/.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 BASELINE="$ROOT_DIR/resume.tex"
 
+# shellcheck source=naming.sh
+source "$SCRIPT_DIR/naming.sh"
+
 if [[ $# -lt 2 ]]; then
-  echo "Usage: $0 <company_slug> <role_slug> [job_description.txt]" >&2
-  echo "Example: $0 acme data_analyst jobs/acme_data_analyst.txt" >&2
+  echo "Usage: $0 <company> <role> [YYYYMMDD]" >&2
+  echo "Example: $0 TransUnion \"Sr Analyst\" 20260704" >&2
   exit 1
 fi
 
 COMPANY="$1"
 ROLE="$2"
-JD_FILE="${3:-}"
-OUT="$ROOT_DIR/resume_${COMPANY}_${ROLE}.tex"
-DATE="$(date +%Y-%m-%d)"
+DATE="$(date +%Y%m%d)"
+
+if [[ $# -ge 3 && "$3" =~ ^[0-9]{8}$ ]]; then
+  DATE="$3"
+fi
+
+OUT="$(resume_tex_path "$ROOT_DIR" "$COMPANY" "$ROLE" "$DATE")"
+OUT_DIR="$(dirname "$OUT")"
+BASENAME="$(basename "$OUT" .tex)"
+DISPLAY_DATE="$(date -j -f "%Y%m%d" "$DATE" "+%Y-%m-%d" 2>/dev/null || date -d "$DATE" "+%Y-%m-%d" 2>/dev/null || echo "$DATE")"
+
+if [[ -f "$OUT" ]]; then
+  echo "Error: already exists: $OUT" >&2
+  exit 1
+fi
 
 if [[ ! -f "$BASELINE" ]]; then
   echo "Error: baseline not found: $BASELINE" >&2
   exit 1
 fi
 
+mkdir -p "$OUT_DIR"
 cp "$BASELINE" "$OUT"
 
-# ATS structural fixes (baseline stays unchanged).
 sed -i '' \
   -e 's/\\section\*{Profile}/\\section\*{Summary}/' \
   -e 's/\\section\*{Professional Experience}/\\section\*{Experience}/' \
@@ -34,7 +49,6 @@ sed -i '' \
   -e 's/LinkedIn |/\\href{https:\/\/www.linkedin.com\/in\/daniel-byungjoo-kang\/}{LinkedIn} |/' \
   "$OUT"
 
-# Move inline Skills line to a dedicated Skills section when present.
 python3 - "$OUT" <<'PY'
 import re
 import sys
@@ -68,16 +82,11 @@ path.write_text(text, encoding="utf-8")
 PY
 
 {
-  echo "% Tailored: $DATE | Company: $COMPANY | Role: $ROLE"
-  if [[ -n "$JD_FILE" && -f "$JD_FILE" ]]; then
-    echo "% JD source: $(basename "$JD_FILE")"
-  fi
-  echo "% ATS structure applied: Summary, Skills, Experience headers; AI typo fixes; LinkedIn URL"
+  echo "% Tailored: $DISPLAY_DATE | Company: $COMPANY | Role: $ROLE"
+  echo "% Filename: ${BASENAME}.tex"
   cat "$OUT"
 } > "${OUT}.tmp" && mv "${OUT}.tmp" "$OUT"
 
 echo "Created: $OUT"
-if [[ -n "$JD_FILE" && -f "$JD_FILE" ]]; then
-  echo "JD saved for reference at: $JD_FILE"
-fi
-echo "Next: edit content for JD keywords, then run scripts/compile.sh and scripts/verify_parse.sh"
+echo "Next: edit for JD keywords, then run:"
+echo "  ./scripts/tailor.sh \"$COMPANY\" \"$ROLE\" $DATE"

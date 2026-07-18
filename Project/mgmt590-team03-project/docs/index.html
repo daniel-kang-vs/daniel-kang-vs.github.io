@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NYC Yellow Taxi Fleet Optimization</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script>
     window.MathJax = {
       tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
@@ -21,81 +21,126 @@
   <div class="nav-inner">
     <a href="#hero" class="nav-brand">NYC Taxi Optimizer</a>
     <ul class="nav-links">
-      <li><a href="#problem">Problem</a></li>
-      <li><a href="#optimization">Optimization</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="#models">Models</a></li>
-      <li><a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank">GitHub</a></li>
+      <li><a href="#context">Context</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#methodology">Method</a></li>
+      <li><a href="#visualizations">Results</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
   </div>
 </nav>
 
 <header id="hero">
   <div class="hero-content">
-    <h1>NYC Yellow Taxi<br/>Fleet Optimization</h1>
+    <p class="hero-eyebrow">Logistics capacity allocation</p>
+    <h1>Every idle cab and every missed fare is a decision.</h1>
     <p class="hero-sub">
-      NYC TLC has a fixed fleet of 13,000 yellow cabs. The question isn&rsquo;t whether to deploy &mdash;
-      it&rsquo;s <em>where</em> to pre-position them before each shift, when every missed fare and
-      every idle cab carry different costs.
+      NYC&rsquo;s 13,000 yellow cabs must be pre-positioned across 263 zones before each shift.
+      Put capacity in the wrong place and you burn money twice &mdash; empty vehicles sitting still,
+      and riders who never get picked up.
     </p>
     <div class="hero-buttons">
-      <a href="#results" class="btn btn-primary">View Results</a>
-      <a href="https://github.com/dbhatt90/mgmt590-team03-project" class="btn btn-outline" target="_blank">Source Code</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><span class="num">13,000</span><span class="label">Fleet</span></div>
-      <div class="hero-stat"><span class="num">263</span><span class="label">Zones</span></div>
-      <div class="hero-stat"><span class="num">$12.4M</span><span class="label">Annual Gain</span></div>
-      <div class="hero-stat"><span class="num">35</span><span class="label">Slots</span></div>
+      <a href="#impact" class="btn btn-primary">See the $12.4M upside</a>
+      <a href="#visualizations" class="btn btn-outline">Explore by time slot</a>
     </div>
   </div>
 </header>
 
-<section id="problem">
+<section id="context">
   <div class="container">
-    <h2 class="section-title">The Problem</h2>
-    <p class="section-subtitle">Two challenges before we can optimize</p>
+    <h2 class="section-title">Business Context &amp; Stakes</h2>
+    <p class="section-subtitle">A fixed fleet. Uneven demand. Asymmetric costs.</p>
     <p class="section-intro">
-      Trip data only records <strong>completed yellow pickups</strong> &mdash; not people who couldn&rsquo;t
-      find a cab. We reconstruct true demand using for-hire vehicle (Uber/Lyft) data, then solve a
-      <strong>newsvendor allocation</strong> that penalizes missed high-fare trips more than idle cabs.
+      The TLC cannot grow the medallion fleet overnight. The lever that matters is
+      <strong>where</strong> cabs start each deployment slot. Miss a high-fare airport trip
+      and you lose roughly $17; leave a cab idle and you waste about $12. That imbalance
+      should pull capacity toward high-value zones &mdash; if you can see true demand.
     </p>
 
-    <div class="chart-row">
-      <div class="chart-section">
-        <h3>Observed vs. Estimated Demand by Borough</h3>
-        <p class="chart-caption">Gray = yellow pickups only. Gold = estimated total demand after FHV proxy. Outer boroughs are especially undercounted.</p>
-        <div class="chart-container medium">
-          <canvas id="censoringChart"></canvas>
-        </div>
+    <div class="stakes-grid">
+      <div class="stake-block">
+        <span class="stake-label">Underage</span>
+        <h3>Missed demand</h3>
+        <p>Rider wants a yellow cab and none is there. Lost fare, lost service, and demand that never appears in trip logs.</p>
       </div>
-      <div class="chart-section">
-        <h3>Asymmetric Cost per Trip</h3>
-        <p class="chart-caption">A missed Midtown fare (~$17) hurts more than an idle cab (~$12). This drives cabs toward airports and high-fare zones.</p>
-        <div class="chart-container medium">
-          <canvas id="costChart"></canvas>
-        </div>
+      <div class="stake-block">
+        <span class="stake-label">Overage</span>
+        <h3>Idle capacity</h3>
+        <p>A cab waits where demand never arrives. Fuel, driver time, and medallion opportunity cost with no revenue.</p>
+      </div>
+      <div class="stake-block">
+        <span class="stake-label">Constraint</span>
+        <h3>13,000-cab budget</h3>
+        <p>Every cab assigned to Midtown is one not available in Queens. Allocation is a zero-sum logistics problem.</p>
       </div>
     </div>
 
     <div class="chart-section">
-      <h3>Revenue: Status Quo vs. Optimized Dispatch</h3>
-      <p class="chart-caption">Same fleet, smarter placement. Optimized pre-positioning vs. splitting cabs proportionally across zones (peak Tuesday midday).</p>
-      <div class="chart-container wide">
-        <canvas id="impactChart"></canvas>
+      <h3>Asymmetric Cost per Trip</h3>
+      <p class="chart-caption">A missed Midtown fare (~$17) hurts more than an idle cab (~$12). That cost gap is why the optimizer favors airports and high-fare zones.</p>
+      <div class="chart-container medium">
+        <canvas id="costChart"></canvas>
       </div>
     </div>
   </div>
 </section>
 
-<section id="optimization">
+<section id="pipeline">
   <div class="container">
-    <h2 class="section-title">Optimization Model</h2>
-    <p class="section-subtitle">A multi-zone newsvendor allocation problem</p>
+    <h2 class="section-title">Data Pipeline</h2>
+    <p class="section-subtitle">Yellow trips alone understate true demand</p>
+    <p class="section-intro">
+      Completed yellow pickups are <strong>censored</strong> &mdash; they only count trips that found a cab.
+      We reconstruct latent demand by combining yellow taxi records with for-hire vehicle (Uber/Lyft)
+      activity as a proxy for unmet yellow demand, especially in the outer boroughs.
+    </p>
+
+    <div class="pipeline">
+      <div class="pipe-step">
+        <span class="pipe-num">01</span>
+        <span class="pipe-text">Yellow TLC<br/><small>Observed pickups</small></span>
+      </div>
+      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
+      <div class="pipe-step">
+        <span class="pipe-num">02</span>
+        <span class="pipe-text">FHV proxy<br/><small>Uber / Lyft volume</small></span>
+      </div>
+      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
+      <div class="pipe-step accent">
+        <span class="pipe-num">03</span>
+        <span class="pipe-text">Latent demand<br/><small>Per zone &amp; slot</small></span>
+      </div>
+      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
+      <div class="pipe-step">
+        <span class="pipe-num">04</span>
+        <span class="pipe-text">Cost inputs<br/><small>Cu &amp; Co by zone</small></span>
+      </div>
+      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
+      <div class="pipe-step accent">
+        <span class="pipe-num">05</span>
+        <span class="pipe-text">Optimizer<br/><small>q* allocation</small></span>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h3>Observed vs. Estimated Demand by Borough</h3>
+      <p class="chart-caption">Gray = yellow pickups only. Teal = estimated total demand after FHV proxy. Outer boroughs are especially undercounted in yellow-only data.</p>
+      <div class="chart-container medium">
+        <canvas id="censoringChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="methodology">
+  <div class="container">
+    <h2 class="section-title">Methodology</h2>
+    <p class="section-subtitle">Newsvendor optimization for capacity placement</p>
     <p class="section-intro">
       For each deployment slot, the decision is <strong>q<sub>z</sub></strong>: how many cabs to
-      pre-position in zone <strong>z</strong>. The objective balances two costs: <strong>underage</strong>
-      (lost fare when demand exceeds supply) and <strong>overage</strong> (idle cab when supply exceeds demand).
+      pre-position in zone <strong>z</strong>. The model minimizes expected business loss &mdash;
+      idle cabs on one side, missed fares on the other &mdash; under a hard fleet budget.
     </p>
 
     <div class="math-layout">
@@ -115,7 +160,7 @@
 
       <article class="math-panel">
         <span class="math-label">02 · Demand &amp; Costs</span>
-        <h3>Inputs to the Model</h3>
+        <h3>Business Inputs</h3>
         <p>Demand is random and estimated from yellow taxi plus FHV proxy data. Costs make missed trips more expensive than idle cabs.</p>
         <div class="math-display">
           \[
@@ -173,9 +218,9 @@
   </div>
 </section>
 
-<section id="results">
+<section id="visualizations">
   <div class="container">
-    <h2 class="section-title">Results by Slot</h2>
+    <h2 class="section-title">Visualizations</h2>
     <p class="section-subtitle" id="slotSubtitle">Tuesday Midday · 09:00–15:59</p>
     <p class="section-intro" id="slotContext">
       Optimal cab counts change by time of day. Use the buttons below to compare how the same
@@ -207,27 +252,50 @@
         <div class="chart-container medium"><canvas id="boroughChart"></canvas></div>
       </div>
     </div>
+
+    <div class="chart-section">
+      <h3>Demand Model Bake-off</h3>
+      <p class="chart-caption">Four demand models across 35 time-slot scenarios. Lower newsvendor cost means better fleet placement. Empirical quantiles won &mdash; ML alternatives overfit thin per-zone samples.</p>
+      <div class="chart-container wide">
+        <canvas id="bakeoffChart"></canvas>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="models">
+<section id="impact">
   <div class="container">
-    <h2 class="section-title">Demand Model Bake-off</h2>
-    <p class="section-subtitle">Which forecast feeds the optimizer best?</p>
-    <p class="section-intro">
-      We tested four demand models across 35 time-slot scenarios. Lower newsvendor (NV) cost means
-      better fleet placement. The simple <strong>empirical quantile</strong> model won &mdash; ML
-      alternatives overfit thin per-zone samples.
-    </p>
-    <div class="chart-container wide">
-      <canvas id="bakeoffChart"></canvas>
+    <h2 class="section-title">Business Impact</h2>
+    <p class="section-subtitle">Same fleet. Smarter placement. Measurable upside.</p>
+
+    <div class="impact-hero">
+      <p class="impact-eyebrow">Annualized revenue gain</p>
+      <p class="impact-figure">~$12.4M<span>/year</span></p>
+      <p class="impact-lead">
+        Versus proportional status-quo dispatch on peak Tuesday midday, optimized pre-positioning
+        lifts slot revenue from ~$188K to ~$426K &mdash; about <strong>$12.4M per year</strong>
+        when annualized across 52 Tuesdays, with no change to fleet size.
+      </p>
+    </div>
+
+    <div class="chart-section">
+      <h3>Revenue: Status Quo vs. Optimized Dispatch</h3>
+      <p class="chart-caption">Same 13,000 cabs, smarter placement. Optimized pre-positioning vs. splitting capacity proportionally across zones (peak Tuesday midday).</p>
+      <div class="chart-container wide">
+        <canvas id="impactChart"></canvas>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="container footer-inner">
-    <p>&copy; 2026 Daniel Kang &middot; <a href="https://daniel-kang-vs.github.io">Portfolio</a></p>
+    <div class="footer-links">
+      <a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank" rel="noopener">GitHub Repository</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      <a href="https://daniel-kang-vs.github.io">Portfolio</a>
+    </div>
+    <p class="footer-meta">NYC Yellow Taxi Fleet Optimization &middot; MGMT 590 Team 03 &middot; 2026</p>
   </div>
 </footer>
 
