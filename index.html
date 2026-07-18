@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daniel Kang — Business Intelligence &amp; Data Analyst</title>
   <meta name="description" content="Business Intelligence and Data Analyst specializing in end-to-end analytics pipelines, statistical modeling, and AI-assisted analytics that simplify executive decision-making." />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -192,10 +192,27 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Drop in Power BI / Tableau embed or funnel &amp; cohort chart screenshots here.</p>
-        </div>
+        <figure class="case-viz" aria-label="Jambo growth analytics snapshot">
+          <div class="viz-board">
+            <p class="viz-board-title">Growth KPI Snapshot · Funnel &amp; Experiment Outcomes</p>
+            <div class="viz-kpis">
+              <div class="viz-kpi"><span class="viz-kpi-val">22% → 53%</span><span class="viz-kpi-lbl">30-day retention</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">−27%</span><span class="viz-kpi-lbl">CPC (conversion held)</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">−60%</span><span class="viz-kpi-lbl">Reporting cycle time</span></div>
+            </div>
+            <svg class="viz-chart" viewBox="0 0 560 160" role="img" aria-label="Funnel conversion stages">
+              <text x="0" y="18" class="viz-axis">Funnel stage completion</text>
+              <rect x="0" y="36" width="480" height="22" rx="4" fill="#0e7490"/>
+              <text x="490" y="52" class="viz-axis">Visit 100%</text>
+              <rect x="0" y="68" width="320" height="22" rx="4" fill="#1496b5"/>
+              <text x="330" y="84" class="viz-axis">Signup 67%</text>
+              <rect x="0" y="100" width="190" height="22" rx="4" fill="#38bdf8"/>
+              <text x="200" y="116" class="viz-axis">Activate 40%</text>
+              <rect x="0" y="132" width="110" height="22" rx="4" fill="#7dd3e8"/>
+              <text x="120" y="148" class="viz-axis">Retain 23%</text>
+            </svg>
+          </div>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: SQL · Python · AWS · Funnel / Cohort · A/B Testing · Dashboards</span>
@@ -250,10 +267,27 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Drop in Power BI segment performance dashboard or engagement charts here.</p>
-        </div>
+        <figure class="case-viz" aria-label="Mayacrew segment performance snapshot">
+          <div class="viz-board">
+            <p class="viz-board-title">B2B Segment Performance · Spend Reallocation View</p>
+            <div class="viz-kpis">
+              <div class="viz-kpi"><span class="viz-kpi-val">+20%</span><span class="viz-kpi-lbl">Campaign engagement</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">−40%</span><span class="viz-kpi-lbl">Manual reporting time</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">250K+</span><span class="viz-kpi-lbl">Customer records scored</span></div>
+            </div>
+            <svg class="viz-chart" viewBox="0 0 560 150" role="img" aria-label="Segment ROI ranking bars">
+              <text x="0" y="16" class="viz-axis">Relative ROI by segment</text>
+              <rect x="100" y="32" width="360" height="18" rx="3" fill="#0e7490"/>
+              <text x="0" y="46" class="viz-axis">High-value</text>
+              <rect x="100" y="60" width="260" height="18" rx="3" fill="#1496b5"/>
+              <text x="0" y="74" class="viz-axis">Growth</text>
+              <rect x="100" y="88" width="170" height="18" rx="3" fill="#38bdf8"/>
+              <text x="0" y="102" class="viz-axis">Core</text>
+              <rect x="100" y="116" width="90" height="18" rx="3" fill="#94a3b8"/>
+              <text x="0" y="130" class="viz-axis">At-risk</text>
+            </svg>
+          </div>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: SQL · Python · Segmentation · Dashboards · Executive Reporting</span>
@@ -305,11 +339,12 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Link or embed the Plotly reorder-risk dashboard; add screenshot if embed is unavailable.</p>
-          <a class="viz-link" href="https://daniel-kang-vs.github.io/seed-demand-forecasting/" target="_blank" rel="noopener">Open live dashboard →</a>
-        </div>
+        <figure class="case-viz">
+          <a class="case-viz-link" href="https://daniel-kang-vs.github.io/seed-demand-forecasting/" target="_blank" rel="noopener">
+            <img src="project-dashboard.png" alt="Seed demand reorder-risk dashboard" loading="lazy" />
+            <span class="case-viz-cta">Open live dashboard →</span>
+          </a>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · Plotly · Predictive Scoring · Data Documentation</span>
@@ -364,10 +399,25 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Add forecast vs. actual charts or Power BI capacity dashboard screenshots here.</p>
-        </div>
+        <figure class="case-viz" aria-label="Applied Materials forecast accuracy snapshot">
+          <div class="viz-board">
+            <p class="viz-board-title">Utilization Forecast · Baseline vs. Ensemble Model</p>
+            <div class="viz-kpis">
+              <div class="viz-kpi"><span class="viz-kpi-val">+13%</span><span class="viz-kpi-lbl">Forecast accuracy lift</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">RF + XGB</span><span class="viz-kpi-lbl">Ensemble approach</span></div>
+              <div class="viz-kpi"><span class="viz-kpi-val">Ops + Planning</span><span class="viz-kpi-lbl">Stakeholder users</span></div>
+            </div>
+            <svg class="viz-chart" viewBox="0 0 560 150" role="img" aria-label="Forecast versus actual trend">
+              <text x="0" y="16" class="viz-axis">Utilization index over planning periods</text>
+              <polyline fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 4"
+                points="20,110 80,95 140,100 200,78 260,85 320,70 380,74 440,58 520,62"/>
+              <polyline fill="none" stroke="#0e7490" stroke-width="3"
+                points="20,108 80,92 140,96 200,72 260,80 320,64 380,68 440,52 520,48"/>
+              <circle cx="520" cy="48" r="4" fill="#0e7490"/>
+              <text x="20" y="140" class="viz-axis">Gray = baseline · Teal = ensemble forecast track</text>
+            </svg>
+          </div>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · XGBoost · Time Series · Forecasting · Dashboards</span>
@@ -420,11 +470,12 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Add cost–SKU tradeoff chart or optimization result summary visual here.</p>
-          <a class="viz-link" href="https://daniel-kang-vs.github.io/stroller-box-optimization/" target="_blank" rel="noopener">Open project page →</a>
-        </div>
+        <figure class="case-viz">
+          <a class="case-viz-link" href="https://daniel-kang-vs.github.io/stroller-box-optimization/" target="_blank" rel="noopener">
+            <img src="project-ip-optimization.png" alt="BabyShip packaging optimization results" loading="lazy" />
+            <span class="case-viz-cta">Open project page →</span>
+          </a>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · Integer Programming · Operations Research</span>
@@ -480,11 +531,12 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Embed fleet positioning / scenario charts from the project site here.</p>
-          <a class="viz-link" href="https://daniel-kang-vs.github.io/nyc-taxi-fleet-optimization/" target="_blank" rel="noopener">Open live project →</a>
-        </div>
+        <figure class="case-viz">
+          <a class="case-viz-link" href="https://daniel-kang-vs.github.io/nyc-taxi-fleet-optimization/" target="_blank" rel="noopener">
+            <img src="project-nyc-taxi.png" alt="NYC taxi fleet optimization dashboard" loading="lazy" />
+            <span class="case-viz-cta">Open live project →</span>
+          </a>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · Optimization · Demand Forecasting · Scenario Analysis</span>
@@ -539,11 +591,12 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Add ROC / feature-importance charts or model score distribution visuals here.</p>
-          <a class="viz-link" href="https://daniel-kang-vs.github.io/bankruptcy-prediction/" target="_blank" rel="noopener">Open project page →</a>
-        </div>
+        <figure class="case-viz">
+          <a class="case-viz-link" href="https://daniel-kang-vs.github.io/bankruptcy-prediction/" target="_blank" rel="noopener">
+            <img src="project-bankruptcy.png" alt="Bankruptcy risk scoring model results" loading="lazy" />
+            <span class="case-viz-cta">Open project page →</span>
+          </a>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · XGBoost · Classification · Model Validation</span>
@@ -598,11 +651,12 @@
           </ul>
         </div>
 
-        <div class="viz-placeholder" aria-label="Dashboard placeholder">
-          <p class="viz-label">Visualization Placeholder</p>
-          <p>Add model performance and ranking visuals from the project page here.</p>
-          <a class="viz-link" href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" target="_blank" rel="noopener">Open project page →</a>
-        </div>
+        <figure class="case-viz">
+          <a class="case-viz-link" href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" target="_blank" rel="noopener">
+            <img src="project-ncaa.png" alt="NCAA selection model performance visuals" loading="lazy" />
+            <span class="case-viz-cta">Open project page →</span>
+          </a>
+        </figure>
 
         <footer class="case-tech">
           <span>Stack: Python · Ensemble ML · Ranking / Classification</span>
