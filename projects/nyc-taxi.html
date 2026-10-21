@@ -30,12 +30,12 @@
   <p>A newsvendor allocation that sets how many cabs to stage in each zone before a shift, using the fact that a missed fare costs more than an idle cab.</p>
   <div class="chips chips-out"><span>13,000 cabs</span><span>263 zones</span><span>~$12.4M projected / year</span><span>5 time buckets</span></div>
   <div class="chips"><span>Python</span><span>Newsvendor</span><span>Optimization</span><span>Forecasting</span></div>
-  <div class="case-actions"><a class="btn btn-primary" href="https://daniel-kang-vs.github.io/nyc-taxi-fleet-optimization/" target="_blank" rel="noopener">Live demo →</a></div>
+  <div class="case-actions"><a class="btn btn-primary" href="https://daniel-kang-vs.github.io/nyc-taxi-fleet-optimization/" target="_blank" rel="noopener">Live demo →</a><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/nyc-taxi-fleet-optimization" target="_blank" rel="noopener">GitHub ↗</a></div>
   <h2>The problem</h2>
 <p>The medallion fleet cannot grow overnight. The decision is where cabs start each time window. Missing a trip costs about $17. Leaving a cab idle costs about $12. A forecast that only minimizes error ignores that imbalance.</p><h2>Approach</h2>
 <ul><li>Aggregated yellow-cab demand by zone, time bucket, day of week, and month.</li><li>Set each zone’s service level from the cost ratio: critical fractile = missed-fare cost ÷ (missed fare + idle cost).</li><li>Allocated the 13,000-cab budget so high-fare zones, such as airports and Midtown, hold more slack than quiet zones.</li></ul><h2>Result</h2>
 <p>On the modeled slots, repositioning lifts revenue from about $188K to about $426K per slot. Annualized, that is about $12.4M. That figure is a model projection on historical demand, not a booked P&amp;L result.</p><h2>What this leaves open</h2>
-<p>The engine recommends a starting position. It does not yet replan when weather, a street closure, or a manager’s instruction changes the costs. The public page is the decision tool; the allocation code is not in a separate public repository.</p>
+<p>The engine recommends a starting position. It does not yet replan when weather, a street closure, or a manager’s instruction changes the costs. The public page is the decision tool. The GitHub README is the full writeup. The trip aggregate and the allocation code are not in that repository.</p>
   <p style="margin-top:36px"><a class="text-link" href="../projects.html">← Back to all projects</a></p>
 </main>
 <footer>
