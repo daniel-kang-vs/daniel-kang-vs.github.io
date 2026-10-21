@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reorder Likelihood Dashboard · Daniel Kang</title>
+  <link rel="stylesheet" href="../style.css?v=15" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">Daniel Kang</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../projects.html" class="active">Projects</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../journey.html">Journey</a></li>
+      <li><a href="../index.html#interests">Interests</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<main id="main" class="case">
+  <a class="text-link case-back" href="../projects.html">← Projects</a>
+  <p class="eyebrow">Live demo</p>
+  <h1>Reorder Likelihood Dashboard</h1>
+  <p class="case-kicker">Seed production planners were reading wide, messy yearly files to decide what to grow and what to hold. The public demo uses synthetic data with the same shape as the partner file.</p>
+  <p>An analytics pipeline and dashboard for Hubner Seed, built with the Purdue Data Mine, covering descriptive views and a demand-forecast comparison.</p>
+  <div class="chips chips-out"><span>Hubner Seed</span><span>ETL pipeline</span><span>Forecast comparison</span><span>Synthetic public data</span></div>
+  <div class="chips"><span>Python</span><span>Dash</span><span>Plotly</span><span>pandas</span></div>
+  <div class="case-actions"><a class="btn btn-primary" href="https://daniel-kang-vs.github.io/seed-demand-forecasting/" target="_blank" rel="noopener">Live demo →</a><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/seed-demand-forecasting" target="_blank" rel="noopener">GitHub ↗</a></div>
+  <h2>The problem</h2>
+<p>Production history arrived as messy, wide spreadsheets, one shape per year. Planners needed one view of which lines were consistent, and a forecast they could compare with a simple baseline before changing inventory.</p><h2>Approach</h2>
+<ul><li>Built an ETL step that normalizes multi-year files into one analysis table.</li><li>Shipped descriptive views: mix, consistency, and line-level trends.</li><li>Compared regression and machine-learning forecasts on R² and RMSE.</li><li>Published a GitHub Pages demo on synthetic data so the workflow is visible without the partner’s file.</li></ul><h2>Result</h2>
+<p>The pipeline turns a new upload into a cleaned table and a dashboard. Planners can see mix and trend before they trust a forecast, and the model page shows which method actually fits the series.</p><h2>What this leaves open</h2>
+<p>The live site is a mirror of the schema, not the partner’s numbers. A production handoff would keep the same pipeline and point it at the private file, with a check that a new year’s columns still match.</p>
+  <p style="margin-top:36px"><a class="text-link" href="../projects.html">← Back to all projects</a></p>
+</main>
+<footer>
+  <p>© 2026 Daniel Kang</p>
+  <p class="footer-links">
+    <a href="mailto:danielbjkang@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

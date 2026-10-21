@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects · Daniel Kang</title>
+  <link rel="stylesheet" href="style.css?v=12" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Daniel Kang</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="journey.html">Journey</a></li>
+      <li><a href="index.html#interests">Interests</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<main id="main">
+  <section class="page-intro">
+    <h1>All Projects</h1>
+    <p class="section-intro">Ordered by impact and recency.</p>
+    <div class="project-grid" style="margin-top: 28px;">
+      <a class="project-card" href="projects/babyship.html">
+        <img src="pngs/project-ip-optimization.png" alt="BabyShip packaging optimization" />
+        <span class="badge badge-live">Live</span>
+        <div class="card-rest">
+          <h3>Packaging Standardization — BabyShip</h3>
+          <p class="tags"><span>Python</span><span>Gurobi</span><span>Integer Programming</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>Packaging Standardization — BabyShip</h3>
+          <p>An integer program over 43 candidate boxes and 17 products. A 7-box set cut variety 59% while holding the dimensional-weight increase to 6.5%.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+      <a class="project-card" href="projects/nyc-taxi.html">
+        <img src="pngs/project-nyc-taxi.png" alt="NYC taxi fleet positioning" />
+        <span class="badge badge-live">Live</span>
+        <div class="card-rest">
+          <h3>NYC Taxi Fleet Positioning</h3>
+          <p class="tags"><span>Python</span><span>Optimization</span><span>Forecasting</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>NYC Taxi Fleet Positioning</h3>
+          <p>Zone-level demand and a newsvendor-style positioning model for a 13,000-cab fleet, so capacity sits where trips actually start.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+      <a class="project-card" href="projects/bankruptcy.html">
+        <img src="pngs/project-bankruptcy.png" alt="Bankruptcy risk scoring" />
+        <span class="badge">GitHub</span>
+        <div class="card-rest">
+          <h3>Bankruptcy Risk Scoring</h3>
+          <p class="tags"><span>Python</span><span>XGBoost</span><span>Validation</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>Bankruptcy Risk Scoring</h3>
+          <p>Ranked financial distress from messy ratios. Mean AUC 0.907, 3rd of 53 teams in a graduate analytics competition.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+      <a class="project-card" href="projects/seed-demand.html">
+        <img src="pngs/project-dashboard.png" alt="Reorder likelihood dashboard" />
+        <span class="badge badge-live">Live</span>
+        <div class="card-rest">
+          <h3>Reorder Likelihood Dashboard</h3>
+          <p class="tags"><span>Python</span><span>Plotly</span><span>Scoring</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>Reorder Likelihood Dashboard</h3>
+          <p>SKU reorder-risk scoring and a planning dashboard adopted by three teams for weekly supply decisions.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+      <a class="project-card" href="projects/ncaa.html">
+        <img src="pngs/project-ncaa.png" alt="NCAA selection model" />
+        <span class="badge">GitHub</span>
+        <div class="card-rest">
+          <h3>NCAA Selection Model</h3>
+          <p class="tags"><span>Python</span><span>Ensemble</span><span>Ranking</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>NCAA Selection Model</h3>
+          <p>Stacked ensemble for tournament selection and seeding. Selection AUC 0.966, with seeds landing within about two lines.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+      <a class="project-card project-card--text" href="projects/sogility.html">
+        <div class="text-card-bg" aria-hidden="true">
+          <span>40+</span>
+          <small>assessments rescored</small>
+        </div>
+        <span class="badge">Selected project</span>
+        <div class="card-rest">
+          <h3>Athlete Scoring — Sogility</h3>
+          <p class="tags"><span>Python</span><span>Data Modeling</span><span>Dashboards</span></p>
+        </div>
+        <div class="card-hover">
+          <h3>Athlete Scoring — Sogility</h3>
+          <p>Rebuilt scoring across 40+ assessments with direction-aware normalization and percentile benchmarks, mapped to a 30–99 scale for peer comparison.</p>
+          <span class="card-cta">View case study →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+</main>
+<footer>
+  <p>© 2026 Daniel Kang</p>
+  <p class="footer-links">
+    <a href="mailto:danielbjkang@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

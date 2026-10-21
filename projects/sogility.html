@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Athlete Scoring — Sogility · Daniel Kang</title>
+  <link rel="stylesheet" href="../style.css?v=15" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-brand">Daniel Kang</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../projects.html" class="active">Projects</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../journey.html">Journey</a></li>
+      <li><a href="../index.html#interests">Interests</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<main id="main" class="case">
+  <a class="text-link case-back" href="../projects.html">← Projects</a>
+  <p class="eyebrow">Selected project</p>
+  <h1>Athlete Scoring — Sogility</h1>
+  <p class="case-kicker">Coaches were comparing athletes on 40-plus assessments that did not point the same direction, and small groups made a raw percentile jump around.</p>
+  <p>A scoring pipeline that turns those assessments into one 30–99 score, with a dashboard for peer benchmarks and progress over time.</p>
+  <div class="chips chips-out"><span>40+ assessments</span><span>30–99 scale</span><span>Percentile benchmarks</span><span>Relational model</span></div>
+  <div class="chips"><span>Python</span><span>Data modeling</span><span>Dashboards</span></div>
+  <div class="case-actions"></div>
+  <h2>The problem</h2>
+<p>Some tests are “higher is better” and some are the reverse. A team with a handful of athletes cannot use a raw rank without the score swinging when one person joins or leaves.</p><h2>Approach</h2>
+<ul><li>Normalized each assessment in the correct direction.</li><li>Benchmarked athletes with percentiles, and smoothed scores when the comparison group was small.</li><li>Mapped the result onto a shared 30–99 scale so tests can be read together.</li><li>Stored athlete profiles and assessment history in a relational model that feeds the dashboard.</li></ul><h2>Result</h2>
+<p>Coaches can compare athletes on one scale and follow the same athlete across test dates, instead of reconciling spreadsheets that each use a different unit.</p><h2>What this leaves open</h2>
+<p>This writeup is from the engagement. There is no public repository, because the assessment file and athlete records are not mine to publish.</p>
+  <p style="margin-top:36px"><a class="text-link" href="../projects.html">← Back to all projects</a></p>
+</main>
+<footer>
+  <p>© 2026 Daniel Kang</p>
+  <p class="footer-links">
+    <a href="mailto:danielbjkang@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  });
+</script>
+</body>
+</html>
