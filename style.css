@@ -195,7 +195,7 @@ h2 {
   height: 320px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
   padding: 24px; background: linear-gradient(160deg, #5b4dff, #8b7cff);
 }
-.text-card-bg span { font-family: var(--serif); font-size: 3rem; line-height: 1; }
+.text-card-bg span { font-family: var(--serif); font-size: 2.6rem; line-height: 1; }
 .text-card-bg small { opacity: 0.85; margin-top: 6px; }
 
 #about { padding-top: 20px; }
