@@ -1,59 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bankruptcy Risk Scoring · Daniel Kang</title>
-  <link rel="stylesheet" href="../style.css?v=18" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-brand">Daniel Kang</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
-    <ul class="nav-links" id="navLinks">
-<li><a href="../journey.html">Experience</a></li>
-<li><a href="../projects.html" class="active">Projects</a></li>
-<li><a href="../index.html#about">About</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
-<li><a href="../resume.pdf">Résumé</a></li>
-</ul>
-  </div>
-</nav>
-<main id="main" class="case">
-  <a class="text-link case-back" href="../projects.html">← Projects</a>
-  <p class="eyebrow">GitHub</p>
-  <h1>Bankruptcy Risk Scoring</h1>
-  <p class="case-kicker">Predict bankruptcy from 64 financial ratios when the failing firms are a small minority, so accuracy is a useless score.</p>
-  <p>An XGBoost ranker with winsorized outliers and KNN imputation, scored on ROC-AUC inside stratified cross-validation.</p>
-  <div class="chips chips-out"><span>AUC 0.907</span><span>3rd of 53 teams</span><span>64 ratios</span><span>5-fold CV</span></div>
-  <div class="chips"><span>Python</span><span>XGBoost</span><span>scikit-learn</span><span>pandas</span></div>
-  <div class="case-actions"><a class="btn btn-primary" href="https://daniel-kang-vs.github.io/bankruptcy-prediction/" target="_blank" rel="noopener">Live demo →</a><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/bankruptcy-prediction" target="_blank" rel="noopener">GitHub ↗</a></div>
-  <h2>The problem</h2>
-<p>Credit teams need a ranking of firms that may fail, not a model that looks accurate by predicting “solvent” every time. The training set is about 10,000 firms and 64 ratios, with missing values and extreme outliers.</p><h2>Approach</h2>
-<ul><li>Winsorized each ratio at the 0.5th and 99.5th percentiles so a few broken values did not dominate the trees.</li><li>Imputed missing ratios with 5-nearest neighbors so relationships between ratios stayed intact.</li><li>Trained XGBoost with L1 and L2 penalties and judged it by mean ROC-AUC on 5 stratified folds.</li></ul><h2>Result</h2>
-<p>Mean cross-validated AUC was 0.907, with fold scores from 0.875 to 0.936. The submission placed 3rd of 53 teams in the Purdue MGMT 571 competition.</p><h2>What this leaves open</h2>
-<p>AUC ranks firms. It does not set the cutoff a lender should use. A production version would pick that threshold from the cost of a missed bankruptcy versus a false alarm, and would fit imputation inside each fold so the score cannot leak.</p>
-  <p style="margin-top:36px"><a class="text-link" href="../projects.html">← Back to all projects</a></p>
-</main>
-<footer>
-  <p>© 2026 Daniel Kang</p>
-  <p class="footer-links">
-    <a href="mailto:danielbjkang@gmail.com">Email</a>
-    <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener">GitHub</a>
-  </p>
-</footer>
-<script>
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
-  });
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bankruptcy Risk Scoring · Daniel Kang</title>
+    <link rel="stylesheet" href="../style.css?v=19" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <nav id="navbar">
+      <div class="nav-inner">
+        <a href="../index.html" class="nav-brand">Daniel Kang</a>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Menu"
+          aria-controls="navLinks"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../journey.html">Experience</a></li>
+          <li><a href="../projects.html" class="active">Projects</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="../resume.pdf">Résumé</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main id="main" class="case">
+      <a class="text-link case-back" href="../projects.html">← All projects</a>
+      <p class="eyebrow">Competition study · stored cross-validation output</p>
+      <h1>Bankruptcy Risk Scoring</h1>
+      <p class="case-kicker">
+        How do you rank bankruptcy risk when fewer than one in twenty training
+        firms failed?
+      </p>
+      <p>
+        An XGBoost classifier ranks firms using 64 financial ratios and
+        evaluates discrimination with stratified cross-validation.
+      </p>
+      <div class="chips chips-out">
+        <span>10,000 training firms</span><span>4.73% positive class</span
+        ><span>0.907 mean CV AUC</span>
+      </div>
+      <div class="chips">
+        <span>Python</span><span>XGBoost</span><span>scikit-learn</span
+        ><span>pandas</span>
+      </div>
+      <div class="case-actions">
+        <a
+          class="btn btn-primary"
+          href="https://daniel-kang-vs.github.io/bankruptcy-prediction/"
+          >Explore dashboard →</a
+        ><a
+          class="btn btn-outline"
+          href="https://github.com/daniel-kang-vs/bankruptcy-prediction"
+          >GitHub repository ↗</a
+        ><a
+          class="text-link"
+          href="https://github.com/daniel-kang-vs/bankruptcy-prediction/blob/main/571_final.ipynb"
+          >Inspect the evidence ↗</a
+        >
+      </div>
+      <nav class="case-toc" aria-label="Case study sections">
+        <a href="#problem">Problem</a><a href="#data">Data</a
+        ><a href="#approach">Approach</a><a href="#results">Results</a
+        ><a href="#limits">Next steps</a>
+      </nav>
+      <h2 id="problem">The problem</h2>
+      <p>
+        A model can appear accurate by calling almost every company solvent.
+        Risk screening needs a ranking metric and a clear account of class
+        imbalance.
+      </p>
+      <h2 id="data">Data &amp; scope</h2>
+      <p>
+        The committed training CSV contains 10,000 rows, 64 financial-ratio
+        columns, and 473 positive labels. The test file contains 8,000 unlabeled
+        rows.
+      </p>
+      <h2 id="approach">How it works</h2>
+      <ol class="case-steps">
+        <li>Inspect the class balance and missing financial ratios.</li>
+        <li>
+          Train the raw-input XGBoost model with regularization, row sampling
+          and feature sampling.
+        </li>
+        <li>
+          Evaluate with five shuffled stratified folds using random seed 42.
+        </li>
+        <li>
+          Fit the final raw-input model and export test probabilities for the
+          competition.
+        </li>
+      </ol>
+      <h2>Key technical decision</h2>
+      <p>
+        Use ROC-AUC to evaluate ranking independently of one arbitrary operating
+        threshold. Although the notebook explores winsorization and KNN
+        imputation, the stored 0.907 score comes from X_full_raw, not that
+        preprocessing path.
+      </p>
+      <section class="case-result" id="results">
+        <p class="eyebrow">Result &amp; interpretation</p>
+        <h2>What the evidence shows</h2>
+        <p>
+          The stored fold AUCs are 0.918, 0.936, 0.896, 0.912 and 0.875,
+          averaging 0.9073. The historical competition placement is reported as
+          third of 53 teams; a leaderboard artifact is not bundled in the
+          repository.
+        </p>
+      </section>
+      <h2 id="limits">What I would improve next</h2>
+      <p>
+        Cross-validation is not prospective validation. A deployment would need
+        calibration, drift checks, and a threshold based on the cost of missed
+        failures versus false alarms. No preprocessing lift or operational
+        impact is established by the saved output.
+      </p>
+      <aside class="evidence-note">
+        <strong>Evidence &amp; reproducibility</strong>
+        <p>
+          571_final.ipynb stores the five-fold scores for the raw-input model.
+          Dashboard class counts and missingness are derived from train.csv.
+        </p>
+        <a
+          href="https://github.com/daniel-kang-vs/bankruptcy-prediction/blob/main/571_final.ipynb"
+          >Read the source ↗</a
+        >
+      </aside>
+      <p>
+        <a class="text-link" href="../projects.html"
+          >← Explore another project</a
+        >
+      </p>
+    </main>
+    <footer>
+      <p>© 2026 Daniel Kang</p>
+      <p class="footer-links">
+        <a href="mailto:danielbjkang@gmail.com">Email</a>
+        <a
+          href="https://www.linkedin.com/in/daniel-byungjoo-kang/"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a
+          href="https://github.com/daniel-kang-vs"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+      </p>
+    </footer>
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("open");
+        hamburger.classList.toggle("active");
+        hamburger.setAttribute(
+          "aria-expanded",
+          navLinks.classList.contains("open"),
+        );
+      });
+    </script>
+  </body>
 </html>

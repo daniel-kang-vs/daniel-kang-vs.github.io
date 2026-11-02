@@ -1,304 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NYC Yellow Taxi Fleet Optimization</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-</head>
-<body>
-
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-brand">NYC Taxi Optimizer</a>
-    <ul class="nav-links">
-      <li><a href="#context">Context</a></li>
-      <li><a href="#pipeline">Pipeline</a></li>
-      <li><a href="#methodology">Method</a></li>
-      <li><a href="#visualizations">Results</a></li>
-      <li><a href="#impact">Impact</a></li>
-      <li><a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank" rel="noopener">GitHub</a></li>
-    </ul>
-  </div>
-</nav>
-
-<header id="hero">
-  <div class="hero-content">
-    <p class="hero-eyebrow">Logistics capacity allocation</p>
-    <h1>Every idle cab and every missed fare is a decision.</h1>
-    <p class="hero-sub">
-      NYC&rsquo;s 13,000 yellow cabs must be pre-positioned across 263 zones before each shift.
-      Put capacity in the wrong place and you burn money twice &mdash; empty vehicles sitting still,
-      and riders who never get picked up.
-    </p>
-    <div class="hero-buttons">
-      <a href="#impact" class="btn btn-primary">See the $12.4M upside</a>
-      <a href="#visualizations" class="btn btn-outline">Explore by time slot</a>
-    </div>
-  </div>
-</header>
-
-<section id="context">
-  <div class="container">
-    <h2 class="section-title">Business Context &amp; Stakes</h2>
-    <p class="section-subtitle">A fixed fleet. Uneven demand. Asymmetric costs.</p>
-    <p class="section-intro">
-      The TLC cannot grow the medallion fleet overnight. The lever that matters is
-      <strong>where</strong> cabs start each deployment slot. Miss a high-fare airport trip
-      and you lose roughly $17; leave a cab idle and you waste about $12. That imbalance
-      should pull capacity toward high-value zones &mdash; if you can see true demand.
-    </p>
-
-    <div class="stakes-grid">
-      <div class="stake-block">
-        <span class="stake-label">Underage</span>
-        <h3>Missed demand</h3>
-        <p>Rider wants a yellow cab and none is there. Lost fare, lost service, and demand that never appears in trip logs.</p>
-      </div>
-      <div class="stake-block">
-        <span class="stake-label">Overage</span>
-        <h3>Idle capacity</h3>
-        <p>A cab waits where demand never arrives. Fuel, driver time, and medallion opportunity cost with no revenue.</p>
-      </div>
-      <div class="stake-block">
-        <span class="stake-label">Constraint</span>
-        <h3>13,000-cab budget</h3>
-        <p>Every cab assigned to Midtown is one not available in Queens. Allocation is a zero-sum logistics problem.</p>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Asymmetric Cost per Trip</h3>
-      <p class="chart-caption">A missed Midtown fare (~$17) hurts more than an idle cab (~$12). That cost gap is why the optimizer favors airports and high-fare zones.</p>
-      <div class="chart-container medium">
-        <canvas id="costChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="pipeline">
-  <div class="container">
-    <h2 class="section-title">Data Pipeline</h2>
-    <p class="section-subtitle">Yellow trips alone understate true demand</p>
-    <p class="section-intro">
-      Completed yellow pickups are <strong>censored</strong> &mdash; they only count trips that found a cab.
-      We reconstruct latent demand by combining yellow taxi records with for-hire vehicle (Uber/Lyft)
-      activity as a proxy for unmet yellow demand, especially in the outer boroughs.
-    </p>
-
-    <div class="pipeline">
-      <div class="pipe-step">
-        <span class="pipe-num">01</span>
-        <span class="pipe-text">Yellow TLC<br/><small>Observed pickups</small></span>
-      </div>
-      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
-      <div class="pipe-step">
-        <span class="pipe-num">02</span>
-        <span class="pipe-text">FHV proxy<br/><small>Uber / Lyft volume</small></span>
-      </div>
-      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
-      <div class="pipe-step accent">
-        <span class="pipe-num">03</span>
-        <span class="pipe-text">Latent demand<br/><small>Per zone &amp; slot</small></span>
-      </div>
-      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
-      <div class="pipe-step">
-        <span class="pipe-num">04</span>
-        <span class="pipe-text">Cost inputs<br/><small>Cu &amp; Co by zone</small></span>
-      </div>
-      <span class="pipe-arrow" aria-hidden="true">&rarr;</span>
-      <div class="pipe-step accent">
-        <span class="pipe-num">05</span>
-        <span class="pipe-text">Optimizer<br/><small>q* allocation</small></span>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Observed vs. Estimated Demand by Borough</h3>
-      <p class="chart-caption">Gray = yellow pickups only. Teal = estimated total demand after FHV proxy. Outer boroughs are especially undercounted in yellow-only data.</p>
-      <div class="chart-container medium">
-        <canvas id="censoringChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="methodology">
-  <div class="container">
-    <h2 class="section-title">Methodology</h2>
-    <p class="section-subtitle">Newsvendor optimization for capacity placement</p>
-    <p class="section-intro">
-      For each deployment slot, the decision is <strong>q<sub>z</sub></strong>: how many cabs to
-      pre-position in zone <strong>z</strong>. The model minimizes expected business loss &mdash;
-      idle cabs on one side, missed fares on the other &mdash; under a hard fleet budget.
-    </p>
-
-    <div class="math-layout">
-      <article class="math-panel">
-        <span class="math-label">01 · Sets &amp; Variables</span>
-        <h3>What We Choose</h3>
-        <p>For every pickup zone \(z\), choose the number of yellow cabs to pre-position before the time slot starts.</p>
-        <div class="math-display">
-          \[
-          \begin{aligned}
-          Z &amp;= \{\text{263 TLC pickup zones}\} \\
-          q_z &amp;\ge 0 \quad \text{cabs assigned to zone } z \in Z
-          \end{aligned}
-          \]
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="A newsvendor allocation workflow compares demand models by decision cost and distributes a constrained fleet across NYC taxi zones."
+    />
+    <title>NYC Taxi Fleet Positioning · Daniel Kang</title>
+    <link rel="stylesheet" href="style.css?v=20261102" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to analysis</a>
+    <nav>
+      <div class="wrap nav">
+        <a href="https://daniel-kang-vs.github.io/">Daniel Kang</a>
+        <div class="nav-links">
+          <a href="#analysis">Analysis</a><a href="#method">Method</a
+          ><a
+            href="https://github.com/daniel-kang-vs/nyc-taxi-fleet-optimization"
+            >GitHub ↗</a
+          >
         </div>
-      </article>
-
-      <article class="math-panel">
-        <span class="math-label">02 · Demand &amp; Costs</span>
-        <h3>Business Inputs</h3>
-        <p>Demand is random and estimated from yellow taxi plus FHV proxy data. Costs make missed trips more expensive than idle cabs.</p>
-        <div class="math-display">
-          \[
-          \begin{aligned}
-          D_z &amp;= \text{latent demand in zone } z \\
-          C^u_z &amp;= \text{underage cost (lost fare)} \\
-          C^o_z &amp;= \text{overage cost (idle cab)}
-          \end{aligned}
-          \]
+      </div>
+    </nav>
+    <main class="wrap" id="main">
+      <header class="hero">
+        <p class="eyebrow">Decision model · committed scenario outputs</p>
+        <h1>NYC Taxi Fleet Positioning</h1>
+        <p class="lead">
+          Where should a fixed fleet start a shift when missed trips and idle
+          vehicles have different costs?
+        </p>
+        <p>
+          A newsvendor allocation workflow compares demand models by decision
+          cost and distributes a constrained fleet across NYC taxi zones.
+        </p>
+        <div class="chips">
+          <span>13,000-cab budget</span><span>35 evaluation scenarios</span
+          ><span>Decision-cost comparison</span>
         </div>
-      </article>
-
-      <article class="math-panel math-panel-wide">
-        <span class="math-label">03 · Objective Function</span>
-        <h3>Minimize Expected Newsvendor Cost</h3>
-        <p>The first term penalizes too many cabs in a zone. The second term penalizes too few cabs when demand exceeds supply.</p>
-        <div class="math-display math-display-large">
-          \[
-          \min_{\mathbf{q}} \quad
-          \sum_{z \in Z}
-          \left[
-          C^o_z \, \mathbb{E}\left(q_z - D_z\right)^+
-          +
-          C^u_z \, \mathbb{E}\left(D_z - q_z\right)^+
-          \right]
-          \]
+        <div class="actions">
+          <a class="button primary" href="#analysis">Explore the analysis ↓</a
+          ><a
+            class="button"
+            href="https://daniel-kang-vs.github.io/projects/nyc-taxi.html"
+            >Read the case study</a
+          ><a
+            class="button"
+            href="https://github.com/daniel-kang-vs/daniel-kang-vs.github.io/tree/main/Project/mgmt590-team03-project"
+            >Source evidence ↗</a
+          >
         </div>
-      </article>
-
-      <article class="math-panel math-panel-wide">
-        <span class="math-label">04 · Constraints</span>
-        <h3>Fleet Budget + Zone Bounds</h3>
-        <p>The allocation cannot use more than 13,000 cabs. Zone-level floors preserve minimum service and caps avoid over-concentration.</p>
-        <div class="math-display">
-          \[
-          \begin{aligned}
-          \sum_{z \in Z} q_z &amp;\le F, \qquad F = 13{,}000 \\
-          \ell_z &amp;\le q_z \le u_z \qquad \forall z \in Z
-          \end{aligned}
-          \]
+      </header>
+      <aside class="note">
+        <strong>What these numbers represent</strong>
+        <p>
+          The public portfolio source includes allocation code, scenario outputs
+          and an engine audit. The separate project repository is a
+          documentation entry point. Trip aggregates must be supplied to rerun
+          the full pipeline.
+        </p>
+      </aside>
+      <section id="analysis">
+        <p class="eyebrow">Explore the evidence</p>
+        <h2>Interactive analysis</h2>
+        <p>
+          Choose a view, hover for details, or expand a chart’s exact-value
+          table.
+        </p>
+        <div class="controls">
+          <label for="view"
+            >Chart view
+            <select id="view">
+              <option value="all">All charts</option>
+            </select></label
+          ><label for="slot"
+            >Stakeholder slot
+            <select id="slot">
+              <option value="0">Monday · 06:00–08:59</option>
+              <option value="1">Friday · 19:00–23:59</option>
+              <option value="2">Saturday · 09:00–15:59</option>
+            </select></label
+          >
+          <p id="slotStatus" role="status"></p>
         </div>
-      </article>
-    </div>
-
-    <div class="formula-note-card">
-      <strong>Critical fractile intuition:</strong> without the shared fleet constraint, each zone
-      gets the demand quantile
-      \[
-      q^*_z = F_z^{-1}(\tau_z),
-      \qquad
-      \tau_z = \frac{C^u_z}{C^u_z + C^o_z}.
-      \]
-      When the cost of missing a fare rises, \(\tau_z\) increases, so the model assigns more cabs.
-    </div>
-  </div>
-</section>
-
-<section id="visualizations">
-  <div class="container">
-    <h2 class="section-title">Visualizations</h2>
-    <p class="section-subtitle" id="slotSubtitle">Tuesday Midday · 09:00–15:59</p>
-    <p class="section-intro" id="slotContext">
-      Optimal cab counts change by time of day. Use the buttons below to compare how the same
-      13,000-cab fleet shifts across boroughs and zones.
-    </p>
-
-    <div class="slot-toggle" role="tablist">
-      <button class="slot-btn active" data-slot="tuesday-midday">Tuesday Midday</button>
-      <button class="slot-btn" data-slot="friday-evening">Friday Evening</button>
-      <button class="slot-btn" data-slot="monday-morning">Monday Morning</button>
-    </div>
-
-    <div class="results-summary">
-      <div class="result-card yellow"><span class="result-num" id="slotRevenue">—</span><span class="result-label">Revenue</span></div>
-      <div class="result-card green"><span class="result-num" id="slotFleet">—</span><span class="result-label">Fleet Used</span></div>
-      <div class="result-card blue"><span class="result-num" id="slotNvCost">—</span><span class="result-label">NV Cost</span></div>
-      <div class="result-card orange"><span class="result-num" id="slotLambda">—</span><span class="result-label">Shadow &lambda;</span></div>
-    </div>
-
-    <div class="chart-row">
-      <div class="chart-section">
-        <h3 id="zoneChartTitle">Top Zone Allocations</h3>
-        <p class="chart-caption" id="zoneCaption">q* = optimal cabs per TLC pickup zone.</p>
-        <div class="chart-container medium"><canvas id="allocationChart"></canvas></div>
+        <div class="chart-grid" id="charts" aria-live="polite"></div>
+      </section>
+      <section id="method">
+        <div class="method-grid">
+          <div>
+            <p class="eyebrow">Method</p>
+            <h2>From data to decision</h2>
+            <ol>
+              <li>
+                Aggregate historical trips into zone and time-window demand.
+              </li>
+              <li>
+                Translate missed-trip and idle-vehicle costs into allocation
+                decisions.
+              </li>
+              <li>
+                Compare empirical, predict-then-optimize and decision-focused
+                approaches on the same 35 scenarios.
+              </li>
+              <li>
+                Inspect fixed-fleet and adjustable-fleet scenarios using total
+                cost, including rental adjustments.
+              </li>
+            </ol>
+          </div>
+          <div>
+            <p class="eyebrow">Interpretation</p>
+            <h2>What to take away</h2>
+            <p>
+              In the committed 35-scenario bakeoff, the empirical method has the
+              lowest mean newsvendor cost: about $369,468 per scenario. Its mean
+              fill rate is 55.4%. These are modeled evaluation outputs, not
+              realized savings. The dashboard shows the exact committed
+              comparison and three stakeholder slots.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="note">
+        <h2>Limitations &amp; next steps</h2>
+        <p>
+          The outputs are historical scenarios with modeled cost assumptions.
+          Repositioning time, demand shifts and operational constraints require
+          further validation. A local agent prototype exists in the source; this
+          does not establish deployment or live dispatch use.
+        </p>
+        <p>
+          <strong>Source:</strong> Public portfolio source:
+          Project/mgmt590-team03-project. outputs/bakeoff_results.csv,
+          outputs/task2_ABC.csv and outputs/ENGINE_AUDIT.md document the
+          displayed comparisons.
+        </p>
+        <a
+          href="https://github.com/daniel-kang-vs/daniel-kang-vs.github.io/tree/main/Project/mgmt590-team03-project"
+          >Inspect the source artifact ↗</a
+        >
+      </section>
+    </main>
+    <footer>
+      <div class="wrap">
+        Daniel Kang · Python · Forecasting · Optimization · LangGraph ·
+        <a href="https://daniel-kang-vs.github.io/projects.html"
+          >All projects</a
+        >
       </div>
-      <div class="chart-section">
-        <h3>Fleet by Borough</h3>
-        <p class="chart-caption" id="boroCaption">Share of the 13,000-cab budget allocated to each borough.</p>
-        <div class="chart-container medium"><canvas id="boroughChart"></canvas></div>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <h3>Demand Model Bake-off</h3>
-      <p class="chart-caption">Four demand models across 35 time-slot scenarios. Lower newsvendor cost means better fleet placement. Empirical quantiles won &mdash; ML alternatives overfit thin per-zone samples.</p>
-      <div class="chart-container wide">
-        <canvas id="bakeoffChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="impact">
-  <div class="container">
-    <h2 class="section-title">Business Impact</h2>
-    <p class="section-subtitle">Same fleet. Smarter placement. Measurable upside.</p>
-
-    <div class="impact-hero">
-      <p class="impact-eyebrow">Annualized revenue gain</p>
-      <p class="impact-figure">~$12.4M<span>/year</span></p>
-      <p class="impact-lead">
-        Versus proportional status-quo dispatch on peak Tuesday midday, optimized pre-positioning
-        lifts slot revenue from ~$188K to ~$426K &mdash; about <strong>$12.4M per year</strong>
-        when annualized across 52 Tuesdays, with no change to fleet size.
-      </p>
-    </div>
-
-    <div class="chart-section">
-      <h3>Revenue: Status Quo vs. Optimized Dispatch</h3>
-      <p class="chart-caption">Same 13,000 cabs, smarter placement. Optimized pre-positioning vs. splitting capacity proportionally across zones (peak Tuesday midday).</p>
-      <div class="chart-container wide">
-        <canvas id="impactChart"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container footer-inner">
-    <div class="footer-links">
-      <a href="https://github.com/dbhatt90/mgmt590-team03-project" target="_blank" rel="noopener">GitHub Repository</a>
-      <span class="footer-sep" aria-hidden="true">&middot;</span>
-      <a href="https://daniel-kang-vs.github.io">Portfolio</a>
-    </div>
-    <p class="footer-meta">NYC Yellow Taxi Fleet Optimization &middot; MGMT 590 Team 03 &middot; 2026</p>
-  </div>
-</footer>
-
-<script src="app.js"></script>
-</body>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="app.js?v=20261102"></script>
+  </body>
 </html>

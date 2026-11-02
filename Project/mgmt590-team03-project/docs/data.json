@@ -1,0 +1,78 @@
+{
+  "charts": [
+    {
+      "title": "Model comparison across 35 scenarios",
+      "caption": "Mean newsvendor cost. Lower is better; these values are not realized revenue.",
+      "labels": ["empirical", "lgbm_pto", "glm_pto", "dfl"],
+      "series": [
+        {
+          "label": "Mean modeled cost",
+          "values": [
+            369468.4830515544, 383747.2830262324, 402045.9490564328,
+            561423.2483637243
+          ]
+        }
+      ],
+      "unit": "USD / scenario"
+    },
+    {
+      "title": "Demand served in the same bakeoff",
+      "caption": "Average fill rate across the same 35 scenarios. This is distinct from fleet utilization.",
+      "labels": ["empirical", "lgbm_pto", "glm_pto", "dfl"],
+      "series": [
+        {
+          "label": "Mean fill rate",
+          "values": [
+            55.41379011323837, 54.447979165625114, 53.03341623269067,
+            38.833536986744505
+          ]
+        }
+      ],
+      "unit": "% of demand"
+    }
+  ],
+  "slots": [
+    {
+      "slot": "dow1_0600_0859_allwks",
+      "F_star": "8185.886203378575",
+      "direction": "optimal:contract",
+      "shadow_price": "19.999999999987693",
+      "breakeven_rental": "0.0",
+      "nv_cost_A": "43727.6589729508",
+      "nv_cost_B": "45657.725446832",
+      "nv_cost_C": "144717.15649689105",
+      "fleet_adj_cost_C": "-96282.27593242849",
+      "total_cost_A": "43727.6589729508",
+      "total_cost_B": "45657.725446832",
+      "total_cost_C": "48434.88056446257"
+    },
+    {
+      "slot": "dow5_1900_2359_allwks",
+      "F_star": "13000.0",
+      "direction": "optimal:stay",
+      "shadow_price": "25.310780704873103",
+      "breakeven_rental": "25.310780704873103",
+      "nv_cost_A": "667435.8921574154",
+      "nv_cost_B": "667397.8675359858",
+      "nv_cost_C": "667397.8675359858",
+      "fleet_adj_cost_C": "0.0",
+      "total_cost_A": "667435.8921574154",
+      "total_cost_B": "667397.8675359858",
+      "total_cost_C": "667397.8675359858"
+    },
+    {
+      "slot": "dow6_0900_1559_allwks",
+      "F_star": "13000.0",
+      "direction": "optimal:stay",
+      "shadow_price": "28.30720619726314",
+      "breakeven_rental": "28.30720619726314",
+      "nv_cost_A": "765356.3291077542",
+      "nv_cost_B": "765196.2222881322",
+      "nv_cost_C": "765196.2222881322",
+      "fleet_adj_cost_C": "0.0",
+      "total_cost_A": "765356.3291077542",
+      "total_cost_B": "765196.2222881322",
+      "total_cost_C": "765196.2222881322"
+    }
+  ]
+}

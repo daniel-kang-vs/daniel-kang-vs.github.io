@@ -1,59 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NCAA Selection Model · Daniel Kang</title>
-  <link rel="stylesheet" href="../style.css?v=18" />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="../index.html" class="nav-brand">Daniel Kang</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
-    <ul class="nav-links" id="navLinks">
-<li><a href="../journey.html">Experience</a></li>
-<li><a href="../projects.html" class="active">Projects</a></li>
-<li><a href="../index.html#about">About</a></li>
-<li><a href="../index.html#contact">Contact</a></li>
-<li><a href="../resume.pdf">Résumé</a></li>
-</ul>
-  </div>
-</nav>
-<main id="main" class="case">
-  <a class="text-link case-back" href="../projects.html">← Projects</a>
-  <p class="eyebrow">GitHub</p>
-  <h1>NCAA Selection Model</h1>
-  <p class="case-kicker">Selection committees rank teams with noisy, multi-signal résumés. The modeling question is who gets in, and then where they are seeded. Those are two different decisions.</p>
-  <p>A two-stage stacked ensemble: classify tournament selection, then predict seed for the teams the first model lets in.</p>
-  <div class="chips chips-out"><span>AUC 0.966</span><span>50 features</span><span>8 base models</span><span>Seed MAE tuned</span></div>
-  <div class="chips"><span>Python</span><span>scikit-learn</span><span>pandas</span><span>Ensemble</span></div>
-  <div class="case-actions"><a class="btn btn-primary" href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/" target="_blank" rel="noopener">Live demo →</a><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction" target="_blank" rel="noopener">GitHub ↗</a></div>
-  <h2>The problem</h2>
-<p>A single model that tries to emit both “in or out” and a seed line mixes a classification decision with a ranking decision. Bubble teams are exactly where that mix-up is expensive.</p><h2>Approach</h2>
-<ul><li>Engineered 50 features from records, conference strength, NET momentum, quality wins, and strength of schedule.</li><li>Stacked eight tree models. A logistic regression decides selection. A ridge model predicts seed.</li><li>Tuned the selection cutoff on the precision-recall curve instead of using 0.5.</li><li>Scored the stack with 10-fold stratified cross-validation and out-of-fold predictions.</li></ul><h2>Result</h2>
-<p>Selection AUC was 0.966 at a cutoff of 0.653. The model named about 70 teams against a 68-team field. Seed predictions were fit to mean absolute error rather than to a classification score.</p><h2>What this leaves open</h2>
-<p>Cross-validation here is not a pure walk-forward by season, so a later season can still influence an earlier fold. A stricter test would train only on past tournaments.</p>
-  <p style="margin-top:36px"><a class="text-link" href="../projects.html">← Back to all projects</a></p>
-</main>
-<footer>
-  <p>© 2026 Daniel Kang</p>
-  <p class="footer-links">
-    <a href="mailto:danielbjkang@gmail.com">Email</a>
-    <a href="https://www.linkedin.com/in/daniel-byungjoo-kang/" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/daniel-kang-vs" target="_blank" rel="noopener">GitHub</a>
-  </p>
-</footer>
-<script>
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
-  });
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NCAA Selection Model · Daniel Kang</title>
+    <link rel="stylesheet" href="../style.css?v=19" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <nav id="navbar">
+      <div class="nav-inner">
+        <a href="../index.html" class="nav-brand">Daniel Kang</a>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Menu"
+          aria-controls="navLinks"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="../journey.html">Experience</a></li>
+          <li><a href="../projects.html" class="active">Projects</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+          <li><a href="../resume.pdf">Résumé</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main id="main" class="case">
+      <a class="text-link case-back" href="../projects.html">← All projects</a>
+      <p class="eyebrow">Modeling study · evaluation needs revalidation</p>
+      <h1>NCAA Selection &amp; Seed Modeling</h1>
+      <p class="case-kicker">
+        Who should make the tournament, and how should selected teams be
+        ordered?
+      </p>
+      <p>
+        A two-stage modeling workflow separates tournament selection from
+        overall seed prediction, with engineered team-performance features.
+      </p>
+      <div class="chips chips-out">
+        <span>1,353 training rows</span><span>249 seeded team-seasons</span
+        ><span>Two-stage workflow</span>
+      </div>
+      <div class="chips">
+        <span>Python</span><span>scikit-learn</span><span>pandas</span
+        ><span>Ensembles</span>
+      </div>
+      <div class="case-actions">
+        <a
+          class="btn btn-primary"
+          href="https://daniel-kang-vs.github.io/ncaa-tournament-prediction/"
+          >Explore dashboard →</a
+        ><a
+          class="btn btn-outline"
+          href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction"
+          >GitHub repository ↗</a
+        ><a
+          class="text-link"
+          href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction/blob/main/FinalFourAnalyticsChallenge2026.ipynb"
+          >Inspect the evidence ↗</a
+        >
+      </div>
+      <nav class="case-toc" aria-label="Case study sections">
+        <a href="#problem">Problem</a><a href="#data">Data</a
+        ><a href="#approach">Approach</a><a href="#results">Results</a
+        ><a href="#limits">Next steps</a>
+      </nav>
+      <h2 id="problem">The problem</h2>
+      <p>
+        Selection is a binary decision; assigning an overall seed is a ranking
+        and regression problem. Combining them into one target obscures the
+        tradeoffs around bubble teams.
+      </p>
+      <h2 id="data">Data &amp; scope</h2>
+      <p>
+        The committed training file has 1,353 rows and 20 source columns. A
+        populated Overall Seed identifies 249 selected team-seasons. Overall
+        seed is a national ordering, not a 1–16 bracket seed line.
+      </p>
+      <h2 id="approach">How it works</h2>
+      <ol class="case-steps">
+        <li>
+          Derive features from records, NET rankings, schedule strength and
+          quadrant results.
+        </li>
+        <li>
+          Generate base-model predictions and use a logistic meta-model for
+          selection.
+        </li>
+        <li>Model overall seed separately for selected teams.</li>
+        <li>
+          Inspect class balance and season coverage before interpreting model
+          scores.
+        </li>
+      </ol>
+      <h2>Key technical decision</h2>
+      <p>
+        Separate classification from regression and expose the evaluation
+        design. Some notebook labels say XGBoost, LightGBM and CatBoost while
+        the corresponding estimators are scikit-learn GradientBoosting,
+        HistGradientBoosting and ExtraTrees.
+      </p>
+      <section class="case-result" id="results">
+        <p class="eyebrow">Result &amp; interpretation</p>
+        <h2>What the evidence shows</h2>
+        <p>
+          The committed artifact demonstrates the modeling workflow and feature
+          engineering. The earlier narrative reports 0.966 AUC and a 0.653
+          threshold, but the notebook contains no saved evaluation outputs to
+          verify those figures. The dashboard therefore shows source-derived
+          dataset analysis rather than invented model curves.
+        </p>
+      </section>
+      <h2 id="limits">What I would improve next</h2>
+      <p>
+        Imputation precedes cross-validation, and the meta-model is fitted and
+        scored on the same out-of-fold feature matrix. The score is not an
+        independent nested evaluation. Refit preprocessing within folds,
+        evaluate the full stack on held-out seasons, and save predictions before
+        claiming generalization.
+      </p>
+      <aside class="evidence-note">
+        <strong>Evidence &amp; reproducibility</strong>
+        <p>
+          NCAA_Seed_Training_Set2.0.csv supports the dashboard’s dataset counts.
+          Historical model scores remain unverified, not newly reproduced.
+        </p>
+        <a
+          href="https://github.com/daniel-kang-vs/ncaa-tournament-prediction/blob/main/FinalFourAnalyticsChallenge2026.ipynb"
+          >Read the source ↗</a
+        >
+      </aside>
+      <p>
+        <a class="text-link" href="../projects.html"
+          >← Explore another project</a
+        >
+      </p>
+    </main>
+    <footer>
+      <p>© 2026 Daniel Kang</p>
+      <p class="footer-links">
+        <a href="mailto:danielbjkang@gmail.com">Email</a>
+        <a
+          href="https://www.linkedin.com/in/daniel-byungjoo-kang/"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a
+          href="https://github.com/daniel-kang-vs"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+      </p>
+    </footer>
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("open");
+        hamburger.classList.toggle("active");
+        hamburger.setAttribute(
+          "aria-expanded",
+          navLinks.classList.contains("open"),
+        );
+      });
+    </script>
+  </body>
 </html>

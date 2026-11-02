@@ -1,153 +1,155 @@
-Chart.defaults.color = "#4a5a6a";
-Chart.defaults.borderColor = "rgba(15, 28, 42, 0.08)";
+const colors = ["#4f46e5", "#0891b2", "#b45309"];
+Chart.defaults.color = "#596277";
 Chart.defaults.font.family = "Figtree, sans-serif";
-
-const SLOTS = {
-  "tuesday-midday": {
-    label: "Tuesday Midday", time: "09:00–15:59",
-    context: "Peak business travel — airports (zones 230, 138) and Midtown absorb the most cabs. Highest-revenue slot in the bake-off.",
-    revenue: 425713, nvCost: 831002, fleetUsed: 12978, shadowPrice: null,
-    zones: [["230",834],["231",545],["138",496],["244",496],["87",338],["132",336],["243",327],["13",297]],
-    borough: { Manhattan: 8350, Queens: 3353, Brooklyn: 898, Bronx: 255, "Staten Island": 144 }
-  },
-  "friday-evening": {
-    label: "Friday Evening", time: "19:00–23:59",
-    context: "Nightlife rush — Queens share rises to 21%. Shadow price λ = $25: valuable to add cabs, but below the $45 rental break-even.",
-    revenue: 382395, nvCost: 768730, fleetUsed: 13000, shadowPrice: 25.31,
-    zones: null,
-    borough: { Manhattan: 9160, Queens: 2708, Brooklyn: 860, Bronx: 162, "Staten Island": 110 }
-  },
-  "monday-morning": {
-    label: "Monday Morning", time: "06:00–08:59",
-    context: "Commute rush — 82% of cabs stack in Manhattan. λ = 0 means the fleet is oversized; elastic analysis recommends ~8,200 cabs for this slot.",
-    revenue: 352052, nvCost: 55773, fleetUsed: 12978, shadowPrice: 0,
-    zones: null,
-    borough: { Manhattan: 10678, Queens: 1664, Brooklyn: 424, Bronx: 128, "Staten Island": 84 }
-  }
-};
-
-const BOROUGH_COLORS = ["#0e7490", "#0b1f33", "#2a7a5c", "#c47a3a", "#5b7c99"];
-
-function fmtMoney(n) {
-  if (n >= 1e6) return `$${(n / 1e6).toFixed(1)}M`;
-  if (n >= 1e3) return `$${Math.round(n / 1000)}K`;
-  return `$${Math.round(n)}`;
-}
-
-let allocationChart, boroughChart;
-
-function renderSlot(key) {
-  const s = SLOTS[key];
-  document.getElementById("slotSubtitle").textContent = `${s.label} · ${s.time}`;
-  document.getElementById("slotContext").textContent = s.context;
-  document.getElementById("slotRevenue").textContent = fmtMoney(s.revenue);
-  document.getElementById("slotFleet").textContent = s.fleetUsed.toLocaleString();
-  document.getElementById("slotNvCost").textContent = fmtMoney(s.nvCost);
-  document.getElementById("slotLambda").textContent = s.shadowPrice === null ? "—" : `$${s.shadowPrice}`;
-
-  const title = document.getElementById("zoneChartTitle");
-  if (s.zones) {
-    title.textContent = "Top Zone Allocations (q*)";
-    allocationChart.data.labels = s.zones.map(z => `Zone ${z[0]}`);
-    allocationChart.data.datasets[0].data = s.zones.map(z => z[1]);
-  } else {
-    title.textContent = "Cabs by Borough";
-    const entries = Object.entries(s.borough).sort((a, b) => b[1] - a[1]);
-    allocationChart.data.labels = entries.map(e => e[0]);
-    allocationChart.data.datasets[0].data = entries.map(e => e[1]);
-  }
-  allocationChart.update();
-
-  const boro = Object.entries(s.borough).sort((a, b) => b[1] - a[1]);
-  const total = boro.reduce((sum, e) => sum + e[1], 0);
-  boroughChart.data.labels = boro.map(e => e[0]);
-  boroughChart.data.datasets[0].data = boro.map(e => Math.round(e[1] / total * 1000) / 10);
-  boroughChart.update();
-}
-
-document.querySelectorAll(".slot-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".slot-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    renderSlot(btn.dataset.slot);
+Chart.defaults.borderColor = "#e6e9f2";
+let charts = [];
+function draw(spec, id) {
+  const card = document.createElement("article");
+  card.className = "chart-card" + (spec.labels.length > 8 ? " wide" : "");
+  const h = document.createElement("h3");
+  h.textContent = spec.title;
+  const p = document.createElement("p");
+  p.textContent = spec.caption;
+  card.append(h, p);
+  const box = document.createElement("div");
+  box.className = "chart-box";
+  if (spec.labels.length > 8)
+    box.style.height = Math.max(330, spec.labels.length * 30) + "px";
+  const canvas = document.createElement("canvas");
+  canvas.id = id;
+  canvas.setAttribute("role", "img");
+  canvas.setAttribute(
+    "aria-label",
+    spec.title + ". Exact values are available in the table below.",
+  );
+  box.append(canvas);
+  card.append(box);
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  summary.textContent = "View exact values";
+  details.append(summary);
+  const wrap = document.createElement("div");
+  wrap.className = "table-wrap";
+  const table = document.createElement("table");
+  const cap = document.createElement("caption");
+  cap.textContent = spec.title + " (" + spec.unit + ")";
+  table.append(cap);
+  const head = document.createElement("thead"),
+    hr = document.createElement("tr");
+  ["Category", ...spec.series.map((s) => s.label)].forEach((v) => {
+    const th = document.createElement("th");
+    th.scope = "col";
+    th.textContent = v;
+    hr.append(th);
   });
-});
-
-new Chart(document.getElementById("censoringChart"), {
-  type: "bar",
-  data: {
-    labels: ["Manhattan", "Queens", "Brooklyn", "Bronx", "Staten Is."],
-    datasets: [
-      { label: "Yellow pickups (observed)", data: [4200, 980, 720, 310, 95], backgroundColor: "#5b7c99" },
-      { label: "Estimated demand (FHV proxy)", data: [5100, 2850, 1680, 890, 380], backgroundColor: "#0e7490" }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: "bottom" } },
-    scales: { y: { title: { display: true, text: "Daily pickups (000s, illustrative)" } } }
+  head.append(hr);
+  table.append(head);
+  const body = document.createElement("tbody");
+  spec.labels.forEach((v, i) => {
+    const tr = document.createElement("tr");
+    [v, ...spec.series.map((s) => s.values[i])].forEach((x, j) => {
+      const td = document.createElement(j === 0 ? "th" : "td");
+      if (j === 0) td.scope = "row";
+      td.textContent =
+        typeof x === "number"
+          ? x.toLocaleString(undefined, { maximumFractionDigits: 4 })
+          : x;
+      tr.append(td);
+    });
+    body.append(tr);
+  });
+  table.append(body);
+  wrap.append(table);
+  details.append(wrap);
+  card.append(details);
+  document.getElementById("charts").append(card);
+  charts.push(
+    new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: spec.labels,
+        datasets: spec.series.map((s, i) => ({
+          label: s.label,
+          data: s.values,
+          backgroundColor: colors[i % colors.length],
+          borderRadius: 3,
+        })),
+      },
+      options: {
+        animation: false,
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: spec.series.length > 1, position: "bottom" },
+        },
+        scales: {
+          x: {
+            ticks: { maxRotation: 65, autoSkip: false, font: { size: 11 } },
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: spec.unit },
+            ...(spec.unit === "ROC-AUC" ? { max: 1 } : {}),
+            ...(spec.unit.startsWith("%") ? { max: 100 } : {}),
+          },
+        },
+      },
+    }),
+  );
+}
+function render() {
+  charts.forEach((c) => c.destroy());
+  charts = [];
+  document.getElementById("charts").replaceChildren();
+  const specs = [...DATA.charts];
+  if (DATA.slots) {
+    const r = DATA.slots[document.getElementById("slot").value];
+    specs.push({
+      title: "Total modeled cost for selected slot",
+      caption:
+        "A: flat idle cost, fixed fleet. B: borough idle cost, fixed fleet. C: borough idle cost, adjustable fleet; total includes rental adjustment.",
+      labels: ["A · baseline", "B · fixed fleet", "C · adjustable fleet"],
+      series: [
+        {
+          label: "Total modeled cost",
+          values: ["total_cost_A", "total_cost_B", "total_cost_C"].map((k) =>
+            Number(r[k]),
+          ),
+        },
+      ],
+      unit: "USD / slot",
+    });
+    document.getElementById("slotStatus").textContent =
+      "Model C selected fleet: " +
+      Number(r.F_star).toLocaleString(undefined, { maximumFractionDigits: 0 }) +
+      " vehicles. " +
+      (r.direction.includes("contract") ? "Smaller fleet selected." : "Current fleet retained.");
   }
-});
-
-new Chart(document.getElementById("costChart"), {
-  type: "bar",
-  data: {
-    labels: ["Underage (missed fare)", "Overage (idle cab)"],
-    datasets: [{ data: [17, 12], backgroundColor: ["#b85c5c", "#2a7a5c"], borderRadius: 8 }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: { y: { title: { display: true, text: "Cost per trip ($)" }, max: 22 } }
-  }
-});
-
-new Chart(document.getElementById("impactChart"), {
-  type: "bar",
-  data: {
-    labels: ["Per Tuesday", "Annualized (52 wks)"],
-    datasets: [
-      { label: "Status quo", data: [188, 9776], backgroundColor: "#5b7c99", borderRadius: 6 },
-      { label: "Optimized", data: [426, 22152], backgroundColor: "#0e7490", borderRadius: 6 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: "top", labels: { color: "rgba(245,248,251,0.75)" } } },
-    scales: {
-      x: { ticks: { color: "rgba(245,248,251,0.65)" }, grid: { color: "rgba(255,255,255,0.06)" } },
-      y: {
-        title: { display: true, text: "Revenue ($K)", color: "rgba(245,248,251,0.65)" },
-        ticks: { color: "rgba(245,248,251,0.65)" },
-        grid: { color: "rgba(255,255,255,0.06)" }
-      }
-    }
-  }
-});
-
-new Chart(document.getElementById("bakeoffChart"), {
-  type: "bar",
-  data: {
-    labels: ["Empirical", "LightGBM", "Poisson GLM", "DFL/SPO+"],
-    datasets: [{ data: [369468, 383747, 402046, 561423], backgroundColor: ["#2a7a5c", "#0e7490", "#c47a3a", "#b85c5c"], borderRadius: 6 }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: { y: { ticks: { callback: v => `$${(v/1000).toFixed(0)}k` } } }
-  }
-});
-
-allocationChart = new Chart(document.getElementById("allocationChart"), {
-  type: "bar",
-  data: { labels: [], datasets: [{ data: [], backgroundColor: "#0e7490", borderRadius: 4 }] },
-  options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-});
-
-boroughChart = new Chart(document.getElementById("boroughChart"), {
-  type: "doughnut",
-  data: { labels: [], datasets: [{ data: [], backgroundColor: BOROUGH_COLORS, borderWidth: 0 }] },
-  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
-});
-
-renderSlot("tuesday-midday");
+  const choice = document.getElementById("view").value;
+  specs.forEach((s, i) => {
+    if (choice === "all" || Number(choice) === i) draw(s, "chart" + i);
+  });
+}
+fetch("data.json")
+  .then((r) => {
+    if (!r.ok) throw Error("HTTP " + r.status);
+    return r.json();
+  })
+  .then((data) => {
+    window.DATA = data;
+    const view = document.getElementById("view");
+    [...data.charts, ...(data.slots ? [{title: "Selected slot cost comparison"}] : [])].forEach((s, i) => {
+      const o = document.createElement("option");
+      o.value = i;
+      o.textContent = s.title;
+      view.append(o);
+    });
+    view.addEventListener("change", render);
+    document.getElementById("slot")?.addEventListener("change", render);
+    render();
+  })
+  .catch((e) => {
+    document.getElementById("charts").textContent =
+      "The analysis could not load. Please reload or inspect the source data using the link above.";
+    console.error(e);
+  });
