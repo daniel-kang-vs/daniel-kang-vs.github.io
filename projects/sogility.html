@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .scoring-code { border: 1px solid #d9e2e6; border-radius: 12px; padding: 1.2rem; margin: 1rem 0; background: #f8fafb; }
+      .scoring-code summary { cursor: pointer; font-weight: 700; }
+      .scoring-code pre { padding: 1rem; overflow-x: auto; background: #eef3f5; border-radius: 8px; font-size: .85rem; line-height: 1.7; max-width: 100%; }
+      .scoring-code a { overflow-wrap: anywhere; }
+    </style>
     <title>Athlete Scoring — Sogility · Daniel Kang</title>
     <link rel="stylesheet" href="../style.css?v=19" />
     <link
@@ -35,18 +41,18 @@
     </nav>
     <main id="main" class="case">
       <a class="text-link case-back" href="../projects.html">← All projects</a>
-      <p class="eyebrow">Industry practicum · public methodology</p>
+      <p class="eyebrow">Industry practicum · Python implementation</p>
       <h1>Athlete Scoring — Sogility</h1>
       <p class="case-kicker">
         How can a training score explain both peer standing and progress without
         penalizing younger athletes?
       </p>
       <p>
-        A dual scoring framework separates cohort-relative standing from fixed
-        performance benchmarks, with distinct parent and trainer views.
+        A dual scoring framework separates cohort-relative scores from performance
+        bands, with inspectable Python logic and reproducible synthetic checks.
       </p>
       <div class="chips chips-out">
-        <span>30–99 display scale</span><span>Two complementary scores</span
+        <span>30–99 RPS scale</span><span>13 functional checks</span
         ><span>Five skill groups</span>
       </div>
       <div class="chips">
@@ -66,7 +72,7 @@
       <nav class="case-toc" aria-label="Case study sections">
         <a href="#problem">Problem</a><a href="#data">Data</a
         ><a href="#approach">Approach</a><a href="#results">Results</a
-        ><a href="#limits">Next steps</a>
+        ><a href="#code">Python logic</a><a href="#validation">Validation</a><a href="#limits">Next steps</a>
       </nav>
       <h2 id="problem">The problem</h2>
       <p>
@@ -77,27 +83,28 @@
       <h2 id="data">Data &amp; scope</h2>
       <p>
         The analysis used an internal session extract. The public repository
-        contains an anonymized methodology writeup, not player-level data,
-        executable scoring code, or a hosted dashboard.
+        contains importable RPS and APS code, synthetic test fixtures, and a
+        validation log. Player-level records and internal interfaces are excluded.
       </p>
       <h2 id="approach">How it works</h2>
       <ol class="case-steps">
         <li>Normalize drill direction and skew before comparing results.</li>
         <li>
-          Fit relative scoring to age-and-gender cohorts and blend toward the
-          wider population when a cohort is small.
+          Fit RPS to age-and-gender cohorts; below 30 observations, use the same
+          age group across genders. Invalid parameters fall back to global benchmarks.
         </li>
         <li>Weight the three most recent attempts 0.5, 0.3 and 0.2.</li>
         <li>
-          Compute performance bands separately from reference quantile anchors,
-          then rescale for display.
+          Compute APS from q30, q50, q70 and q90 anchors on a 0–100 scale;
+          aggregate recent attempts and skill categories to assign a band.
         </li>
       </ol>
       <h2>Key technical decision</h2>
       <p>
-        Keep relative standing separate from the performance band. A player’s
-        band should not change simply because different peers enter the cohort;
-        benchmark anchors need versioning to preserve that behavior.
+        Keep the displayed RPS separate from the APS performance band. RPS
+        uses all attempts to fit benchmarks; APS uses each player’s latest result
+        per assessment. APS anchors currently refresh with the data; versioned
+        benchmarks would be needed to keep bands stable over time.
       </p>
       <section class="case-result" id="results">
         <p class="eyebrow">Result &amp; interpretation</p>
@@ -106,9 +113,47 @@
           The framework explains one athlete through a peer-relative score and a
           separate performance band. Parent views emphasize progress and five
           skills; trainer views emphasize entry, comparison, and history. The
-          repository documents the design and handoff.
+          repository now exposes the scoring logic, checks, and remaining limitations.
         </p>
       </section>
+      <h2 id="code">Inside the Python implementation</h2>
+      <p>Two complementary calculations make the score explainable. RPS answers
+        how an attempt compares with its reference group; APS maps assessment
+        results to a performance band. Neither is a prediction of match performance.</p>
+      <details class="scoring-code" open>
+        <summary>RPS · cohort-adjusted sigmoid</summary>
+        <p>The cohort median maps to 64.5 on the 30–99 scale. This is a smooth
+          relative score, not an empirical percentile rank.</p>
+        <pre><code>z = 1.0986 * (x - median) / abs(span - median)
+score = 30 + 69 / (1 + np.exp(-np.clip(z, -700, 700)))</code></pre>
+        <p>Use the latest three attempt scores at 50% / 30% / 20%; two attempts
+          use 2/3 and 1/3. Average assessment scores for the player summary.</p>
+        <a href="https://github.com/daniel-kang-vs/sogility-athlete-scoring/blob/main/sigmoid_cohort.py">Inspect RPS implementation ↗</a>
+      </details>
+      <details class="scoring-code">
+        <summary>APS · benchmark anchors and performance bands</summary>
+        <p>For higher-is-better drills, benchmark quantiles map directly to
+          score anchors. Lower-is-better handling is documented as a review item.</p>
+        <pre><code># Higher-is-better anchor mapping
+# q30 → 30, q50 → 50, q70 → 70, q90 → 90
+aps = y0 + (score - x0) * (y1 - y0) / (x1 - x0)
+aps = np.clip(aps, 0, 100)</code></pre>
+        <p>Recent attempts feed assessment scores, then skill-category averages.
+          Bands run from Foundation to Elite; APS remains on a 0–100 scale.</p>
+        <a href="https://github.com/daniel-kang-vs/sogility-athlete-scoring/blob/main/final_aps.py">Inspect APS implementation ↗</a>
+      </details>
+      <h2 id="validation">What I checked—and what still needs work</h2>
+      <p><strong>13 functional checks pass:</strong> bounds, monotonicity, score
+        direction, recent-attempt weighting, cohort fallback, benchmark counts,
+        row-order invariance, and constant-score handling.</p>
+      <p>In a synthetic 1% noise experiment, the mean absolute score change was
+        <strong>0.45 RPS points and 0.45 APS points</strong>. This is one controlled
+        sensitivity check, not a claim about real athlete outcomes.</p>
+      <p>A deliberately separated-cohort stress test found a
+        <strong>23.82-point RPS jump at the 30-observation threshold</strong>.
+        APS also needs a review of lower-is-better anchor calibration.
+        Making these limitations visible is part of the analytical work.</p>
+      <p><a class="text-link" href="https://github.com/daniel-kang-vs/sogility-athlete-scoring/blob/main/VALIDATION.md">Read the tests, safeguards, and limitations ↗</a></p>
       <h2 id="limits">What I would improve next</h2>
       <p>
         No match-outcome labels were available to validate game-performance
@@ -119,8 +164,9 @@
       <aside class="evidence-note">
         <strong>Evidence &amp; reproducibility</strong>
         <p>
-          Public evidence is the anonymized README methodology; confidential
-          player records and internal interfaces are excluded.
+          Public evidence includes Python modules, 13 functional checks, and
+          reproducible synthetic stress probes. These verify selected software
+          properties, not athletic validity or production deployment.
         </p>
         <a
           href="https://github.com/daniel-kang-vs/sogility-athlete-scoring/blob/main/README.md"

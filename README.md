@@ -11,7 +11,7 @@ SQL and Python analysis · KPI design · Interactive dashboards · Workflow auto
 ## Selected projects
 
 - **[Seed Planning Dashboard](projects/seed-demand.html)** — A Python cleaning workflow and interactive dashboard turn inconsistent yearly exports into a view of product mix, stability, and trends. [GitHub](https://github.com/daniel-kang-vs/seed-demand-forecasting).
-- **[Athlete Scoring — Sogility](projects/sogility.html)** — A dual scoring framework separates cohort-relative standing from fixed performance benchmarks, with distinct parent and trainer views. [GitHub](https://github.com/daniel-kang-vs/sogility-athlete-scoring).
+- **[Athlete Scoring — Sogility](projects/sogility.html)** — A dual scoring framework with public Python implementations, synthetic checks, and documented scoring limitations. [GitHub](https://github.com/daniel-kang-vs/sogility-athlete-scoring).
 - **[Packaging Standardization — BabyShip](projects/babyship.html)** — A mixed-integer model chooses shared packaging and product assignments from 43 candidate boxes, making the shipping-weight tradeoff explicit. [GitHub](https://github.com/daniel-kang-vs/stroller-box-optimization).
 - **[Bankruptcy Risk Scoring](projects/bankruptcy.html)** — An XGBoost classifier ranks firms using 64 financial ratios and evaluates discrimination with stratified cross-validation. [GitHub](https://github.com/daniel-kang-vs/bankruptcy-prediction).
 - **[NCAA Selection & Seed Modeling](projects/ncaa.html)** — A two-stage modeling workflow separates tournament selection from overall seed prediction, with engineered team-performance features. [GitHub](https://github.com/daniel-kang-vs/ncaa-tournament-prediction).

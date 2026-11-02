@@ -12,9 +12,9 @@ Updated November 2, 2026. This review checks committed artifacts; it does not re
 ## Athlete Scoring — Sogility
 
 - **Source:** [README.md](https://github.com/daniel-kang-vs/sogility-athlete-scoring/blob/main/README.md)
-- **Evidence:** Public evidence is the anonymized README methodology; confidential player records and internal interfaces are excluded.
-- **Interpretation:** The framework explains one athlete through a peer-relative score and a separate performance band. Parent views emphasize progress and five skills; trainer views emphasize entry, comparison, and history. The repository documents the design and handoff.
-- **Next validation:** No match-outcome labels were available to validate game-performance prediction. The proposed production handoff ports deterministic scoring to Elixir and checks it against Python fixtures; the public repository does not establish that this deployment occurred.
+- **Evidence:** Public RPS and APS Python modules, 13 functional checks, and synthetic sensitivity probes are available. Confidential player records and internal interfaces are excluded.
+- **Interpretation:** The framework explains one athlete through a peer-relative score and a separate performance band. Parent views emphasize progress and five skills; trainer views emphasize entry, comparison, and history. The repository documents implementation, edge-case safeguards, and remaining methodology issues.
+- **Next validation:** Synthetic stress probes expose a hard cohort-threshold discontinuity and lower-is-better APS calibration concerns. APS reference benchmarks need versioning for longitudinal comparisons. No match-outcome validation or production deployment is established.
 
 ## Packaging Standardization — BabyShip
 
