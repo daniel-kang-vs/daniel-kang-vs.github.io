@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bankruptcy Risk Scoring · Daniel Kang</title>
-  <link rel="stylesheet" href="../style.css?v=15" />
+  <link rel="stylesheet" href="../style.css?v=18" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -12,14 +12,14 @@
 <nav id="navbar">
   <div class="nav-inner">
     <a href="../index.html" class="nav-brand">Daniel Kang</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="../projects.html" class="active">Projects</a></li>
-      <li><a href="../index.html#about">About</a></li>
-      <li><a href="../journey.html">Journey</a></li>
-      <li><a href="../index.html#interests">Interests</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
+<li><a href="../journey.html">Experience</a></li>
+<li><a href="../projects.html" class="active">Projects</a></li>
+<li><a href="../index.html#about">About</a></li>
+<li><a href="../index.html#contact">Contact</a></li>
+<li><a href="../resume.pdf">Résumé</a></li>
+</ul>
   </div>
 </nav>
 <main id="main" class="case">
@@ -52,6 +52,7 @@
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
   });
 </script>
 </body>

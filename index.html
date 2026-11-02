@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daniel Kang — Data Analyst</title>
   <meta name="description" content="Data analyst turning customer and operational data into datasets, models, and decision-support tools. Purdue MS Business Analytics." />
-  <link rel="stylesheet" href="style.css?v=17" />
+  <link rel="stylesheet" href="style.css?v=19" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -15,16 +15,16 @@
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#hero" class="nav-brand">Daniel Kang</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#journey">Journey</a></li>
-      <li><a href="#interests">Interests</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+<li><a href="#experience">Experience</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="resume.pdf">Résumé</a></li>
+</ul>
   </div>
 </nav>
 
@@ -34,20 +34,14 @@
       <div class="hero-copy">
         <p class="eyebrow">Data Analyst</p>
         <h1>Daniel Kang</h1>
-        <p class="hero-lead">
-          I turn customer and operational data into reusable datasets, analytical models,
-          and decision-support tools. The work I like most sits in
-          <strong>marketing data analytics, supply chain optimization, and business process automation</strong>.
-          I use SQL and Python to find what changed, experimentation to test it,
-          and business intelligence to leave a team with a workflow they can run again.
-        </p>
+        <p class="hero-lead">I make complex data useful: <strong>reliable reporting, clearer customer insights, and better operational decisions.</strong> I use SQL and Python to prepare and analyze data, then build dashboards that business and technical teams can act on.</p>
         <p class="status"><span class="status-dot" aria-hidden="true"></span> Currently: open to data analyst roles · Purdue MS Business Analytics</p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary">View Projects →</a>
           <a href="resume.pdf?v=20261020" class="btn btn-outline" target="_blank" rel="noopener">View Resume</a>
         </div>
         <p class="orgs">Jambo <span>|</span> Mayacrew <span>|</span> Purdue <span>|</span> Pom Education</p>
-        <p class="stack">SQL · Python · Power BI · pandas · Tableau · Excel · Gurobi · scikit-learn</p>
+        <p class="stack">SQL · Python · Tableau · MongoDB · Amazon Redshift · AWS Glue</p>
       </div>
 
       <aside class="profile-card">
@@ -55,23 +49,16 @@
           <img src="image_portfolio.jpeg?v=20261021" alt="Daniel Kang" class="profile-photo" width="768" height="1024" />
           <span class="open-pill"><span class="open-dot" aria-hidden="true"></span> Open to roles</span>
         </div>
-        <div class="stat-grid">
-          <div>
-            <span class="stat-num">2+</span>
-            <span class="stat-lbl">Years of experience</span>
-          </div>
-          <div>
-            <span class="stat-num">6</span>
-            <span class="stat-lbl">Business process automations</span>
-          </div>
-          <div>
-            <span class="stat-num">40%</span>
-            <span class="stat-lbl">Shorter reporting cycles</span>
-          </div>
-          <div>
-            <span class="stat-num">5+</span>
-            <span class="stat-lbl">End-to-end data pipelines</span>
-          </div>
+        <div class="profile-strengths">
+          <a class="profile-strength" href="journey.html#jambo">
+            <strong>Workflow automation</strong>
+            <span>SQL and Python pipelines that streamline reporting.</span>
+          </a>
+          <a class="profile-strength" href="journey.html#jambo">
+            <strong>KPI design &amp; analysis</strong>
+            <span>Define success measures, track adoption, and evaluate performance.</span>
+          </a>
+          <a class="text-link" href="journey.html#jambo">Explore the work →</a>
         </div>
         <div class="edu-block">
           <p class="edu-kicker">Certified</p>
@@ -85,149 +72,57 @@
     </div>
   </header>
 
+  <section id="experience">
+    <div class="section-head"><div><p class="eyebrow">In practice</p><h2>Selected Experience</h2><p>From making data available to making it useful.</p></div><a href="journey.html" class="text-link">Experience &amp; education →</a></div>
+    <div class="experience-grid">
+      <article class="experience-card experience-card--lead">
+        <div class="experience-top"><h3>Jambo</h3><span class="when">Jan – Aug 2025</span></div>
+        <p class="role">Data Analyst · Platform analytics</p>
+        <p>Helped establish analytics and automated reporting with backend engineers. Turned MongoDB activity into queryable data and built Tableau reporting for business teams and a Python web dashboard for developers.</p>
+        <div class="experience-result"><strong>5 → 2–3 business days</strong><span>Tracked weekly report-preparation time</span></div>
+        <p class="tags"><span>SQL / NoSQL</span><span>Python</span><span>Tableau</span><span>AWS</span></p>
+        <a href="journey.html#jambo" class="text-link">Explore the reporting workflow →</a>
+      </article>
+      <article class="experience-card">
+        <div class="experience-top"><h3>Mayacrew</h3><span class="when">May – Aug 2024</span></div>
+        <p class="role">Business Intelligence Analyst · B2B consulting</p>
+        <p>Improved an existing dashboard with SQL and Python for consulting engagements in marketing analytics and online platforms. Added clustering-based categorization and KPIs to help the team spot opportunities in client data.</p>
+        <div class="experience-result"><strong>Client data → business opportunities</strong><span>Segmentation, KPI analysis, and recommendations</span></div>
+        <p class="tags"><span>SQL</span><span>Python</span><span>Clustering</span><span>KPIs</span></p>
+        <a href="journey.html#mayacrew" class="text-link">Read about the client work →</a>
+      </article>
+    </div>
+  </section>
+
   <section id="projects">
     <div class="section-head">
       <div>
         <h2>Featured Work</h2>
-        <p>Analytics and optimization projects, from the question to the decision.</p>
+        <p>Public examples of the methods behind my work.</p>
       </div>
       <a href="projects.html" class="text-link">View all →</a>
     </div>
 
     <div class="project-grid">
-      <a class="project-card" href="projects/babyship.html">
-        <img src="pngs/project-ip-optimization.png" alt="BabyShip packaging optimization" />
-        <span class="badge">Live demo</span>
-        <div class="card-rest">
-          <h3>Packaging Standardization — BabyShip</h3>
-          <p class="tags"><span>Python</span><span>Gurobi</span><span>Integer Programming</span></p>
-        </div>
-        <div class="card-hover">
-          <h3>Packaging Standardization — BabyShip</h3>
-          <p>An integer program over 43 candidate boxes and 17 products. A 7-box set cut variety 59% while holding the dimensional-weight increase to 6.5%.</p>
-          <span class="card-cta">View case study →</span>
-        </div>
-      </a>
-
-      <a class="project-card" href="projects/nyc-taxi.html">
-        <img src="pngs/project-nyc-taxi.png" alt="NYC taxi fleet positioning" />
-        <span class="badge">Live demo</span>
-        <div class="card-rest">
-          <h3>NYC Taxi Fleet Positioning</h3>
-          <p class="tags"><span>Python</span><span>Optimization</span><span>Forecasting</span></p>
-        </div>
-        <div class="card-hover">
-          <h3>NYC Taxi Fleet Positioning</h3>
-          <p>Zone-level demand and a newsvendor-style positioning model for a 13,000-cab fleet, so capacity sits where trips actually start.</p>
-          <span class="card-cta">View case study →</span>
-        </div>
-      </a>
-
-      <a class="project-card" href="projects/bankruptcy.html">
-        <img src="pngs/project-bankruptcy.png" alt="Bankruptcy risk scoring" />
-        <span class="badge">GitHub</span>
-        <div class="card-rest">
-          <h3>Bankruptcy Risk Scoring</h3>
-          <p class="tags"><span>Python</span><span>XGBoost</span><span>Validation</span></p>
-        </div>
-        <div class="card-hover">
-          <h3>Bankruptcy Risk Scoring</h3>
-          <p>Ranked financial distress from messy ratios. Mean AUC 0.907, 3rd of 53 teams in a graduate analytics competition.</p>
-          <span class="card-cta">View case study →</span>
-        </div>
-      </a>
-
-      <a class="project-card project-card--text" href="projects/sogility.html">
-        <div class="text-card-bg" aria-hidden="true">
-          <span>Sogility</span>
-          <small>30–99 scoring model</small>
-        </div>
-        <span class="badge">Selected project</span>
-        <div class="card-rest">
-          <h3>Athlete Scoring — Sogility</h3>
-          <p class="tags"><span>Python</span><span>Data Modeling</span><span>Dashboards</span></p>
-        </div>
-        <div class="card-hover">
-          <h3>Athlete Scoring — Sogility</h3>
-          <p>Replaced a global sigmoid with a cohort score on a 30–99 scale, plus a stable performance band for parents and trainers.</p>
-          <span class="card-cta">View case study →</span>
-        </div>
-      </a>
-
+<a class="project-card" href="projects/seed-demand.html"><img src="pngs/seed-dashboard-preview.png" alt="Seed Planning Dashboard" loading="lazy" width="640" height="360" /><div class="project-copy"><p class="eyebrow">Data preparation & dashboards</p><h3>Seed Planning Dashboard</h3><p class="project-summary">Normalize inconsistent yearly files, then explore product mix and trends. Public demo uses synthetic data.</p><p class="tags"><span>Python</span><span>pandas</span><span>Dash / Plotly</span></p><span class="card-cta">View case study →</span></div></a>
+<a class="project-card" href="projects/sogility.html"><div class="text-card-bg" aria-hidden="true"><span>Sogility</span><small>Peer standing. Stable benchmarks.</small></div><div class="project-copy"><p class="eyebrow">Industry practicum</p><h3>Athlete Scoring — Sogility</h3><p class="project-summary">A cohort-based score and a stable performance band, designed for parents and trainers.</p><p class="tags"><span>Python</span><span>Metric design</span><span>Stakeholder views</span></p><span class="card-cta">View case study →</span></div></a>
+<a class="project-card" href="projects/babyship.html"><img src="pngs/project-ip-optimization.png" alt="Packaging Standardization — BabyShip" loading="lazy" width="640" height="360" /><div class="project-copy"><p class="eyebrow">Optimization model</p><h3>Packaging Standardization — BabyShip</h3><p class="project-summary">A modeled 7-box solution cuts variety by 59%, with a 6.5% billable-weight penalty.</p><p class="tags"><span>Python</span><span>Gurobi</span><span>Tradeoff analysis</span></p><span class="card-cta">View case study →</span></div></a>
+<a class="project-card" href="projects/bankruptcy.html"><img src="pngs/project-bankruptcy.png" alt="Bankruptcy Risk Scoring" loading="lazy" width="640" height="360" /><div class="project-copy"><p class="eyebrow">Graduate competition</p><h3>Bankruptcy Risk Scoring</h3><p class="project-summary">Financial-distress ranking from messy ratios. Placed 3rd of 53 teams; validation limitations documented.</p><p class="tags"><span>Python</span><span>XGBoost</span><span>Model evaluation</span></p><span class="card-cta">View case study →</span></div></a>
     </div>
   </section>
 
   <section id="about">
-    <p class="eyebrow">At a glance</p>
-    <div class="about-head">
-      <h2>TL;DR</h2>
-    </div>
-    <p class="about-lead">
-      I build analytical datasets and models that explain what changed and what to do next —
-      funnel and cohort work on 100K+ events, segmentation on 250K+ customer records,
-      and optimization models that make a packaging or planning tradeoff explicit.
-    </p>
+    <p class="eyebrow">How I work</p><h2>Prepare. Understand. Communicate.</h2>
+    <p class="about-lead">My work connects data preparation with the decisions that follow. I’m especially interested in customer behavior, reporting automation, and operational tradeoffs.</p>
     <div class="pillars">
-      <article>
-        <h3>Analysis</h3>
-        <p>Funnel, cohort, and segmentation work that separates a real performance driver from a noisy average.</p>
-      </article>
-      <article>
-        <h3>Experimentation</h3>
-        <p>Geo-split and multivariate tests with regression-based lift, so a bid or audience change has to earn the spend.</p>
-      </article>
-      <article>
-        <h3>Decision tools</h3>
-        <p>SQL datasets, Power BI, and Python models packaged so a weekly review can act without rebuilding the spreadsheet.</p>
-      </article>
+      <article><h3>Reliable data</h3><p>SQL extraction, Python preparation, and ETL checks that make data ready for analysis.</p><a class="text-link" href="journey.html#jambo">SQL &amp; ETL in practice →</a></article>
+      <article><h3>Useful analysis</h3><p>Behavioral KPIs, segmentation, and models that turn a broad question into a specific finding.</p><a class="text-link" href="journey.html#mayacrew">Client analytics →</a></article>
+      <article><h3>Clear reporting</h3><p>Dashboards built around their audience: business performance for one team, pipeline visibility for another.</p><a class="text-link" href="projects/seed-demand.html#implementation">Explore public Python code →</a></article>
     </div>
+    <p class="education-note">Purdue University · M.S. Business Analytics &amp; Information Management<br><a class="text-link" href="journey.html#education">Education &amp; earlier experience →</a></p>
   </section>
 
-  <section id="journey">
-    <div class="section-head">
-      <div>
-        <h2>Journey</h2>
-        <p>Where I’ve worked and studied.</p>
-      </div>
-      <a href="journey.html" class="text-link">Full timeline →</a>
-    </div>
-    <div class="journey-track">
-      <article class="journey-stop">
-        <span class="journey-mark" aria-label="J">
-          <svg class="journey-glyph" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
-            <path d="M11 2.6V11A3.5 3.5 0 0 1 4 11" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <span class="journey-dot"></span>
-        <h3>Jambo</h3>
-        <p class="role">Data Analyst</p>
-        <p class="when">Jan 2025 – Aug 2025</p>
-      </article>
-      <article class="journey-stop journey-stop--school">
-        <span class="journey-mark">P</span>
-        <span class="journey-dot"></span>
-        <h3>Purdue University</h3>
-        <p class="role">M.S. Business Analytics &amp; Information Management</p>
-        <p class="when">Aug 2025 – Aug 2026</p>
-      </article>
-      <article class="journey-stop">
-        <span class="journey-mark">M</span>
-        <span class="journey-dot"></span>
-        <h3>Mayacrew</h3>
-        <p class="role">Business Intelligence Analyst</p>
-        <p class="when">May 2024 – Aug 2024</p>
-      </article>
-      <article class="journey-stop">
-        <span class="journey-mark">P</span>
-        <span class="journey-dot"></span>
-        <h3>Pom Education</h3>
-        <p class="role">Deputy Team Lead &amp; Instructor</p>
-        <p class="when">Jul 2019 – Feb 2022</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="interests">
+<section id="interests">
     <h2>Interests</h2>
     <p class="section-intro">Outside the spreadsheet — the things I keep coming back to.</p>
     <div class="interest-grid">
@@ -284,11 +179,13 @@
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
   });
   navLinks.querySelectorAll('a').forEach((a) =>
     a.addEventListener('click', () => {
       navLinks.classList.remove('open');
       hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
     })
   );
   const nav = document.getElementById('navbar');
@@ -297,9 +194,9 @@
   const syncNav = () => {
     nav.classList.toggle('scrolled', window.scrollY > 8);
     const y = window.scrollY + 120;
-    let current = 'projects';
+    let current = 'experience';
     sections.forEach((s) => {
-      if (s.offsetTop <= y) current = s.id === 'hero' ? 'projects' : s.id;
+      if (s.offsetTop <= y) current = s.id === 'hero' ? 'experience' : s.id;
     });
     links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
   };

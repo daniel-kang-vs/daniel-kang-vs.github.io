@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Athlete Scoring — Sogility · Daniel Kang</title>
-  <link rel="stylesheet" href="../style.css?v=15" />
+  <link rel="stylesheet" href="../style.css?v=18" />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
@@ -12,14 +12,14 @@
 <nav id="navbar">
   <div class="nav-inner">
     <a href="../index.html" class="nav-brand">Daniel Kang</a>
-    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="../projects.html" class="active">Projects</a></li>
-      <li><a href="../index.html#about">About</a></li>
-      <li><a href="../journey.html">Journey</a></li>
-      <li><a href="../index.html#interests">Interests</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
+<li><a href="../journey.html">Experience</a></li>
+<li><a href="../projects.html" class="active">Projects</a></li>
+<li><a href="../index.html#about">About</a></li>
+<li><a href="../index.html#contact">Contact</a></li>
+<li><a href="../resume.pdf">Résumé</a></li>
+</ul>
   </div>
 </nav>
 <main id="main" class="case">
@@ -30,7 +30,7 @@
   <p>A dual score for a nationwide soccer training company: a cohort sigmoid for peer standing, and a quantile benchmark for a stable performance band. Both sit on a 30–99 scale. Parent and trainer screens read the same player differently.</p>
   <div class="chips chips-out"><span>30–99 scale</span><span>Cohort sigmoid</span><span>Five skill groups</span><span>~630 players</span></div>
   <div class="chips"><span>Python</span><span>SQL</span><span>React</span></div>
-  <div class="case-actions"><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/sogility-athlete-scoring" target="_blank" rel="noopener">GitHub ↗</a></div>
+  <div class="case-actions"><a class="btn btn-outline" href="https://github.com/daniel-kang-vs/sogility-athlete-scoring" target="_blank" rel="noopener">Read the GitHub writeup ↗</a></div>
   <h2>The problem</h2>
   <p>A score of 61 did not say whether the player was doing well, how they compared with athletes of the same age, or what to train next. Time-based drills and count-based drills also pointed in opposite directions, and the same player on the same drill jumped from attempt to attempt.</p>
   <h2>Approach</h2>
@@ -61,6 +61,7 @@
   hamburger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navLinks.classList.contains('open'));
   });
 </script>
 </body>
