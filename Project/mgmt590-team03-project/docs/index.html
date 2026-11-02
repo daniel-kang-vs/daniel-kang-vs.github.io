@@ -1,14 +1,15 @@
 <!doctype html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
     <meta
-      name="description"
       content="A newsvendor allocation workflow compares demand models by decision cost and distributes a constrained fleet across NYC taxi zones."
+      name="description"
     />
     <title>NYC Taxi Fleet Positioning · Daniel Kang</title>
-    <link rel="stylesheet" href="style.css?v=20261102" />
+    <link href="style.css?v=20261102b" rel="stylesheet" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to analysis</a>
@@ -16,7 +17,7 @@
       <div class="wrap nav">
         <a href="https://daniel-kang-vs.github.io/">Daniel Kang</a>
         <div class="nav-links">
-          <a href="#analysis">Analysis</a><a href="#method">Method</a
+          <a href="#analysis">Analysis</a><a href="#methodology">Method</a
           ><a
             href="https://github.com/daniel-kang-vs/nyc-taxi-fleet-optimization"
             >GitHub ↗</a
@@ -53,7 +54,98 @@
           >
         </div>
       </header>
-      <aside class="note">
+      <section id="analysis">
+        <div class="controls">
+          <label
+            >Stakeholder slot
+            <select id="slot">
+              <option value="0">Monday · 06:00–08:59</option>
+              <option value="1">Friday · 19:00–23:59</option>
+              <option value="2">Saturday · 09:00–15:59</option>
+            </select></label
+          ><label
+            >Scenario detail
+            <select id="model">
+              <option value="empirical">Empirical benchmark</option>
+              <option value="lgbm_pto">LightGBM + optimization</option>
+              <option value="glm_pto">GLM + optimization</option>
+              <option value="dfl">Decision-focused model</option>
+            </select></label
+          ><button class="quiet-button" id="reset" type="button">
+            Reset filters
+          </button>
+        </div>
+        <p class="scope-note" id="scope" role="status"></p>
+        <div class="metrics" id="metrics"></div>
+        <p class="finding" id="finding"></p>
+        <div class="section-heading">
+          <h2>Analysis</h2>
+          <button class="quiet-button" id="export" type="button">
+            Download displayed data
+          </button>
+        </div>
+        <div class="chart-grid" id="charts"></div>
+      </section>
+      <details class="context-details" id="methodology">
+        <summary>Methodology, interpretation and limitations</summary>
+        <section id="method">
+          <div class="method-grid">
+            <div>
+              <p class="eyebrow">Method</p>
+              <h2>From data to decision</h2>
+              <ol>
+                <li>
+                  Aggregate historical trips into zone and time-window demand.
+                </li>
+                <li>
+                  Translate missed-trip and idle-vehicle costs into allocation
+                  decisions.
+                </li>
+                <li>
+                  Compare empirical, predict-then-optimize and decision-focused
+                  approaches on the same 35 scenarios.
+                </li>
+                <li>
+                  Inspect fixed-fleet and adjustable-fleet scenarios using total
+                  cost, including rental adjustments.
+                </li>
+              </ol>
+            </div>
+            <div>
+              <p class="eyebrow">Interpretation</p>
+              <h2>What to take away</h2>
+              <p>
+                In the committed 35-scenario bakeoff, the empirical method has
+                the lowest mean newsvendor cost: about $369,468 per scenario.
+                Its mean fill rate is 55.4%. These are modeled evaluation
+                outputs, not realized savings. The dashboard shows the exact
+                committed comparison and three stakeholder slots.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="note">
+          <h2>Limitations &amp; next steps</h2>
+          <p>
+            The outputs are historical scenarios with modeled cost assumptions.
+            Repositioning time, demand shifts and operational constraints
+            require further validation. A local agent prototype exists in the
+            source; this does not establish deployment or live dispatch use.
+          </p>
+          <p>
+            <strong>Source:</strong> Public portfolio source:
+            Project/mgmt590-team03-project. outputs/bakeoff_results.csv,
+            outputs/task2_ABC.csv and outputs/ENGINE_AUDIT.md document the
+            displayed comparisons.
+          </p>
+          <a
+            href="https://github.com/daniel-kang-vs/daniel-kang-vs.github.io/tree/main/Project/mgmt590-team03-project"
+            >Inspect the source artifact ↗</a
+          >
+        </section>
+      </details>
+      <details class="context-details">
+        <summary>Data scope and definitions</summary>
         <strong>What these numbers represent</strong>
         <p>
           The public portfolio source includes allocation code, scenario outputs
@@ -61,87 +153,7 @@
           documentation entry point. Trip aggregates must be supplied to rerun
           the full pipeline.
         </p>
-      </aside>
-      <section id="analysis">
-        <p class="eyebrow">Explore the evidence</p>
-        <h2>Interactive analysis</h2>
-        <p>
-          Choose a view, hover for details, or expand a chart’s exact-value
-          table.
-        </p>
-        <div class="controls">
-          <label for="view"
-            >Chart view
-            <select id="view">
-              <option value="all">All charts</option>
-            </select></label
-          ><label for="slot"
-            >Stakeholder slot
-            <select id="slot">
-              <option value="0">Monday · 06:00–08:59</option>
-              <option value="1">Friday · 19:00–23:59</option>
-              <option value="2">Saturday · 09:00–15:59</option>
-            </select></label
-          >
-          <p id="slotStatus" role="status"></p>
-        </div>
-        <div class="chart-grid" id="charts" aria-live="polite"></div>
-      </section>
-      <section id="method">
-        <div class="method-grid">
-          <div>
-            <p class="eyebrow">Method</p>
-            <h2>From data to decision</h2>
-            <ol>
-              <li>
-                Aggregate historical trips into zone and time-window demand.
-              </li>
-              <li>
-                Translate missed-trip and idle-vehicle costs into allocation
-                decisions.
-              </li>
-              <li>
-                Compare empirical, predict-then-optimize and decision-focused
-                approaches on the same 35 scenarios.
-              </li>
-              <li>
-                Inspect fixed-fleet and adjustable-fleet scenarios using total
-                cost, including rental adjustments.
-              </li>
-            </ol>
-          </div>
-          <div>
-            <p class="eyebrow">Interpretation</p>
-            <h2>What to take away</h2>
-            <p>
-              In the committed 35-scenario bakeoff, the empirical method has the
-              lowest mean newsvendor cost: about $369,468 per scenario. Its mean
-              fill rate is 55.4%. These are modeled evaluation outputs, not
-              realized savings. The dashboard shows the exact committed
-              comparison and three stakeholder slots.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section class="note">
-        <h2>Limitations &amp; next steps</h2>
-        <p>
-          The outputs are historical scenarios with modeled cost assumptions.
-          Repositioning time, demand shifts and operational constraints require
-          further validation. A local agent prototype exists in the source; this
-          does not establish deployment or live dispatch use.
-        </p>
-        <p>
-          <strong>Source:</strong> Public portfolio source:
-          Project/mgmt590-team03-project. outputs/bakeoff_results.csv,
-          outputs/task2_ABC.csv and outputs/ENGINE_AUDIT.md document the
-          displayed comparisons.
-        </p>
-        <a
-          href="https://github.com/daniel-kang-vs/daniel-kang-vs.github.io/tree/main/Project/mgmt590-team03-project"
-          >Inspect the source artifact ↗</a
-        >
-      </section>
+      </details>
     </main>
     <footer>
       <div class="wrap">
@@ -152,6 +164,6 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-    <script src="app.js?v=20261102"></script>
+    <script src="app.js?v=20261102b"></script>
   </body>
 </html>

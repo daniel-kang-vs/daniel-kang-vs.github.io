@@ -300,3 +300,319 @@ footer {
     height: 310px;
   }
 }
+
+/* Analytical workspace: metrics and useful controls before supporting narrative. */
+.hero {
+  padding: 28px 0 8px;
+}
+.hero h1 {
+  font-size: clamp(28px, 3.5vw, 40px);
+  margin: 8px 0 12px;
+}
+.hero .lead {
+  font-size: 16px;
+  margin: 8px 0;
+  max-width: 940px;
+}
+.hero > .chips,
+.hero > p:not(.eyebrow):not(.lead) {
+  display: none;
+}
+.hero .actions {
+  margin: 16px 0;
+  gap: 16px;
+}
+.hero .actions a {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #4f46e5;
+  font-size: 14px;
+}
+.hero .actions a:first-child {
+  display: none;
+}
+.scope-note {
+  font-size: 13px;
+  color: #596277;
+  margin: 6px 0 20px;
+}
+.controls {
+  padding: 16px;
+  gap: 16px;
+  margin: 0 0 18px;
+}
+.controls label {
+  font-size: 13px;
+}
+.controls select {
+  font-size: 14px;
+  margin-left: 6px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+.metric {
+  padding: 18px 20px;
+  background: white;
+  border: 1px solid #dfe3ed;
+  border-radius: 12px;
+}
+.metric .label {
+  font-size: 13px;
+  color: #596277;
+}
+.metric strong {
+  display: block;
+  font-size: 30px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 8px 0;
+}
+.metric small {
+  font-size: 12px;
+  color: #596277;
+  display: block;
+}
+.finding {
+  padding: 14px 18px;
+  border-left: 3px solid #0891b2;
+  background: #edf8fa;
+  font-size: 14px;
+  margin: 18px 0 24px;
+}
+.chart-grid {
+  align-items: start;
+}
+.chart-card h3 {
+  font-size: 17px;
+}
+.chart-card p {
+  min-height: 0;
+}
+.chart-card {
+  padding: 20px;
+}
+.chart-box {
+  height: 285px;
+}
+.chart-card.wide {
+  grid-column: 1/-1;
+}
+.chart-grid .chart-card:has(+ .wide) {
+  grid-column: auto;
+}
+.chart-grid > .chart-card:only-child {
+  grid-column: 1/-1;
+}
+.chart-card p {
+  margin: 5px 0 18px;
+}
+.context-details {
+  margin: 28px 0;
+  background: white;
+  border: 1px solid #dfe3ed;
+  padding: 18px 22px;
+  border-radius: 12px;
+}
+.context-details > summary {
+  font-size: 15px;
+}
+.context-details h2 {
+  font-size: 24px;
+}
+.context-details section {
+  margin: 24px 0;
+}
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin: 24px 0 14px;
+}
+.section-heading h2 {
+  font-family: Figtree, sans-serif;
+  font-size: 21px;
+  margin: 0;
+}
+.quiet-button {
+  font:
+    600 13px Figtree,
+    sans-serif;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #bbc3d6;
+  border-radius: 7px;
+  padding: 8px 12px;
+  color: #4338ca;
+}
+.quiet-button:hover {
+  background: #f1f2ff;
+}
+.quiet-button:focus-visible {
+  outline: 3px solid #8b81ff;
+  outline-offset: 3px;
+}
+#analysis {
+  margin-top: 0;
+}
+.chart-container {
+  height: 300px;
+}
+.empty-state {
+  padding: 40px;
+  background: white;
+  border: 1px dashed #bbc3d6;
+  border-radius: 12px;
+  grid-column: 1/-1;
+}
+.heatmap th,
+.heatmap td {
+  text-align: center;
+}
+.heatmap th:first-child {
+  text-align: left;
+}
+.heatmap td {
+  font-variant-numeric: tabular-nums;
+  border: 3px solid white;
+  border-radius: 6px;
+  padding: 13px;
+}
+.heatmap caption {
+  text-align: left;
+}
+.heatmap-key {
+  font-size: 12px;
+  color: #596277;
+}
+.scope-note a {
+  white-space: nowrap;
+}
+.table-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.table-toolbar input {
+  border: 1px solid #bbc3d6;
+  border-radius: 7px;
+  padding: 8px;
+  font: inherit;
+}
+.filter-bar {
+  margin-top: 12px;
+}
+.chart-card details {
+  background: none;
+}
+.method-grid {
+  gap: 24px;
+}
+#dataStatus {
+  font-size: 13px;
+  color: #596277;
+}
+.metric small:empty {
+  display: none;
+}
+@media (max-width: 720px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .metric {
+    padding: 14px;
+  }
+  .metric strong {
+    font-size: 25px;
+  }
+  .hero {
+    padding-top: 24px;
+  }
+  .hero h1 {
+    font-size: 31px;
+  }
+  .controls {
+    gap: 12px;
+  }
+  .controls label {
+    width: 100%;
+  }
+  .controls select {
+    margin-left: 0;
+  }
+  .chart-grid .chart-card {
+    grid-column: 1/-1;
+  }
+  .section-heading {
+    align-items: flex-start;
+  }
+  .chart-box {
+    height: 300px;
+  }
+  .table-toolbar input {
+    width: 100%;
+  }
+  .hero .actions {
+    gap: 12px;
+  }
+  .nav-links {
+    font-size: 12px;
+  }
+  .chart-card {
+    padding: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Keep the first comparison close to the headline metrics. */
+.nav {
+  padding-block: 14px;
+}
+.hero {
+  padding: 18px 0 0;
+}
+.hero .eyebrow {
+  margin: 0;
+  font-size: 10px;
+}
+.hero h1 {
+  margin: 6px 0 8px;
+  font-size: 34px;
+}
+.hero .lead {
+  margin: 0;
+}
+.hero .actions {
+  margin: 12px 0 18px;
+}
+.metrics {
+  margin: 12px 0;
+}
+.metric {
+  padding: 14px 18px;
+}
+.metric strong {
+  margin: 5px 0;
+}
+.finding {
+  margin: 14px 0 18px;
+  padding: 12px 16px;
+}
+.section-heading {
+  margin-top: 18px;
+}
+
+html { scroll-behavior: auto; }
